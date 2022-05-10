@@ -11,5 +11,7 @@ namespace Core.Business.Configuracao
         void PostConfiguracao(PostConfiguracaoModel model);
         void PostLogo(int logoId);
         void PostBackground(int backgroundId);
+        void PostLogoRelatorio(int logoId);
+        void PostBackgroundCelular(int backgroundId);
     }
 }

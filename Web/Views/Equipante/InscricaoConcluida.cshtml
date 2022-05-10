@@ -38,7 +38,7 @@
                 }
                 <div class="row justify-content-center m-l-lg m-r-lg m-t-lg m-b-sm text-white text-center">
                     <h2>"@ViewBag.Participante.Apelido"</h2>
-                    <h3>Obrigado por se inscrever para trabalhar no SOZO!</h3>
+                    <h3>Obrigado por se inscrever para trabalhar no @ViewBag.Participante.Evento!</h3>
                     <h3>A equipe da Secretaria irá validar tua inscrição, mas não esquece de providenciar a tua Taxa de Amor:</h3>
                 </div>
             </div>
@@ -83,11 +83,19 @@
 
 <script>
        $(document).ready(function () {
-        if (@ViewBag.Configuracao.BackgroundId)
-        {
-            $('.background-evento').css('background', `url(data:image/jpeg;base64,@ViewBag.Configuracao.Background) no-repeat center center fixed`)
-            $('.background-evento').css('background-size', 'cover')
+         if (isMobile) {
+            @if (ViewBag.Configuracao.BackgroundCelularId != null)
+            {
+                <text> $('.background-evento').css('background', `url(data:image/jpeg;base64,@ViewBag.Configuracao.BackgroundCelular) no-repeat center center fixed`) </text>
+                <text> $('.background-evento').css('background-size', 'cover')</text>
+            }
+        } else {
 
+            @if (ViewBag.Configuracao.BackgroundId != null)
+            {
+                <text> $('.background-evento').css('background', `url(data:image/jpeg;base64,@ViewBag.Configuracao.Background) no-repeat center center fixed`) </text>
+                <text> $('.background-evento').css('background-size', 'cover')</text>
+            }
         }
     });
 

@@ -8,6 +8,10 @@ namespace Core.Models.Configuracao
         public string Logo { get; set; }
         public int? BackgroundId { get; set; }
         public string Background { get; set; }
+        public int? LogoRelatorioId { get; set; }
+        public string LogoRelatorio { get; set; }
+        public int? BackgroundCelularId { get; set; }
+        public string BackgroundCelular { get; set; }
         public string Titulo { get; set; }
         public string CorBotao { get; set; }
         public string CorHoverBotao { get; set; }

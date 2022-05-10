@@ -11,6 +11,7 @@ namespace Arquitetura.ViewModels
         public string TipoEvento { get; set; }
         public string Status { get; set; }
         public string Valor { get; set; }
+        public string ValorTaxa { get; set; }
         public int QtdAnexos { get; set; }
     }
 

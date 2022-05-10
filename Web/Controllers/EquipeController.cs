@@ -163,7 +163,7 @@ namespace SysIgreja.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetMembrosEquipe(int EventoId, EquipesEnum EquipeId, bool Foto)
+        public ActionResult GetMembrosEquipe(int EventoId, EquipesEnum EquipeId, bool Foto = false)
         {
             var query = equipesBusiness
                 .GetMembrosEquipe(EventoId, EquipeId)

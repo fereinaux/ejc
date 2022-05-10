@@ -621,3 +621,4 @@ C:\Users\User\source\repos\ejc\Web\obj\Debug\Web.csproj.CoreCompileInputs.cache
 C:\Users\User\source\repos\ejc\Web\obj\Debug\Web.csproj.CopyComplete
 C:\Users\User\source\repos\ejc\Web\obj\Debug\Web.dll
 C:\Users\User\source\repos\ejc\Web\obj\Debug\Web.pdb
+C:\Users\User\source\repos\ejc\Web\bin\Firebase.Auth.dll

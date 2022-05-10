@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Realidade</title>
+    <title>Coordenador</title>
     <link href="~/Content/bootstrap.css" rel="stylesheet">
     <link href="~/Fonts/font-awesome/css/all.css" rel="stylesheet">
     <link href="~/Content/animate.css" rel="stylesheet">
@@ -161,7 +161,23 @@
 </body>
 </html>
 
-
+<script>
+    $.ajax({
+        url: "/Configuracao/GetConfiguracao/",
+        datatype: "json",
+        type: "GET",
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            config = data.Configuracao
+            $('title').text(`${config.Titulo} | ${$('#title').text()}`)
+            if (config.LogoId) {
+                $('link[rel="icon"]').attr('href', `data:image/png;base64,${config.Logo}`)
+                $('#home-button-logo img').attr('src', `data:image/png;base64,${config.Logo}`)
+            }
+            $('#home-button-logo').css('display', 'block')
+        }
+    });
+</script>
 
 
 <script src="~/Scripts/jquery-3.1.1.min.js"></script>

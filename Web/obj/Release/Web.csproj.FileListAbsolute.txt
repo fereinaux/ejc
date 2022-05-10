@@ -933,3 +933,4 @@ C:\Users\User\source\repos\ejc\Web\obj\Release\Web.csproj.CoreCompileInputs.cach
 C:\Users\User\source\repos\ejc\Web\obj\Release\Web.csproj.CopyComplete
 C:\Users\User\source\repos\ejc\Web\obj\Release\Web.dll
 C:\Users\User\source\repos\ejc\Web\obj\Release\Web.pdb
+C:\Users\User\source\repos\ejc\Web\bin\Firebase.Auth.dll

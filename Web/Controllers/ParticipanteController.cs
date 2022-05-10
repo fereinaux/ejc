@@ -41,6 +41,7 @@ namespace SysIgreja.Controllers
         private readonly ILancamentoBusiness lancamentoBusiness;
         private readonly IMeioPagamentoBusiness meioPagamentoBusiness;
         private readonly IContaBancariaBusiness contaBancariaBusiness;
+        private readonly IEventosBusiness eventosBusiness;
         private readonly IDatatableService datatableService;
         private readonly IMapper mapper;
 
@@ -48,6 +49,7 @@ namespace SysIgreja.Controllers
         {
             this.participantesBusiness = participantesBusiness;
             this.arquivoBusiness = arquivoBusiness;
+            this.eventosBusiness = eventosBusiness;
             this.quartosBusiness = quartosBusiness;
             this.equipesBusiness = equipesBusiness;
             this.circulosBusiness = circulosBusiness;
@@ -73,8 +75,9 @@ namespace SysIgreja.Controllers
             GetConfiguracao();
             GetCampos();
             ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
-            ViewBag.ValorRealista = (int)ValoresPadraoEnum.Inscricoes;
-            ViewBag.ValorEquipante = (int)ValoresPadraoEnum.TaxaEquipante;
+            var evento = eventosBusiness.GetEventoAtivo();
+            ViewBag.ValorRealista = evento?.Valor ?? 0;
+            ViewBag.ValorEquipante =  evento?.ValorTaxa ?? 0;
             ViewBag.ContasBancarias = contaBancariaBusiness.GetContasBancarias().ToList()
                 .Select(x => new ContaBancariaViewModel
                 {
@@ -107,7 +110,7 @@ namespace SysIgreja.Controllers
             ViewBag.Title = "Participantes";
             GetEventos();
             ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
-            ViewBag.Valor = (int)ValoresPadraoEnum.Inscricoes;
+            ViewBag.Valor =  eventosBusiness.GetEventoAtivo()?.Valor ?? 0;
             ViewBag.ContasBancarias = contaBancariaBusiness.GetContasBancarias().ToList()
                 .Select(x => new ContaBancariaViewModel
                 {

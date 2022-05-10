@@ -84,7 +84,7 @@ namespace SysIgreja.Controllers
                    Status = x.Status.GetDescription()
                });
             ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
-            ViewBag.Valor = (int)ValoresPadraoEnum.TaxaEquipante;
+            ViewBag.Valor = eventosBusiness.GetEventoAtivo()?.ValorTaxa ?? 0;
             ViewBag.ContasBancarias = contaBancariaBusiness.GetContasBancarias().ToList()
                 .Select(x => new ContaBancariaViewModel
                 {

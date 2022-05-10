@@ -224,14 +224,6 @@ namespace Utils.Enums
         TaxaEquipante = 2
     }
 
-    public enum ValoresPadraoEnum
-    {
-        [Description("Inscrições")]
-        Inscricoes = 300,
-        [Description("Taxa de Equipante")]
-        TaxaEquipante = 150
-    }
-
     public enum MeioPagamentoPadraoEnum
     {
         [Description("Pix")]
