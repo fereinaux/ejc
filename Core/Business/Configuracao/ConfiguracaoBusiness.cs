@@ -36,6 +36,8 @@ namespace Core.Business.Configuracao
                 CorScroll = x.CorScroll,
                 LogoId = x.LogoId,
                 LogoRelatorioId = x.LogoRelatorioId,
+                MsgConclusao = x.MsgConclusao,
+                MsgConclusaoEquipe = x.MsgConclusaoEquipe,
                 Logo = x.Logo != null ? Convert.ToBase64String(x.Logo.Conteudo) : "",
                 Background = x.Background != null ? Convert.ToBase64String(x.Background.Conteudo) : "",
                 LogoRelatorio = x.LogoRelatorio != null ? Convert.ToBase64String(x.LogoRelatorio.Conteudo) : "",
@@ -98,6 +100,8 @@ namespace Core.Business.Configuracao
             configuracao.CorScroll = model.CorScroll;
             configuracao.Titulo = model.Titulo;
             configuracao.CorLoginBox = model.CorLoginBox;
+            configuracao.MsgConclusao = model.MsgConclusao;
+            configuracao.MsgConclusaoEquipe = model.MsgConclusaoEquipe;
             repo.Update(configuracao);
 
             repo.Save();

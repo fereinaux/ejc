@@ -1,8 +1,11 @@
 ﻿using Core.Models.Arquivos;
+using Core.Models.Eventos;
 using Data.Entities;
 using Data.Repository;
 using System.IO;
 using System.Linq;
+using System.Data.Entity;
+using Utils.Enums;
 
 namespace Core.Business.Arquivos
 {
@@ -53,6 +56,11 @@ namespace Core.Business.Arquivos
             return arquivoRepository.GetAll(x => x.EquipanteId == equipanteId && x.EventoId == eventoId);
         }
 
+        public IQueryable<Arquivo> GetArquivosByEquipe(EquipesEnum Equipe)
+        {
+            return arquivoRepository.GetAll(x => x.Equipe == Equipe);
+        }
+
         public IQueryable<Arquivo> GetArquivosByEvento(int eventoId)
         {
             return arquivoRepository.GetAll(x => x.EventoId == eventoId && !x.EquipanteId.HasValue);
@@ -79,6 +87,7 @@ namespace Core.Business.Arquivos
                     Nome = model.Arquivo.FileName,
                     Extensao = Path.GetExtension(model.Arquivo.FileName).Replace(".", "").ToUpper(),
                     EventoId = model.EventoId,
+                    Equipe = model.Equipe,
                     ParticipanteId = model.ParticipanteId,
                     EquipanteId = model.EquipanteId,
                     LancamentoId = model.LancamentoId,

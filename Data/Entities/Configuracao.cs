@@ -24,6 +24,8 @@ namespace Data.Entities
         public string CorLoginBox { get; set; }
         public string CorScroll { get; set; }
         public string CorHoverScroll { get; set; }
+        public string MsgConclusao { get; set; }
+        public string MsgConclusaoEquipe { get; set; }
         public TipoCirculoEnum TipoCirculo { get; set; }
     }
 }

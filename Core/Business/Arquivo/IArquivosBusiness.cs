@@ -1,11 +1,14 @@
 ﻿using Core.Models.Arquivos;
+using Core.Models.Eventos;
 using System.Linq;
 
 namespace Core.Business.Arquivos
 {
     public interface IArquivosBusiness
     {
+
         IQueryable<Data.Entities.Arquivo> GetArquivos();
+        IQueryable<Data.Entities.Arquivo> GetArquivosByEquipe(Utils.Enums.EquipesEnum Equipe);
         IQueryable<Data.Entities.Arquivo> GetArquivosByEvento(int eventoId);
         IQueryable<Data.Entities.Arquivo> GetArquivosByParticipante(int participanteId);
         IQueryable<Data.Entities.Arquivo> GetArquivosByEquipante(int equipanteId);

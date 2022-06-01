@@ -1,9 +1,13 @@
-﻿using Core.Business.Eventos;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Core.Business.Eventos;
 using Core.Models.Lancamento;
 using Data.Entities;
 using Data.Repository;
-using System.Data.Entity;
-using System.Linq;
 using Utils.Enums;
 
 namespace Core.Business.Lancamento
@@ -65,6 +69,7 @@ namespace Core.Business.Lancamento
             Data.Entities.Lancamento lancamento = new Data.Entities.Lancamento
             {
                 Descricao = descricao,
+                Origem = model.Origem,
                 Valor = model.Valor,
                 MeioPagamentoId = model.MeioPagamentoId,
                 EventoId = model.EventoId > 0 ? model.EventoId : evento.Id,
@@ -73,11 +78,19 @@ namespace Core.Business.Lancamento
                 ParticipanteId = model.ParticipanteId,
                 EquipanteId = model.EquipanteId,
                 Status = StatusEnum.Quitado,
-                Tipo = TiposLancamentoEnum.Receber
+                Tipo = TiposLancamentoEnum.Receber,
+                DataCadastro = model.Data
             };
 
             lancamentoRepository.Insert(lancamento);
             lancamentoRepository.Save();
+            if (model.Data.HasValue)
+            {
+                lancamento.DataCadastro = model.Data;
+                lancamentoRepository.Update(lancamento);
+                lancamentoRepository.Save();
+            }
+
         }
 
         public void DeleteLancamento(int id)
@@ -130,10 +143,11 @@ namespace Core.Business.Lancamento
             if (model.Id > 0)
             {
                 lancamento = GetLancamentoById(model.Id);
-
+                lancamento.Origem = model.Origem;
                 lancamento.Descricao = model.Descricao;
                 lancamento.Observacao = model.Observacao;
                 lancamento.Valor = model.Valor;
+                lancamento.DataCadastro = model.Data;
                 lancamento.MeioPagamentoId = model.MeioPagamentoId;
                 lancamento.CentroCustoId = model.CentCustoId;
                 lancamento.ContaBancariaId = model.ContaBancariaId > 0 ? (int?)model.ContaBancariaId : null;
@@ -144,6 +158,7 @@ namespace Core.Business.Lancamento
             {
                 lancamento = new Data.Entities.Lancamento
                 {
+                    Origem = model.Origem,
                     Descricao = model.Descricao,
                     Valor = model.Valor,
                     Observacao = model.Observacao,

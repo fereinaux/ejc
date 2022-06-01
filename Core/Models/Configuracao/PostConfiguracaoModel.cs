@@ -20,6 +20,8 @@ namespace Core.Models.Configuracao
         public string CorHoverScroll { get; set; }
         public TipoCirculoEnum TipoCirculoId { get; set; }
         public string TipoCirculo { get; set; }
+        public string MsgConclusao { get; set; }
+        public string MsgConclusaoEquipe { get; set; }
     }
 
     public class CamposModel

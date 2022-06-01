@@ -12,6 +12,7 @@ namespace Data.Entities
         public int Id { get; set; }
         public decimal Valor { get; set; }
         public string Descricao { get; set; }
+        public string Origem { get; set; }
         public string Observacao { get; set; }
         public TiposLancamentoEnum Tipo { get; set; }
         public int MeioPagamentoId { get; set; }

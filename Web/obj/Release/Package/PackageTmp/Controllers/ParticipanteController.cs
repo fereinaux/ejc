@@ -61,12 +61,6 @@ namespace SysIgreja.Controllers
             mapper = new MapperRealidade().mapper;
         }
 
-        public ActionResult ListaTelefonica()
-        {
-            ViewBag.Title = "Lista Telefônica";
-            GetEventos();
-            return View();
-        }
 
         public ActionResult Checkin()
         {
@@ -97,18 +91,12 @@ namespace SysIgreja.Controllers
             return View();
         }
 
-        public ActionResult Boletos()
-        {
-            ViewBag.Title = "Boletos Solicitados";
-            GetEventos();
-
-            return View();
-        }
-
         public ActionResult Index()
         {
             ViewBag.Title = "Participantes";
             GetEventos();
+            GetConfiguracao();
+            GetCampos();
             ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
             ViewBag.Valor =  eventosBusiness.GetEventoAtivo()?.Valor ?? 0;
             ViewBag.ContasBancarias = contaBancariaBusiness.GetContasBancarias().ToList()
@@ -398,10 +386,12 @@ namespace SysIgreja.Controllers
                 try
                 {
                     model.columns[model.order[0].column].name = model.columns[model.order[0].column].name == "Padrinho" ? model.columns[model.order[0].column].name = "Padrinho.Nome" : model.columns[model.order[0].column].name;
+                    model.columns[model.order[0].column].name = model.columns[model.order[0].column].name == "Idade" ? model.columns[model.order[0].column].name = "DataNascimento" : model.columns[model.order[0].column].name;
                     result = result.OrderBy(model.columns[model.order[0].column].name + " " + model.order[0].dir);
                 }
                 catch (Exception)
                 {
+                    result = result.OrderBy(x => x.Id);
                 }
 
                 result = result.Skip(model.Start)

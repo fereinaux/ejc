@@ -211,7 +211,6 @@ function dataURLtoFile(dataurl, filename) {
 function Foto(row) {
 
     realista = row
-    console.log(realista)
 
     var input = $(`#foto${realista.Id}`)[0]
 
@@ -531,23 +530,29 @@ $("#modal-anexos").on('hidden.bs.modal', function () {
 
 var tipoGlobal = 'pagamento'
 $(`.${tipoGlobal}`).addClass('moldura-modal')
-var destinatarioGlobal = 'mae'
+var destinatarioGlobal = 'realista'
 $(`.${destinatarioGlobal}`).addClass('moldura-modal')
 
 function enviar() {
-    var windowReference = window.open('_blank');
-    $.ajax({
-        url: "/Mensagem/GetMensagem/",
-        data: { Id: $("#msg-list").val() },
-        datatype: "json",
-        type: "GET",
-        contentType: 'application/json; charset=utf-8',
-        success: function (data) {
-            var text = data.Mensagem.Conteudo.replaceAll('${Nome Contato}', getNome(destinatarioGlobal)).replaceAll('${Nome Participante}', getNome('realista'));
-            windowReference.location = GetLinkWhatsApp(getTelefone(destinatarioGlobal), text)
+    if (getNome(destinatarioGlobal)) {
 
-        }
-    });
+        var windowReference = window.open('_blank');
+        $.ajax({
+            url: "/Mensagem/GetMensagem/",
+            data: { Id: $("#msg-list").val() },
+            datatype: "json",
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var text = data.Mensagem.Conteudo.replaceAll('${Nome Contato}', getNome(destinatarioGlobal)).replaceAll('${Nome Participante}', getNome('realista'));
+                windowReference.location = GetLinkWhatsApp(getTelefone(destinatarioGlobal), text)
+
+            }
+        });
+    } else {
+        ErrorMessage('Você deve escolher o destinatário da mensagem')
+
+    }
 
 
 }
@@ -782,6 +787,8 @@ function Pagamentos(row) {
     realista = row;
     $("#pagamentos-whatsapp").val(row.Fone);
     $("#pagamentos-valor").val($("#pagamentos-valor").data("valor"));
+    $("#pagamentos-origem").val('')
+    $("#pagamentos-data").val(moment().format('DD/MM/YYYY'));
     $("#pagamentos-participanteid").val(row.Id);
     $("#pagamentos-meiopagamento").val($("#pagamentos-meiopagamento option:first").val());
     CarregarTabelaPagamentos(row.Id);
@@ -881,13 +888,17 @@ function PostPagamento() {
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(
                 {
+                    Origem: $("#pagamentos-origem").val(),
                     EventoId: $("#participante-eventoid").val(),
                     ParticipanteId: $("#pagamentos-participanteid").val(),
+                    Data: moment($("#pagamentos-data").val(), 'DD/MM/YYYY', 'pt-br').toJSON(),
                     MeioPagamentoId: $("#pagamentos-meiopagamento").val(),
                     ContaBancariaId: $('.contabancaria').hasClass('d-none') ? 0 : $("#pagamentos-contabancaria").val(),
                     Valor: Number($("#pagamentos-valor").val())
                 }),
             success: function () {
+                $("#pagamentos-origem").val('')
+                $("#pagamentos-data").val(moment().format('DD/MM/YYYY'));
                 CarregarTabelaPagamentos($("#pagamentos-participanteid").val());
                 SuccessMesageOperation();
             }

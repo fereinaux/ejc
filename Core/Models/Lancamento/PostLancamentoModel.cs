@@ -1,4 +1,5 @@
-﻿using Utils.Enums;
+﻿using System;
+using Utils.Enums;
 
 namespace Core.Models.Lancamento
 {
@@ -7,8 +8,10 @@ namespace Core.Models.Lancamento
         public int Id { get; set; }
         public TiposLancamentoEnum Tipo { get; set; }
         public string Descricao { get; set; }
+        public string Origem { get; set; }
         public string Observacao { get; set; }
         public int MeioPagamentoId { get; set; }
+        public DateTime? Data { get; set; }
         public int CentCustoId { get; set; }
         public int EventoId { get; set; }
         public int ContaBancariaId { get; set; }

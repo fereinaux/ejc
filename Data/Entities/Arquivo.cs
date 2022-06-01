@@ -1,6 +1,11 @@
 ﻿using Data.Entities.Base;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+using Utils.Enums;
 
 namespace Data.Entities
 {
@@ -14,6 +19,7 @@ namespace Data.Entities
         public string Extensao { get; set; }
         public byte[] Conteudo { get; set; }
         public bool IsFoto { get; set; }
+        public EquipesEnum? Equipe { get; set; }
         public int? EventoId { get; set; }
         public Evento Evento { get; set; }
         public int? EquipanteId { get; set; }
