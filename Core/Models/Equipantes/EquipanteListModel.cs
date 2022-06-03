@@ -30,9 +30,11 @@ namespace Core.Models.Equipantes
         public string Status { get; set; }
         public int Idade { get; set; }
         public int Faltas { get; set; }
+        public bool Checkin { get; set; }
         public int QtdAnexos { get; set; }
         public string Sexo { get; set; }
         public string Fone { get; set; }
+        public string Observacao { get; set; }
         public bool HasVacina { get; set; }
         public bool HasFoto { get; set; }
         public bool HasOferta { get; set; }

@@ -38,7 +38,6 @@ namespace Data.Entities
         public bool MsgVacina { get; set; }
         public bool MsgGeral { get; set; }
         public bool MsgNoitita { get; set; }
-        public bool MsgFoto { get; set; }
-        public string Observacao { get; set; }
+        public bool MsgFoto { get; set; }     
     }
 }

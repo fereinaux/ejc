@@ -48,7 +48,7 @@ namespace Data.Entities.Base
         public string Referencia { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
-
+        public string Observacao { get; set; }
         public SexoEnum Sexo { get; set; }
 
         public static int GetAge(DateTime customerDateOfBirth)

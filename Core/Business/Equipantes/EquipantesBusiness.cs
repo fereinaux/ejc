@@ -133,5 +133,28 @@ namespace Core.Business.Equipantes
             equipanteEventoRepository.Update(equipante);
             equipanteEventoRepository.Save();
         }
+
+        public void PostEtiquetas(string[] etiquetas, int id, string obs)
+        {
+            Equipante equipante = equipanteRepository.GetById(id);
+
+            var eventoAtivo = eventosBusiness.GetEventoAtivo();
+            ParticipantesEtiquetasRepo.GetAll(x => x.EquipanteId == id).ToList().ForEach(etiqueta => ParticipantesEtiquetasRepo.Delete(etiqueta.Id));
+            if (etiquetas != null)
+            {
+                foreach (var etiqueta in etiquetas)
+                {
+                    ParticipantesEtiquetasRepo.Insert(new ParticipantesEtiquetas { EquipanteId = id, EventoId = eventoAtivo?.Id ?? null, EtiquetaId = Int32.Parse(etiqueta) });
+                }
+
+            }
+            ParticipantesEtiquetasRepo.Save();
+            if (!string.IsNullOrEmpty(obs))
+            {
+                equipante.Observacao = obs;
+            }
+            equipanteRepository.Update(equipante);
+            equipanteRepository.Save();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿var realista;
+let table
 $.ajax({
     url: '/Etiqueta/GetEtiquetas',
     datatype: "json",
@@ -15,7 +16,7 @@ ${result.data.map(p => `<option value=${p.Id}>${p.Nome}</option>`)}
     }
 });
 
-function CarregarTabelaEquipante() {
+function CarregarTabelaEquipante(callbackFunction) {
 
 
     const tableEquipanteConfig = {
@@ -89,7 +90,8 @@ ${!row.HasVacina ? ` <label for="arquivo${data}" class="inputFile">
 ${GetIconWhatsApp(row.Fone)}
                             ${GetIconTel(row.Fone)}
                             ${GetButton('Pagamentos', JSON.stringify(row), 'verde', 'far fa-money-bill-alt', 'Pagamentos')}
-                            ${GetButton('EditEquipante', data, 'blue', 'fa-edit', 'Editar')}                            
+                            ${GetButton('EditEquipante', data, 'blue', 'fa-edit', 'Editar')}
+${GetButton('Opcoes', JSON.stringify(row), 'cinza', 'fas fa-info-circle', 'Opções')}
                             ${GetButton('DeleteEquipante', data, 'red', 'fa-trash', 'Excluir')}
                         </form> 
 `;
@@ -99,16 +101,21 @@ ${GetIconWhatsApp(row.Fone)}
         order: [
             [2, "asc"]
         ],
+        drawCallback: function () {
+            if (callbackFunction) {
+                callbackFunction()
+            }
+        },
         ajax: {
             url: '/Equipante/GetEquipantesDataTable',
-            
+
             data: { EventoId: $("#equipante-eventoid-filtro").val() != 999 ? $("#equipante-eventoid-filtro").val() : null, Status: $("#equipante-status").val(), Etiquetas: $("#equipante-marcadores").val(), NaoEtiquetas: $("#equipante-nao-marcadores").val(), Equipe: $("#equipe-select").val() != 999 ? $("#equipe-select").val() : null },
             datatype: "json",
             type: "POST"
         }
     };
 
-    $("#table-equipantes").DataTable(tableEquipanteConfig);
+    table = $("#table-equipantes").DataTable(tableEquipanteConfig);
 }
 
 function getEquipes() {
@@ -310,7 +317,7 @@ function Foto(row) {
 
     new Compressor(file, {
         quality: 0.6,
-        convertSize: 1000000 ,
+        convertSize: 1000000,
         // The compression process is asynchronous,
         // which means you have to access the `result` in the `success` hook function.
         success(result) {
@@ -325,7 +332,7 @@ function Foto(row) {
             };
 
             reader.readAsDataURL(result);
-   
+
 
             $("#modal-fotos").modal();
             var boundaryWidth = $("#fotocontent").width();
@@ -378,7 +385,7 @@ function toggleFoto(id) {
     )
 }
 
-function PostVacina(id,realista) {
+function PostVacina(id, realista) {
     var dataToPost = new FormData($(`#frm-vacina${id}`)[0]);
     dataToPost.set('EquipanteId', id)
     var filename = dataToPost.get(`arquivo${id}`).name
@@ -541,7 +548,7 @@ function Pagamentos(row) {
 }
 
 function GetEquipante(id) {
-                $('.equipante-etiquetas').select2({ dropdownParent: $("#form-equipante") });
+    $('.equipante-etiquetas').select2({ dropdownParent: $("#form-equipante") });
     if (id > 0) {
         $.ajax({
             url: "/Equipante/GetEquipante/",
@@ -613,6 +620,98 @@ function DeleteEquipante(id) {
     });
 }
 
+
+
+function enviar() {
+    var windowReference = window.open('_blank');
+    $.ajax({
+        url: "/Mensagem/GetMensagem/",
+        data: { Id: $("#msg-list").val() },
+        datatype: "json",
+        type: "GET",
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            var text = data.Mensagem.Conteudo.replaceAll('${Nome Participante}', equipante.Nome);
+            windowReference.location = GetLinkWhatsApp(equipante.Fone, text)
+        }
+    });
+
+
+}
+function Opcoes(row) {
+    equipante = row;
+    $('.equipante-etiquetas').select2({ dropdownParent: $("#form-opcoes") });
+    $.ajax({
+        url: "/Equipante/GetEquipante/",
+        data: { Id: row.Id },
+        datatype: "json",
+        type: "GET",
+        contentType: 'application/json; charset=utf-8',
+        success: function (data) {
+            equipante = data.Equipante
+            if ($('#modal-opcoes').is(":hidden")) {
+                $.ajax({
+                    url: "/Mensagem/GetMensagens/",
+                    datatype: "json",
+                    type: "POST",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (dataMsg) {
+                        $("#msg-list").html(`
+${dataMsg.data.map(p => `<option value=${p.Id}>${p.Titulo}</option>`)}
+`)
+
+                    }
+                })
+            }
+            $('.realista-nome').text(equipante.Nome)
+            $('#equipante-etiquetas').html(`${data.Etiquetas.map(etiqueta => `<option data-cor="${etiqueta.Cor}" value=${etiqueta.Id}>${etiqueta.Nome}</option>`)
+                }`)
+            $('#equipante-etiquetas').val(data.Equipante.Etiquetas.map(etiqueta => etiqueta.Id))
+            $('#equipante-obs').val(data.Equipante.Observacao)
+
+            arrayData = table.data().toArray()
+            let index = arrayData.findIndex(r => r.Id == row.Id)
+
+            $('#btn-previous').css('display', 'block')
+            $('#btn-next').css('display', 'block')
+            if (index == 0) {
+
+                $('#btn-previous').css('display', 'none')
+            }
+
+            if (index == arrayData.length - 1) {
+                $('#btn-next').css('display', 'none')
+            }
+
+            $("#modal-opcoes").modal();
+        }
+    });
+
+
+}
+
+$("#modal-opcoes").on('hidden.bs.modal', function () {
+    PostInfo()
+});
+
+function PostInfo(callback) {
+    $.ajax({
+        url: "/Equipante/PostEtiquetas/",
+        datatype: "json",
+        type: "POST",
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(
+            {
+                Id: equipante.Id,
+                Etiquetas: $('.equipante-etiquetas').val(),
+                Obs: $('#equipante-obs').val(),
+            }),
+        success: function () {
+            CarregarTabelaEquipante(callback)
+        }
+    });
+}
+
 function PostEquipante() {
     if (ValidateForm(`#form-equipante`)) {
         $.ajax({
@@ -634,8 +733,7 @@ function PostEquipante() {
                     Medicacao: $(`#equipante-medicacao`).val(),
                     HasAlergia: $("input[type=radio][name=equipante-hasalergia]:checked").val(),
                     Alergia: $(`#equipante-alergia`).val(),
-                    Sexo: $("input[type=radio][name=equipante-sexo]:checked").val(),
-                    Etiquetas: $('.equipante-etiquetas').val()
+                    Sexo: $("input[type=radio][name=equipante-sexo]:checked").val()
                 }),
             success: function () {
                 SuccessMesageOperation();
@@ -744,3 +842,24 @@ $('#not-restricaoalimentar').on('ifChecked', function (event) {
     $('.restricaoalimentar').addClass('d-none');
     $("#equipante-restricaoalimentar").removeClass('required');
 });
+
+
+function previous() {
+    PostInfo(function () {
+        arrayData = table.data().toArray()
+        let index = arrayData.findIndex(r => r.Id == equipante.Id)
+        if (index > 0) {
+            Opcoes(arrayData[index - 1])
+        }
+    })
+}
+
+function next() {
+    PostInfo(function () {
+        arrayData = table.data().toArray()
+        let index = arrayData.findIndex(r => r.Id == equipante.Id)
+        if (index + 1 < arrayData.length) {
+            Opcoes(arrayData[index + 1])
+        }
+    })
+}
