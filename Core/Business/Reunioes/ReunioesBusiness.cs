@@ -57,7 +57,9 @@ namespace Core.Business.Reunioes
             if (model.Id > 0)
             {
                 reuniao = reuniaoRepository.GetById(model.Id);
-                reuniao.DataReuniao = model.DataReuniao.AddHours(4);
+                reuniao.DataReuniao = model.DataReuniao;
+                reuniao.Pauta = model.Pauta;
+                reuniao.Titulo = model.Titulo;
 
                 reuniaoRepository.Update(reuniao);
             }
@@ -65,9 +67,10 @@ namespace Core.Business.Reunioes
             {
                 reuniao = new ReuniaoEvento
                 {
-                    DataReuniao = model.DataReuniao.AddHours(4),
+                    DataReuniao = model.DataReuniao,
                     EventoId = model.EventoId,
-                    Status = StatusEnum.Ativo
+                    Pauta = model.Pauta,
+                    Titulo = model.Titulo
                 };
 
                 reuniaoRepository.Insert(reuniao);

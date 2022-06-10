@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\User\source\repos\sysigreja-deploys</_PublishTargetUrl>
-    <History>True|2022-05-31T19:42:47.5109830Z;True|2022-05-24T18:50:32.7816674-03:00;True|2022-05-23T11:42:49.5945556-03:00;True|2022-05-15T13:53:03.5748755-03:00;True|2022-05-10T12:57:11.7520099-03:00;True|2022-05-04T12:21:12.4637759-03:00;True|2022-05-04T12:14:33.8576248-03:00;True|2022-05-02T12:00:57.3625772-03:00;</History>
+    <History>True|2022-06-09T14:54:59.5374717Z;True|2022-06-09T11:44:31.4757567-03:00;True|2022-06-09T09:32:11.3573247-03:00;True|2022-06-07T16:22:22.9665259-03:00;True|2022-05-31T16:42:47.5109830-03:00;True|2022-05-24T18:50:32.7816674-03:00;True|2022-05-23T11:42:49.5945556-03:00;True|2022-05-15T13:53:03.5748755-03:00;True|2022-05-10T12:57:11.7520099-03:00;True|2022-05-04T12:21:12.4637759-03:00;True|2022-05-04T12:14:33.8576248-03:00;True|2022-05-02T12:00:57.3625772-03:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Start/BundleConfig.cs">
@@ -30,28 +30,28 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/23/2021 09:48:51</publishTime>
     </File>
     <File Include="bin/Arquitetura.dll">
-      <publishTime>02/06/2022 17:26:28</publishTime>
+      <publishTime>06/09/2022 11:54:47</publishTime>
     </File>
     <File Include="bin/Arquitetura.pdb">
-      <publishTime>02/06/2022 17:26:28</publishTime>
+      <publishTime>06/09/2022 11:54:47</publishTime>
     </File>
     <File Include="bin/AutoMapper.dll">
       <publishTime>10/16/2020 15:36:54</publishTime>
     </File>
     <File Include="bin/Core.dll">
-      <publishTime>02/06/2022 17:26:28</publishTime>
+      <publishTime>06/09/2022 09:32:08</publishTime>
     </File>
     <File Include="bin/Core.pdb">
-      <publishTime>02/06/2022 17:26:28</publishTime>
+      <publishTime>06/09/2022 09:32:08</publishTime>
     </File>
     <File Include="bin/CsQuery.dll">
       <publishTime>08/23/2021 09:48:51</publishTime>
     </File>
     <File Include="bin/Data.dll">
-      <publishTime>02/06/2022 17:26:27</publishTime>
+      <publishTime>06/09/2022 09:32:07</publishTime>
     </File>
     <File Include="bin/Data.pdb">
-      <publishTime>02/06/2022 17:26:27</publishTime>
+      <publishTime>06/09/2022 09:32:07</publishTime>
     </File>
     <File Include="bin/en-html2enml.dll">
       <publishTime>08/23/2021 09:49:12</publishTime>
@@ -624,10 +624,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/25/2022 09:55:16</publishTime>
     </File>
     <File Include="bin/Web.dll">
-      <publishTime>06/02/2022 18:34:43</publishTime>
+      <publishTime>06/09/2022 12:02:12</publishTime>
     </File>
     <File Include="bin/Web.pdb">
-      <publishTime>06/02/2022 18:34:43</publishTime>
+      <publishTime>06/09/2022 12:02:12</publishTime>
     </File>
     <File Include="bin/WebEssentials.AspNetCore.Pwa.dll">
       <publishTime>08/23/2021 09:49:12</publishTime>
@@ -912,7 +912,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/18/2022 10:43:28</publishTime>
     </File>
     <File Include="Controllers/ArquivoController.cs">
-      <publishTime>05/25/2022 09:49:07</publishTime>
+      <publishTime>06/09/2022 09:15:25</publishTime>
     </File>
     <File Include="Controllers/CaronaController.cs">
       <publishTime>04/05/2022 12:19:14</publishTime>
@@ -933,7 +933,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/06/2022 17:10:06</publishTime>
     </File>
     <File Include="Controllers/EquipeController.cs">
-      <publishTime>05/31/2022 14:21:34</publishTime>
+      <publishTime>06/09/2022 09:16:38</publishTime>
     </File>
     <File Include="Controllers/EtiquetaController.cs">
       <publishTime>04/20/2022 11:00:16</publishTime>
@@ -942,7 +942,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/05/2022 11:50:45</publishTime>
     </File>
     <File Include="Controllers/HomeController.cs">
-      <publishTime>05/24/2022 18:49:41</publishTime>
+      <publishTime>06/09/2022 09:24:19</publishTime>
     </File>
     <File Include="Controllers/InscricoesController.cs">
       <publishTime>05/31/2022 17:03:44</publishTime>
@@ -960,7 +960,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/20/2022 11:00:16</publishTime>
     </File>
     <File Include="Controllers/ParticipanteController.cs">
-      <publishTime>05/31/2022 16:11:33</publishTime>
+      <publishTime>06/08/2022 15:33:54</publishTime>
     </File>
     <File Include="Controllers/QuartoController.cs">
       <publishTime>04/20/2022 11:00:16</publishTime>
@@ -969,7 +969,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/20/2022 11:00:16</publishTime>
     </File>
     <File Include="Controllers/ReuniaoController.cs">
-      <publishTime>04/20/2022 11:00:16</publishTime>
+      <publishTime>06/08/2022 15:37:28</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>08/23/2021 09:48:47</publishTime>
@@ -1392,7 +1392,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/05/2022 22:43:17</publishTime>
     </File>
     <File Include="Mapper/Mapper.cs">
-      <publishTime>02/06/2022 17:10:48</publishTime>
+      <publishTime>06/08/2022 14:34:23</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>05/05/2022 21:50:44</publishTime>
@@ -1404,7 +1404,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/05/2022 11:50:11</publishTime>
     </File>
     <File Include="Scripts/app/Arquivo/arquivo.js">
-      <publishTime>04/10/2021 13:03:55</publishTime>
+      <publishTime>06/09/2022 09:17:42</publishTime>
     </File>
     <File Include="Scripts/app/Carona/carona.js">
       <publishTime>04/05/2022 12:20:51</publishTime>
@@ -1419,10 +1419,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/10/2021 13:03:55</publishTime>
     </File>
     <File Include="Scripts/app/Equipante/equipante.js">
-      <publishTime>06/02/2022 18:34:25</publishTime>
+      <publishTime>06/07/2022 16:19:44</publishTime>
     </File>
     <File Include="Scripts/app/Equipe/equipe.js">
-      <publishTime>05/25/2022 09:53:01</publishTime>
+      <publishTime>06/09/2022 09:15:55</publishTime>
     </File>
     <File Include="Scripts/app/Equipe/presenca.js">
       <publishTime>04/10/2021 13:03:55</publishTime>
@@ -1434,10 +1434,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/05/2022 11:55:29</publishTime>
     </File>
     <File Include="Scripts/app/Home/admin.js">
-      <publishTime>05/24/2022 18:49:59</publishTime>
+      <publishTime>06/08/2022 16:08:26</publishTime>
     </File>
     <File Include="Scripts/app/Home/coordenador.js">
-      <publishTime>05/25/2022 09:50:45</publishTime>
+      <publishTime>06/09/2022 09:16:17</publishTime>
     </File>
     <File Include="Scripts/app/Inscricoes/inscricoes.js">
       <publishTime>05/23/2022 11:51:12</publishTime>
@@ -1488,7 +1488,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/10/2021 03:12:22</publishTime>
     </File>
     <File Include="Scripts/app/Reuniao/reuniao.js">
-      <publishTime>02/03/2022 13:20:51</publishTime>
+      <publishTime>06/09/2022 12:02:00</publishTime>
     </File>
     <File Include="Scripts/app/skin.config.min.js">
       <publishTime>08/23/2021 09:48:44</publishTime>
@@ -1497,7 +1497,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/03/2022 12:28:45</publishTime>
     </File>
     <File Include="Scripts/app/Util/buttons.js">
-      <publishTime>03/29/2022 11:12:31</publishTime>
+      <publishTime>06/07/2022 16:21:26</publishTime>
     </File>
     <File Include="Scripts/app/Util/constants.js">
       <publishTime>10/10/2021 18:27:49</publishTime>
@@ -1509,7 +1509,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/25/2022 14:51:21</publishTime>
     </File>
     <File Include="Scripts/app/Util/inputs.js">
-      <publishTime>03/22/2022 21:55:22</publishTime>
+      <publishTime>06/08/2022 16:06:04</publishTime>
     </File>
     <File Include="Scripts/app/Util/mapa.js">
       <publishTime>03/29/2022 14:30:28</publishTime>
@@ -1728,7 +1728,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/23/2021 09:48:44</publishTime>
     </File>
     <File Include="ViewModels/ParticipanteExcelViewModel.cs">
-      <publishTime>04/20/2022 11:00:16</publishTime>
+      <publishTime>06/08/2022 14:52:14</publishTime>
     </File>
     <File Include="ViewModels/ParticipanteViewModel.cs">
       <publishTime>04/20/2022 11:00:16</publishTime>
@@ -1740,7 +1740,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/20/2022 11:00:16</publishTime>
     </File>
     <File Include="ViewModels/ReuniaoViewModel.cs">
-      <publishTime>02/03/2022 13:19:54</publishTime>
+      <publishTime>06/08/2022 15:37:23</publishTime>
     </File>
     <File Include="ViewModels/UsuarioViewModel.cs">
       <publishTime>04/20/2022 11:00:16</publishTime>
@@ -1773,7 +1773,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/25/2022 15:20:19</publishTime>
     </File>
     <File Include="Views/Equipe/Index.cshtml">
-      <publishTime>05/25/2022 09:52:49</publishTime>
+      <publishTime>06/09/2022 09:07:29</publishTime>
     </File>
     <File Include="Views/Equipe/Presenca.cshtml">
       <publishTime>08/23/2021 09:48:44</publishTime>
@@ -1785,10 +1785,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/05/2022 11:55:17</publishTime>
     </File>
     <File Include="Views/Home/Admin.cshtml">
-      <publishTime>05/24/2022 18:49:51</publishTime>
+      <publishTime>06/08/2022 16:07:52</publishTime>
     </File>
     <File Include="Views/Home/Coordenador.cshtml">
-      <publishTime>05/25/2022 15:33:13</publishTime>
+      <publishTime>06/09/2022 09:24:34</publishTime>
     </File>
     <File Include="Views/Inscricoes/Equipe.cshtml">
       <publishTime>05/15/2022 14:00:16</publishTime>
@@ -1824,7 +1824,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/23/2021 09:48:44</publishTime>
     </File>
     <File Include="Views/Participante/Checkin.cshtml">
-      <publishTime>05/31/2022 16:29:37</publishTime>
+      <publishTime>06/08/2022 16:13:21</publishTime>
     </File>
     <File Include="Views/Participante/Etiquetas.cshtml">
       <publishTime>03/24/2022 16:58:40</publishTime>
@@ -1845,19 +1845,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/23/2021 09:48:44</publishTime>
     </File>
     <File Include="Views/Reuniao/Index.cshtml">
-      <publishTime>02/03/2022 13:21:34</publishTime>
+      <publishTime>06/09/2022 11:42:23</publishTime>
     </File>
     <File Include="Views/Shared/_Footer.cshtml">
       <publishTime>02/05/2022 10:33:13</publishTime>
     </File>
     <File Include="Views/Shared/_Inscricoes.cshtml">
-      <publishTime>05/25/2022 14:26:06</publishTime>
+      <publishTime>06/09/2022 11:54:07</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>05/25/2022 14:26:09</publishTime>
+      <publishTime>06/09/2022 11:42:31</publishTime>
     </File>
     <File Include="Views/Shared/_Navigation.cshtml">
-      <publishTime>04/18/2022 14:10:42</publishTime>
+      <publishTime>06/08/2022 14:53:14</publishTime>
     </File>
     <File Include="Views/Shared/_TopNavbar.cshtml">
       <publishTime>05/10/2022 12:58:06</publishTime>
@@ -1875,7 +1875,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/15/2022 13:36:59</publishTime>
     </File>
     <File Include="Web.csproj.user">
-      <publishTime>06/02/2022 18:34:40</publishTime>
+      <publishTime>06/09/2022 12:02:10</publishTime>
     </File>
     <File Include="Web.Debug.config">
       <publishTime>08/23/2021 09:48:44</publishTime>

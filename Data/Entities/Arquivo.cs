@@ -19,6 +19,7 @@ namespace Data.Entities
         public string Extensao { get; set; }
         public byte[] Conteudo { get; set; }
         public bool IsFoto { get; set; }
+        public bool IsComunEquipe { get; set; }
         public EquipesEnum? Equipe { get; set; }
         public int? EventoId { get; set; }
         public Evento Evento { get; set; }

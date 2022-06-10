@@ -12,8 +12,10 @@ namespace Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int EventoId { get; set; }
+        public string Titulo { get; set; }
         public Evento Evento { get; set; }
         public DateTime DataReuniao { get; set; }
         public ICollection<PresencaReuniao> Presenca { get; set; }
+        public string Pauta { get; set; }
     }
 }

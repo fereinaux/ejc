@@ -7,5 +7,7 @@ namespace Core.Models.Reunioes
         public int Id { get; set; }
         public int EventoId { get; set; }
         public DateTime DataReuniao { get; set; }
+        public string Titulo { get; set; }
+        public string Pauta { get; set; }
     }
 }

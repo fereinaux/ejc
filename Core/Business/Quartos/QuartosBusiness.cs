@@ -15,13 +15,15 @@ namespace Core.Business.Quartos
         private readonly IGenericRepository<QuartoParticipante> quartoParticipanteRepository;
         private readonly IGenericRepository<Participante> participanteRepository;
         private readonly IGenericRepository<Equipante> equipanteRepository;
+        private readonly IGenericRepository<EquipanteEvento> equipanteEventoRepository;
 
-        public QuartosBusiness(IGenericRepository<Participante> participanteRepository, IGenericRepository<Equipante> equipanteRepository, IGenericRepository<Quarto> quartoRepository, IGenericRepository<QuartoParticipante> quartoParticipanteRepository)
+        public QuartosBusiness(IGenericRepository<Participante> participanteRepository, IGenericRepository<EquipanteEvento> equipanteEventoRepository, IGenericRepository<Equipante> equipanteRepository, IGenericRepository<Quarto> quartoRepository, IGenericRepository<QuartoParticipante> quartoParticipanteRepository)
         {
             this.quartoRepository = quartoRepository;
             this.participanteRepository = participanteRepository;
             this.quartoParticipanteRepository = quartoParticipanteRepository;
             this.equipanteRepository = equipanteRepository;
+            this.equipanteEventoRepository = equipanteEventoRepository;
         }
 
         public string ChangeQuarto(int participanteId, int? destinoId, TipoPessoaEnum? tipo)
@@ -206,13 +208,13 @@ namespace Core.Business.Quartos
                            .Select(x => x.EquipanteId)
                            .ToList();
 
-            var listParticipantes = equipanteRepository
-                 .GetAll(x => !listParticipantesId.Contains(x.Id))
-                 .Include(x => x.Equipes)
-                 .ToList()
-                 .Where(x => x.Equipes.Any() && x.Equipes.LastOrDefault()?.EventoId == eventoId)
-                 .OrderBy(x => x.Nome)
-                 .ToList();
+            var listParticipantes = equipanteEventoRepository
+                        .GetAll()
+                        .Include(x => x.Equipante)
+                        .Where(x => x.EventoId == eventoId && !listParticipantesId.Contains(x.EquipanteId))
+                        .OrderBy(x => x.Equipante.Nome)
+                        .Select(x => x.Equipante)
+                        .ToList();
 
             listParticipantes.ForEach(x => x.Nome = UtilServices.CapitalizarNome(x.Nome));
             listParticipantes.ForEach(x => x.Apelido = UtilServices.CapitalizarNome(x.Apelido));

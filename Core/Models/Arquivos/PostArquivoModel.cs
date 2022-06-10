@@ -16,6 +16,7 @@ namespace Core.Models.Arquivos
         public int? EquipanteId { get; set; }
         public int? LancamentoId { get; set; }
         public bool IsFoto { get; set; }
+        public bool IsComunEquipe { get; set; }
         public HttpPostedFileBase Arquivo { get; set; }
     }
 }
