@@ -27,12 +27,7 @@ namespace Core.Models.Participantes
         public bool HasFoto { get; set; }
         public string Alergia { get; set; }
         public bool HasParente { get; set; }
-        public string Parente { get; set; }
-        public string CEP { get; set; }
-        public string Logradouro { get; set; }
-        public string Complemento { get; set; }
-        public string Bairro { get; set; }
-        public string Cidade { get; set; }
+        public string Parente { get; set; }       
         public SexoEnum Sexo { get; set; }
         public string Congregacao { get; set; }
         public string NomePai { get; set; }
@@ -56,6 +51,11 @@ namespace Core.Models.Participantes
         public bool MsgFoto { get; set; }
         public string Observacao { get; set; }
         public IEnumerable<PostEtiquetaModel> Etiquetas { get; set; }
+        public string CEP { get; set; }
+        public string Logradouro { get; set; }
+        public string Complemento { get; set; }
+        public string Bairro { get; set; }
+        public string Cidade { get; set; }
         public string Longitude { get; set; }
         public string Latitude { get; set; }
         public string Referencia { get; set; }

@@ -61,6 +61,16 @@ namespace Core.Business.Equipantes
                 equipante.HasRestricaoAlimentar = model.HasRestricaoAlimentar;
                 equipante.RestricaoAlimentar = model.HasRestricaoAlimentar ? model.RestricaoAlimentar : null;
                 equipante.Sexo = model.Sexo;
+                equipante.CEP = model.CEP;
+                equipante.Logradouro = model.Logradouro;
+                equipante.Bairro = model.Bairro;
+                equipante.Cidade = model.Cidade;
+                equipante.Estado = model.Estado;
+                equipante.Numero = model.Numero;
+                equipante.Complemento = model.Complemento;
+                equipante.Referencia = model.Referencia;
+                equipante.Latitude = model.Latitude;
+                equipante.Longitude = model.Longitude;
                 equipante.HasVacina = model.HasVacina;
                 var eventoAtivo = eventosBusiness.GetEventoAtivo();
                 ParticipantesEtiquetasRepo.GetAll(x => x.EquipanteId == model.Id).ToList().ForEach(etiqueta => ParticipantesEtiquetasRepo.Delete(etiqueta.Id));
@@ -92,7 +102,17 @@ namespace Core.Business.Equipantes
                     Medicacao = model.HasMedicacao ? model.Medicacao : null,
                     HasRestricaoAlimentar = model.HasRestricaoAlimentar,
                     RestricaoAlimentar = model.HasRestricaoAlimentar ? model.RestricaoAlimentar : null,
-                    Sexo = model.Sexo
+                    Sexo = model.Sexo,
+                    CEP = model.CEP,
+                    Logradouro = model.Logradouro,
+                    Bairro = model.Bairro,
+                    Cidade = model.Cidade,
+                    Estado = model.Estado,
+                    Numero = model.Numero,
+                    Complemento = model.Complemento,
+                    Referencia = model.Referencia,
+                    Latitude = model.Latitude,
+                    Longitude = model.Longitude,
                 };
 
                 equipanteRepository.Insert(equipante);

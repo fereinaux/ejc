@@ -176,7 +176,10 @@ namespace Core.Business.Quartos
 
         public IQueryable<QuartoParticipante> GetParticipantesByQuartos(int id, TipoPessoaEnum? tipo)
         {
-            return quartoParticipanteRepository.GetAll(x => x.QuartoId == id && x.Quarto.TipoPessoa == (tipo ?? TipoPessoaEnum.Participante)).Include(x => x.Participante).Include(x => x.Equipante);
+            return quartoParticipanteRepository.GetAll(x => x.QuartoId == id && x.Quarto.TipoPessoa == (tipo ?? TipoPessoaEnum.Participante))
+                .Include(x => x.Participante)
+                .Include(x => x.Quarto)
+                .Include(x => x.Equipante);
         }
 
         public List<Participante> GetParticipantesSemQuarto(int eventoId)

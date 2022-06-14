@@ -116,7 +116,7 @@ namespace Core.Business.Caronas
 
         public IQueryable<CaronaParticipante> GetParticipantesByCaronas(int id)
         {
-            return caronaParticipanteRepository.GetAll(x => x.CaronaId == id).Include(x => x.Participante);
+            return caronaParticipanteRepository.GetAll(x => x.CaronaId == id).Include(x => x.Participante).Include(x => x.Carona).Include(x => x.Carona.Motorista);
         }
 
         public List<Participante> GetParticipantesSemCarona(int eventoId)
