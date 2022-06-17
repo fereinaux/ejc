@@ -31,6 +31,7 @@ namespace Data.Entities.Base
         public string Instagram { get; set; }
         public bool HasRestricaoAlimentar { get; set; }
         public string RestricaoAlimentar { get; set; }
+        public string Quarto { get; set; }
         public bool HasVacina { get; set; }
         public bool HasTeste { get; set; }
         public bool Checkin { get; set; }

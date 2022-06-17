@@ -161,3 +161,26 @@ C:\Users\User\source\repos\ejc\Data\obj\Debug\Data.csproj.CoreCompileInputs.cach
 C:\Users\User\source\repos\ejc\Data\obj\Debug\Data.csproj.CopyComplete
 C:\Users\User\source\repos\ejc\Data\obj\Debug\Data.dll
 C:\Users\User\source\repos\ejc\Data\obj\Debug\Data.pdb
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Data.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Data.pdb
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\EntityFramework.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\EPPlus.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Microsoft.Owin.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Microsoft.Owin.Security.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Microsoft.SqlServer.Types.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Owin.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\System.Linq.Dynamic.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Utils.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\bin\Debug\Utils.pdb
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\obj\Debug\Data.csproj.AssemblyReference.cache
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\obj\Debug\Data.csproj.CoreCompileInputs.cache
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\obj\Debug\Data.csproj.CopyComplete
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\obj\Debug\Data.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Data\obj\Debug\Data.pdb

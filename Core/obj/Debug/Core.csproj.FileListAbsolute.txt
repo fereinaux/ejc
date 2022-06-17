@@ -48,3 +48,28 @@ C:\Users\User\source\repos\ejc\Core\obj\Debug\Core.csproj.CoreCompileInputs.cach
 C:\Users\User\source\repos\ejc\Core\obj\Debug\Core.csproj.CopyComplete
 C:\Users\User\source\repos\ejc\Core\obj\Debug\Core.dll
 C:\Users\User\source\repos\ejc\Core\obj\Debug\Core.pdb
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Core.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Core.pdb
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\EntityFramework.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\EPPlus.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Microsoft.Owin.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Microsoft.Owin.Security.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Microsoft.SqlServer.Types.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Owin.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\System.Linq.Dynamic.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Data.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Utils.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Data.pdb
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\bin\Debug\Utils.pdb
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\obj\Debug\Core.csproj.AssemblyReference.cache
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\obj\Debug\Core.csproj.CoreCompileInputs.cache
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\obj\Debug\Core.csproj.CopyComplete
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\obj\Debug\Core.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Core\obj\Debug\Core.pdb

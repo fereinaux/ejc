@@ -55,3 +55,13 @@ C:\Users\User\source\repos\ejc\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.ca
 C:\Users\User\source\repos\ejc\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Users\User\source\repos\ejc\Utils\obj\Debug\Utils.dll
 C:\Users\User\source\repos\ejc\Utils\obj\Debug\Utils.pdb
+C:\Users\Felipe Reinaux\source\repos\ejc\Utils\bin\Debug\Utils.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Utils\bin\Debug\Utils.pdb
+C:\Users\Felipe Reinaux\source\repos\ejc\Utils\bin\Debug\EPPlus.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Utils\bin\Debug\Microsoft.SqlServer.Types.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Utils\bin\Debug\System.Linq.Dynamic.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Utils\obj\Debug\Utils.csproj.AssemblyReference.cache
+C:\Users\Felipe Reinaux\source\repos\ejc\Utils\obj\Debug\Utils.csproj.CoreCompileInputs.cache
+C:\Users\Felipe Reinaux\source\repos\ejc\Utils\obj\Debug\Utils.csproj.CopyComplete
+C:\Users\Felipe Reinaux\source\repos\ejc\Utils\obj\Debug\Utils.dll
+C:\Users\Felipe Reinaux\source\repos\ejc\Utils\obj\Debug\Utils.pdb
