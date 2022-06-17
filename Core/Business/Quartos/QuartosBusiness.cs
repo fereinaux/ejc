@@ -203,21 +203,22 @@ namespace Core.Business.Quartos
         public List<Equipante> GetEquipantesSemQuarto(int eventoId)
         {
             var listParticipantesId = quartoParticipanteRepository
-                           .GetAll(x => x.Quarto.EventoId == eventoId && x.Quarto.TipoPessoa == TipoPessoaEnum.Equipante)
-                           .Include(x => x.Equipante)
-                              .Include(x => x.Equipante.Equipes)
-                           .ToList()
-                           .Where(x => x.Equipante.Equipes.Any() && x.Equipante.Equipes.LastOrDefault()?.EventoId == eventoId)
-                           .Select(x => x.EquipanteId)
-                           .ToList();
+                   .GetAll(x => x.Quarto.EventoId == eventoId && x.Quarto.TipoPessoa == TipoPessoaEnum.Equipante)
+                   .Include(x => x.Equipante)
+                      .Include(x => x.Equipante.Equipes)
+                      .Include(x => x.Equipante.Equipes.Select(y => y.Evento))
+                   .ToList()
+                   .Where(x => x.Equipante.Equipes.Any() && x.Equipante.Equipes?.OrderByDescending(z => z.EventoId).LastOrDefault()?.EventoId == eventoId)
+                   .Select(x => x.EquipanteId)
+                   .ToList();
 
             var listParticipantes = equipanteEventoRepository
-                        .GetAll()
-                        .Include(x => x.Equipante)
-                        .Where(x => x.EventoId == eventoId && !listParticipantesId.Contains(x.EquipanteId))
-                        .OrderBy(x => x.Equipante.Nome)
-                        .Select(x => x.Equipante)
-                        .ToList();
+              .GetAll()
+              .Include(x => x.Equipante)
+              .Where(x => x.EventoId == eventoId && !listParticipantesId.Contains(x.EquipanteId))
+              .OrderBy(x => x.Equipante.Nome)
+              .Select(x => x.Equipante)
+              .ToList();
 
             listParticipantes.ForEach(x => x.Nome = UtilServices.CapitalizarNome(x.Nome));
             listParticipantes.ForEach(x => x.Apelido = UtilServices.CapitalizarNome(x.Apelido));
