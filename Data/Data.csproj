@@ -53,6 +53,7 @@
     <Compile Include="Entities\ParticipanteConsulta.cs" />
     <Compile Include="Entities\Quarto.cs" />
     <Compile Include="Entities\Circulo.cs" />
+    <Compile Include="Entities\Padrinho.cs" />
     <Compile Include="Entities\QuartoParticipante.cs" />
     <Compile Include="Entities\CirculoParticipantes.cs" />
     <Compile Include="Entities\Lancamento.cs" />

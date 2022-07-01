@@ -1358,20 +1358,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Felipe Reinaux\\.nuget\\packages\\": {}
+    "C:\\Users\\User\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Felipe Reinaux\\source\\repos\\ejc\\Arquitetura\\Arquitetura.csproj",
+      "projectUniqueName": "C:\\Users\\User\\source\\repos\\ejc\\Arquitetura\\Arquitetura.csproj",
       "projectName": "Arquitetura",
-      "projectPath": "C:\\Users\\Felipe Reinaux\\source\\repos\\ejc\\Arquitetura\\Arquitetura.csproj",
-      "packagesPath": "C:\\Users\\Felipe Reinaux\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Felipe Reinaux\\source\\repos\\ejc\\Arquitetura\\obj\\",
+      "projectPath": "C:\\Users\\User\\source\\repos\\ejc\\Arquitetura\\Arquitetura.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\User\\source\\repos\\ejc\\Arquitetura\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
-        "C:\\Users\\Felipe Reinaux\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1384,14 +1384,14 @@
       "frameworks": {
         "net472": {
           "projectReferences": {
-            "C:\\Users\\Felipe Reinaux\\source\\repos\\ejc\\Core\\Core.csproj": {
-              "projectPath": "C:\\Users\\Felipe Reinaux\\source\\repos\\ejc\\Core\\Core.csproj"
+            "C:\\Users\\User\\source\\repos\\ejc\\Core\\Core.csproj": {
+              "projectPath": "C:\\Users\\User\\source\\repos\\ejc\\Core\\Core.csproj"
             },
-            "C:\\Users\\Felipe Reinaux\\source\\repos\\ejc\\Data\\Data.csproj": {
-              "projectPath": "C:\\Users\\Felipe Reinaux\\source\\repos\\ejc\\Data\\Data.csproj"
+            "C:\\Users\\User\\source\\repos\\ejc\\Data\\Data.csproj": {
+              "projectPath": "C:\\Users\\User\\source\\repos\\ejc\\Data\\Data.csproj"
             },
-            "C:\\Users\\Felipe Reinaux\\source\\repos\\ejc\\Utils\\Utils.csproj": {
-              "projectPath": "C:\\Users\\Felipe Reinaux\\source\\repos\\ejc\\Utils\\Utils.csproj"
+            "C:\\Users\\User\\source\\repos\\ejc\\Utils\\Utils.csproj": {
+              "projectPath": "C:\\Users\\User\\source\\repos\\ejc\\Utils\\Utils.csproj"
             }
           }
         }

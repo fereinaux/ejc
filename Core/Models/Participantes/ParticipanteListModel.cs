@@ -17,6 +17,7 @@ namespace Core.Models.Participantes
         public int PadrinhoId { get; set; }
         public StatusEnum? Status { get; set; }
         public List<string> Etiquetas { get; set; }
+        public string Campos { get; set; }
         public List<string> NaoEtiquetas { get; set; }
 
     }

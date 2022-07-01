@@ -33,7 +33,7 @@ namespace Core.Business.Equipantes
         public Equipante GetEquipanteById(int id)
         {
 
-            return equipanteRepository.GetAll(x => x.Id == id).Include(x => x.ParticipantesEtiquetas).Include(x => x.ParticipantesEtiquetas.Select(y => y.Etiqueta)).SingleOrDefault();
+            return equipanteRepository.GetAll(x => x.Id == id).Include(x => x.ParticipantesEtiquetas).Include(x => x.ParticipantesEtiquetas.Select(y => y.Etiqueta)).FirstOrDefault();
         }
 
         public IQueryable<Equipante> GetEquipantes()

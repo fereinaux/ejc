@@ -117,7 +117,7 @@ namespace SysIgreja.Controllers
                 Apelido = x.Apelido,
                 CancelarCheckin = false,
                 Checkin = x.Checkin,
-                Padrinho = x.Padrinho?.Nome,
+                Padrinho = x.Padrinho?.EquipanteEvento.Equipante.Nome,
                 Congregacao = x.Congregacao,
                 DataNascimento = x.DataNascimento,
                 Email = x.Email,
@@ -237,6 +237,8 @@ namespace SysIgreja.Controllers
                 Nome = UtilServices.CapitalizarNome(x.Participante.Nome),
                 Medicacao = (x.Participante.Medicacao ?? "-") + "/" + (x.Participante.Alergia ?? "-"),
                 Titulo = x.Quarto.Titulo,
+                Equipante = x.Quarto.Equipante != null ? UtilServices.CapitalizarNome(x.Quarto.Equipante.Nome) : "",
+                Circulo = x.Participante.Circulos?.LastOrDefault()?.Circulo?.Cor.GetDescription() ?? "",
                 Quantidade = quartosBusiness.GetParticipantesByQuartos(x.QuartoId, TipoPessoaEnum.Participante).Count(),
 
             });
@@ -344,7 +346,7 @@ namespace SysIgreja.Controllers
                 .GetParticipantesByEvento(model.EventoId);
                 var data = mapper.Map<IEnumerable<ParticipanteExcelViewModel>>(result);
 
-                Session[g.ToString()] = datatableService.GenerateExcel(data.ToList());
+                Session[g.ToString()] = datatableService.GenerateExcel(data.ToList(), model.Campos);
 
                 return Content(g.ToString());
             }
@@ -370,21 +372,40 @@ namespace SysIgreja.Controllers
                  result = result.Where(x => !x.ParticipantesEtiquetas.Any(y => y.EtiquetaId.ToString() == etiqueta)));
                 }
 
-                if (model.Status != null)
+                if (model.Status.HasValue)
                 {
-                    result = result.Where(x => (x.Status == model.Status));
+                    if ((int)model.Status.Value == 12)
+                    {
+                        result = result.Where(x => (x.Checkin));
+                    }
+                    else if (model.Status == StatusEnum.Confirmado)
+                    {
+                        result = result.Where(x => (x.Status == StatusEnum.Confirmado && !x.Checkin));
+                    }
+                    else
+                    {
+                        result = result.Where(x => (x.Status == model.Status));
+
+                    }
                     filteredResultsCount = result.Count();
                 }
 
-                if (model.PadrinhoId > 0)
+                if (model.PadrinhoId > 0 && model.PadrinhoId != 999)
                 {
                     result = result.Where(x => (x.PadrinhoId == model.PadrinhoId));
                     filteredResultsCount = result.Count();
                 }
+                else if (model.PadrinhoId == 0)
+                {
+                    result = result.Where(x => (!x.PadrinhoId.HasValue));
+                    filteredResultsCount = result.Count();
+                }
+
+
 
                 if (model.search.value != null)
                 {
-                    result = result.Where(x => (x.Nome.Contains(model.search.value) || x.Padrinho.Nome.Contains(model.search.value)));
+                    result = result.Where(x => (x.Nome.Contains(model.search.value)));
                     filteredResultsCount = result.Count();
                 }
 
@@ -506,7 +527,7 @@ namespace SysIgreja.Controllers
                     x.NomeConvite,
                     x.FoneConvite,
                     PendenciaContato = x.PendenciaContato,
-                    Padrinho = x.Padrinho?.Nome
+                    Padrinho = x.Padrinho?.EquipanteEvento.Equipante.Nome
                 }); ;
 
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
@@ -516,6 +537,23 @@ namespace SysIgreja.Controllers
         public ActionResult CancelarInscricao(int Id)
         {
             participantesBusiness.CancelarInscricao(Id);
+
+            return new HttpStatusCodeResult(200);
+        }
+
+        [HttpPost]
+        public ActionResult AtivarInscricao(int Id)
+        {
+            participantesBusiness.AtivarInscricao(Id);
+
+            return new HttpStatusCodeResult(200);
+        }
+
+
+        [HttpPost]
+        public ActionResult DeletarInscricao(int Id)
+        {
+            participantesBusiness.DeletarInscricao(Id);
 
             return new HttpStatusCodeResult(200);
         }
@@ -556,7 +594,7 @@ namespace SysIgreja.Controllers
         [HttpGet]
         public ActionResult GetPadrinhos(int eventoId)
         {
-            return Json(new { Padrinhos = participantesBusiness.GetParticipantesByEvento(eventoId).Select(x => new { Id = x.PadrinhoId, Nome = x.Padrinho.Nome }).Distinct().ToList() }, JsonRequestBehavior.AllowGet);
+            return Json(new { Padrinhos = participantesBusiness.GetParticipantesByEvento(eventoId).Select(x => new { Id = x.PadrinhoId, Nome = x.PadrinhoId.HasValue ? x.Padrinho.EquipanteEvento.Equipante.Nome : "Sem Padrinho" }).Distinct().ToList() }, JsonRequestBehavior.AllowGet);
 
         }
 

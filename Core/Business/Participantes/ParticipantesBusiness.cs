@@ -62,7 +62,12 @@ namespace Core.Business.Participantes
 
         public Data.Entities.Participante GetParticipanteById(int id)
         {
-            return participanteRepository.GetAll(x => x.Id == id).Include(x => x.Evento).SingleOrDefault();
+            return participanteRepository.GetAll(x => x.Id == id)
+                .Include(x => x.Evento)
+                .Include(x => x.Padrinho)
+                .Include(x => x.Padrinho.EquipanteEvento)
+                .Include(x => x.Padrinho.EquipanteEvento.Equipante)
+                .FirstOrDefault();
         }
 
         public Participante GetParticipanteByReference(string reference)
@@ -300,9 +305,13 @@ namespace Core.Business.Participantes
 
         public IQueryable<Participante> GetParticipantesByEvento(int eventoId)
         {
-            return participanteRepository.GetAll(x => x.EventoId == eventoId).Include(x => x.Evento)
+            return participanteRepository.GetAll(x => x.EventoId == eventoId)
+                .Include(x => x.Evento)
                 .Include(x => x.ParticipantesEtiquetas).Include(x => x.ParticipantesEtiquetas.Select(y => y.Etiqueta))
-                .Include(x => x.Padrinho).Include(x => x.Arquivos).Include(x => x.Circulos).Include(x => x.Circulos.Select(y => y.Circulo));
+                .Include(x => x.Padrinho).Include(x => x.Padrinho.EquipanteEvento).Include(x => x.Padrinho.EquipanteEvento.Equipante)
+                .Include(x => x.Arquivos)
+                .Include(x => x.Circulos).Include(x => x.Circulos.Select(y => y.Circulo))
+                .Include(x => x.Caronas).Include(x => x.Caronas.Select(y => y.Carona)).Include(x => x.Caronas.Select(y => y.Carona.Motorista));
         }
 
         public void TogglePendenciaContato(int id)
@@ -440,6 +449,30 @@ namespace Core.Business.Participantes
 
             var equipante = equipantesBusiness.GetEquipantes().FirstOrDefault(x => x.Email == participante.Email);
             arquivosBusiness.SetEquipante(participante.Id, equipante.Id);
+        }
+
+        public void AtivarInscricao(int id)
+        {
+            Participante participante = participanteRepository.GetById(id);
+            if (participante.Status == StatusEnum.Cancelado || participante.Status == StatusEnum.Espera)
+            {
+                participante.Status = StatusEnum.Inscrito;
+
+                participanteRepository.Update(participante);
+                participanteRepository.Save();
+            }
+        }
+
+        public void DeletarInscricao(int id)
+        {
+           Participante participante = participanteRepository.GetById(id);
+            if (participante.Status == StatusEnum.Cancelado)
+            {
+                participante.Status = StatusEnum.Deletado;
+
+                participanteRepository.Update(participante);
+                participanteRepository.Save();
+            }
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿var realista = {}
+var selected = false
 eventoId = 0
 let table
-function CarregarTabelaParticipante(callbackFunction){
+function CarregarTabelaParticipante(callbackFunction) {
     if ($("#participante-eventoid").val() != eventoId) {
         $.ajax({
             url: '/Participante/GetPadrinhos',
@@ -11,7 +12,7 @@ function CarregarTabelaParticipante(callbackFunction){
             success: (result) => {
                 eventoId = $("#participante-eventoid").val()
                 $("#participante-padrinhoid").html(`
-<option value=0>Selecione</option>
+<option value=999>Selecione</option>
 ${result.Padrinhos.map(p => `<option value=${p.Id}>${p.Nome}</option>`)}
 `)
             }
@@ -132,7 +133,10 @@ ${GetButton('MakeEquipante', data, 'green', 'fa-broom', 'Equipante')}
 
                             ${GetButton('CancelarInscricao', JSON.stringify(row), 'red', 'fa-times', 'Cancelar Inscrição')}
                     </form>`
-                        : ''
+                        : `${isAdm ? ` ${GetLabel('AtivarInscricao', JSON.stringify(row), 'green', 'Ativar Inscrição')}
+${row.Status == Cancelado ? GetLabel('DeletarInscricao', JSON.stringify(row), 'red', 'Deletar Inscrição') : ''}` : ''}`
+
+
                 }
             }
         ],
@@ -146,7 +150,7 @@ ${GetButton('MakeEquipante', data, 'green', 'fa-broom', 'Equipante')}
         },
         ajax: {
             url: '/Participante/GetParticipantesDatatable',
-            data: { EventoId: $("#participante-eventoid").val(), PadrinhoId: $("#participante-padrinhoid").val(), Status: $("#participante-status").val() != 999 ? $("#participante-status").val() : null, Etiquetas: $("#participante-marcadores").val(), NaoEtiquetas: $("#participante-nao-marcadores").val() },
+            data: { EventoId: $("#participante-eventoid").val(), PadrinhoId: $("#participante-padrinhoid").val() || 999, Status: $("#participante-status").val() != 999 ? $("#participante-status").val() : null, Etiquetas: $("#participante-marcadores").val(), NaoEtiquetas: $("#participante-nao-marcadores").val() },
             datatype: "json",
             type: "POST"
         }
@@ -154,15 +158,68 @@ ${GetButton('MakeEquipante', data, 'green', 'fa-broom', 'Equipante')}
 
     tableParticipanteConfig.buttons.forEach(function (o) {
         if (o.extend === "excel") {
+
             o.action = function (e, dt, button, config) {
-                $.post(
-                    tableParticipanteConfig.ajax.url + "?extract=excel",
-                    tableParticipanteConfig.ajax.data,
-                    function (o) {
-                        window.location = `/Participante/DownloadTempFile?fileName=Participantes ${$("#participante-eventoid option:selected").text()}.xlsx&g=` + o;
+                var div = document.createElement("div");
+                selected = false
+                first = false
+                div.innerHTML = `<div class="checkbox i-checks-green"  style="margin-left:20px;text-align:left">
+<label style="display:block"> <input id="select-all" type="checkbox" onChange="selectAll()" value="all"> Selecionar Todos <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Nome"> Nome <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Apelido"> Apelido <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="DataNascimento"> Data de Nascimento <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Idade"> Idade <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Sexo"> Sexo <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Email"> Email <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Fone"> Fone <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="CEP"> CEP <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Logradouro"> Logradouro <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Bairro"> Bairro <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Cidade"> Cidade <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Estado"> Estado <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Numero"> Número <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Complemento"> Complemento <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Referencia"> Referência <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="NomeContato"> Nome do Contato <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="FoneContato"> Fone do Contato <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="NomeConvite"> Nome de quem Convidou <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="FoneConvite"> Fone de quem Convidou <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="RestricaoAlimentar"> Restrição Alimentar <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Situacao"> Situação <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Circulo"> Círculo <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="Motorista"> Motorista <i></i></label>
+<label style="display:block"> <input id="campos-excel" class="campos-excel" type="checkbox" value="HasVacina"> Vacina <i></i></label>
+    </div>`;
+                CustomSwal({
+                    title: "Excel de Participantes",
+                    icon: "info",
+                    text: "Escolha os campos que deseja exportar",
+                    content: div,
+                    className: "button-center",
+                    dangerMode: true,
+                    buttons: {
+                        export: {
+                            text: "Exportar",
+                            value: "export",
+                            className: "btn-primary w-150 btn-all"
+                        }
                     }
-                );
-            };
+                }).then(res => {
+                    if (res) {
+                        const data = tableParticipanteConfig.ajax.data
+                        data.campos = $('#campos-excel:checked').map(function () {
+                            return $(this).val();
+                        }).get().join();
+                        $.post(
+                            tableParticipanteConfig.ajax.url + "?extract=excel",
+                            data,
+                            function (o) {
+                                window.location = `/Participante/DownloadTempFile?fileName=Participantes ${$("#participante-eventoid option:selected").text()}.xlsx&g=` + o;
+                            }
+                        );
+                    };
+                })
+            }
         }
     });
 
@@ -884,6 +941,49 @@ function CancelarInscricao(row) {
     });
 }
 
+
+function DeletarInscricao(row) {
+    ConfirmMessage(`Deseja deletar permanentemente a inscrição de ${row.Nome}?`).then((result) => {
+        if (result) {
+            $.ajax({
+                url: "/Participante/DeletarInscricao/",
+                datatype: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(
+                    {
+                        Id: row.Id
+                    }),
+                success: function () {
+                    SuccessMesageOperation();
+                    CarregarTabelaParticipante();
+                }
+            });
+        }
+    });
+}
+
+function AtivarInscricao(row) {
+    ConfirmMessage(`Deseja ativar a inscrição de ${row.Nome}?`).then((result) => {
+        if (result) {
+            $.ajax({
+                url: "/Participante/AtivarInscricao/",
+                datatype: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(
+                    {
+                        Id: row.Id
+                    }),
+                success: function () {
+                    SuccessMesageOperation();
+                    CarregarTabelaParticipante();
+                }
+            });
+        }
+    });
+}
+
 function PostPagamento() {
     if (ValidateForm(`#form-pagamento`)) {
         $.ajax({
@@ -1260,3 +1360,18 @@ if ($('#map').length > 0) {
         }
     }
 }
+
+function selectAll() {
+    selected = !selected
+    $('.campos-excel').attr('checked', selected)
+}
+
+$('body').on('DOMNodeInserted', '.swal-overlay', function () {
+    tippy('.btn-export', {
+        content: `Exporta os campos selecionados`,
+        interactive: true,
+        allowHTML: true,
+        zIndex: 10005,
+        trigger: 'mouseenter'
+    });
+});

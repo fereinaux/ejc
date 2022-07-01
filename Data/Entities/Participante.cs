@@ -10,9 +10,10 @@ namespace Data.Entities
         public Evento Evento { get; set; }
 
         public int? PadrinhoId { get; set; }
-        public virtual Equipante Padrinho { get; set; }
+        public virtual Padrinho Padrinho { get; set; }
         public virtual ICollection<Arquivo> Arquivos { get; set; }
         public virtual ICollection<CirculoParticipante> Circulos { get; set; }
+        public virtual ICollection<CaronaParticipante> Caronas { get; set; }
         public virtual ICollection<ParticipantesEtiquetas> ParticipantesEtiquetas { get; set; }
 
         public string NomePai { get; set; }

@@ -55,6 +55,8 @@
     <Compile Include="Business\Etiqueta\IEtiquetasBusiness.cs" />
     <Compile Include="Business\Mensagem\MensagemBusiness.cs" />
     <Compile Include="Business\Mensagem\IMensagemBusiness.cs" />
+    <Compile Include="Business\Padrinhos\IPadrinhosBusiness.cs" />
+    <Compile Include="Business\Padrinhos\PadrinhosBusiness.cs.cs" />
     <Compile Include="Business\Quartos\QuartosBusiness.cs" />
     <Compile Include="Business\Quartos\IQuartosBusiness.cs" />
     <Compile Include="Business\Equipes\EquipeBusiness.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Models\Mensagem\PostMessageModel.cs" />
     <Compile Include="Models\Participantes\PostInfoModel.cs" />
     <Compile Include="Models\Participantes\ParticipanteListModel.cs" />
+    <Compile Include="Models\Padrinhos\PostQuartoModel.cs" />
     <Compile Include="Models\Quartos\PostQuartoModel.cs" />
     <Compile Include="Models\Equipe\PostEquipeMembroModel.cs" />
     <Compile Include="Models\Equipantes\PostEquipanteModel.cs" />

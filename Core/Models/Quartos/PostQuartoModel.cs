@@ -9,6 +9,8 @@ namespace Core.Models.Quartos
         public string Titulo { get; set; }
         public SexoEnum Sexo { get; set; }
         public int Capacidade { get; set; }
+        public int? EquipanteId { get; set; }
+        public string Equipante { get; set; }
         public TipoPessoaEnum? TipoPessoa { get; set; }
 
     }

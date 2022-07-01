@@ -12,6 +12,8 @@ namespace Data.Entities
         public int Id { get; set; }
         public int EventoId { get; set; }
         public Evento Evento { get; set; }
+        public int? EquipanteId { get; set; }
+        public Equipante Equipante { get; set; }
         public string Titulo { get; set; }
         public SexoEnum Sexo { get; set; }
         public TipoPessoaEnum TipoPessoa { get; set; }

@@ -138,12 +138,12 @@ namespace Core.Business.Quartos
 
         public Quarto GetQuartoById(int id)
         {
-            return quartoRepository.GetById(id);
+            return quartoRepository.GetAll(x => x.Id == id).Include(x => x.Equipante).FirstOrDefault();
         }
 
         public IQueryable<Quarto> GetQuartos()
         {
-            return quartoRepository.GetAll();
+            return quartoRepository.GetAll().Include(x => x.Equipante);
         }
 
         public IQueryable<QuartoParticipante> GetQuartosComParticipantes(int eventoId, TipoPessoaEnum? tipo)
@@ -152,6 +152,7 @@ namespace Core.Business.Quartos
                 .Include(x => x.Participante)
                 .Include(x => x.Equipante)
                 .Include(x => x.Quarto)
+                .Include(x => x.Quarto.Equipante)
                 .OrderBy(x => x.QuartoId);
         }
 
@@ -178,7 +179,10 @@ namespace Core.Business.Quartos
         {
             return quartoParticipanteRepository.GetAll(x => x.QuartoId == id && x.Quarto.TipoPessoa == (tipo ?? TipoPessoaEnum.Participante))
                 .Include(x => x.Participante)
+                .Include(x => x.Participante.Circulos)
+                .Include(x => x.Participante.Circulos.Select(y => y.Circulo))
                 .Include(x => x.Quarto)
+                .Include(x => x.Quarto.Equipante)
                 .Include(x => x.Equipante);
         }
 
@@ -202,6 +206,9 @@ namespace Core.Business.Quartos
 
         public List<Equipante> GetEquipantesSemQuarto(int eventoId)
         {
+
+            var equipantesResponsaveis = quartoRepository.GetAll(x => x.EventoId == eventoId && x.EquipanteId.HasValue).Select(x => x.EquipanteId).Distinct().ToList();
+
             var listParticipantesId = quartoParticipanteRepository
                    .GetAll(x => x.Quarto.EventoId == eventoId && x.Quarto.TipoPessoa == TipoPessoaEnum.Equipante)
                    .Include(x => x.Equipante)
@@ -215,7 +222,7 @@ namespace Core.Business.Quartos
             var listParticipantes = equipanteEventoRepository
               .GetAll()
               .Include(x => x.Equipante)
-              .Where(x => x.EventoId == eventoId && !listParticipantesId.Contains(x.EquipanteId))
+              .Where(x => x.EventoId == eventoId && !listParticipantesId.Contains(x.EquipanteId) && !equipantesResponsaveis.Contains(x.EquipanteId))
               .OrderBy(x => x.Equipante.Nome)
               .Select(x => x.Equipante)
               .ToList();
@@ -236,7 +243,7 @@ namespace Core.Business.Quartos
                 quarto.Sexo = model.Sexo;
                 quarto.Capacidade = model.Capacidade;
                 quarto.Titulo = model.Titulo;
-
+                quarto.EquipanteId = model.EquipanteId;
 
                 quartoRepository.Update(quarto);
             }
@@ -248,6 +255,7 @@ namespace Core.Business.Quartos
                     EventoId = model.EventoId,
                     Sexo = model.Sexo,
                     Capacidade = model.Capacidade,
+                    EquipanteId = model.EquipanteId,
                     TipoPessoa = model.TipoPessoa ?? TipoPessoaEnum.Participante
                 };
 

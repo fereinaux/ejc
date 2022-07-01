@@ -157,7 +157,7 @@ namespace Utils.Extensions
             var field = fields
                 .SelectMany(f => f.GetCustomAttributes(
                     typeof(DescriptionAttribute), false), (
-                    f, a) => new { Field = f, Att = a }).SingleOrDefault(a => ((DescriptionAttribute)a.Att)
+                    f, a) => new { Field = f, Att = a }).FirstOrDefault(a => ((DescriptionAttribute)a.Att)
                                                                               .Description.ToLower() == description.ToLower());
             return field == null ? default(T) : (T)field.Field.GetRawConstantValue();
         }

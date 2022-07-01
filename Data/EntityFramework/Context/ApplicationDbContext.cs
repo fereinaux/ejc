@@ -101,6 +101,7 @@ namespace Data.Context
         public DbSet<Arquivo> Arquivos { get; set; }
         public DbSet<Etiqueta> Etiquetas { get; set; }
         public DbSet<Carona> Caronas { get; set; }
+        public DbSet<Padrinho> Padrinhos { get; set; }
         public DbSet<CaronaParticipante> CaronaParticipantes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

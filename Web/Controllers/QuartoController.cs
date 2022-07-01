@@ -7,6 +7,7 @@ using Core.Business.Eventos;
 using Core.Business.Quartos;
 using Core.Models.Quartos;
 using SysIgreja.ViewModels;
+using System.Linq.Dynamic;
 using System.Linq;
 using System.Web.Mvc;
 using Utils.Constants;
@@ -47,21 +48,69 @@ namespace SysIgreja.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult GetQuartos(int EventoId, TipoPessoaEnum? tipo)
+        [HttpGet]
+        public ActionResult GetEquipantes(int EventoId)
         {
-            var result = quartosBusiness
+            var responsaveisList = quartosBusiness.GetQuartos().Where(x => x.EventoId == EventoId && x.EquipanteId.HasValue).Select(x => x.EquipanteId).ToList();
+            var equipantesList = equipesBusiness.GetEquipantesEvento(EventoId).Where(x => !responsaveisList.Contains(x.EquipanteId)).Select(x => new { x.EquipanteId, Nome = x.Equipante.Nome }).OrderBy(x => x.Nome).ToList();
+
+            return Json(new { Equipantes = equipantesList }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult GetQuartos(int EventoId, TipoPessoaEnum? tipo, string columnName, string columndir, string search)
+        {
+            var query = quartosBusiness
                 .GetQuartos()
-                .Where(x => x.EventoId == EventoId && x.TipoPessoa == (tipo ?? TipoPessoaEnum.Participante))
-                .ToList()
-                .Select(x => new QuartoViewModel
+                .Where(x => x.EventoId == EventoId && x.TipoPessoa == (tipo ?? TipoPessoaEnum.Participante));
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(x => x.Titulo.ToLower().Contains(search.ToLower()) || (x.Equipante != null && x.Equipante.Nome.ToLower().Contains(search.ToLower())));
+            }
+
+            if (!string.IsNullOrEmpty(columnName))
+            {
+                if (columnName == "Sexo")
                 {
-                    Id = x.Id,
-                    Capacidade = $"{quartosBusiness.GetParticipantesByQuartos(x.Id, tipo).Count().ToString()}/{x.Capacidade.ToString()}",
-                    Quantidade = quartosBusiness.GetParticipantesByQuartos(x.Id, tipo).Count(),
-                    Titulo = x.Titulo,
-                    Sexo = x.Sexo.GetDescription()
-                }); ;
+                    columndir = columndir == "asc" ? "desc" : "asc";
+                }
+                if (columnName == "Capacidade")
+                {
+                    if (columndir == "asc")
+                        query = query.OrderBy(x => quartosBusiness.GetParticipantesByQuartos(x.Id, tipo).Count());
+                    else
+                        query = query.OrderByDescending(x => quartosBusiness.GetParticipantesByQuartos(x.Id, tipo).Count());
+                }
+                if (columnName == "Equipante")
+                {
+                    if (columndir == "asc")
+                        query = query.OrderBy(x => x.Equipante.Nome);
+                    else
+                        query = query.OrderByDescending(x => x.Equipante.Nome);
+                }
+                else
+                {
+                    query = query.OrderBy(columnName + " " + columndir);
+
+                }
+            }
+
+
+            var queryResult = query
+                 .ToList();
+
+            var result = queryResult
+            .Select(x => new QuartoViewModel
+            {
+                Id = x.Id,
+                Capacidade = $"{quartosBusiness.GetParticipantesByQuartos(x.Id, tipo).Count().ToString()}/{x.Capacidade.ToString()}",
+                Quantidade = quartosBusiness.GetParticipantesByQuartos(x.Id, tipo).Count(),
+                EquipanteId = x.EquipanteId,
+                Equipante = UtilServices.CapitalizarNome(x.Equipante?.Nome),
+                Titulo = x.Titulo,
+                Sexo = x.Sexo.GetDescription()
+            }); ;
 
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
