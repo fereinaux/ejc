@@ -25,7 +25,5 @@ namespace Data.Entities
         public Participante Participante { get; set; }
         public int? CentroCustoId { get; set; }
         public CentroCusto CentroCusto { get; set; }
-        public int? ContaBancariaId { get; set; }
-        public ContaBancaria ContaBancaria { get; set; }
     }
 }

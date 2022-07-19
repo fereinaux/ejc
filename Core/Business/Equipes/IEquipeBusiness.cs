@@ -8,9 +8,9 @@ namespace Core.Business.Equipes
 {
     public interface IEquipesBusiness
     {
-        IEnumerable<Utils.Extensions.EnumExtensions.EnumModel> GetEquipes(int? eventoId = null);
-        IQueryable<EquipanteEvento> GetMembrosEquipe(int eventoId, EquipesEnum equipeId);
-        IQueryable<EquipanteEvento> GetMembrosEquipeDatatable(int eventoId, EquipesEnum equipeId);
+        IQueryable<Equipe> GetEquipes(int? eventoId = null);
+        IQueryable<EquipanteEvento> GetMembrosEquipe(int eventoId, int equipeId);
+        IQueryable<EquipanteEvento> GetMembrosEquipeDatatable(int eventoId, int equipeId);
 
         EquipanteEvento GetEquipanteEventoByUser(int eventoId, string userId);
         List<Data.Entities.Equipante> GetEquipantesEventoSemEquipe(int eventoId);

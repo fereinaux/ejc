@@ -16,7 +16,8 @@ namespace Data.Entities
         public int EquipanteId { get; set; }
         public Equipante Equipante { get; set; }
         public bool Checkin { get; set; }
-        public EquipesEnum Equipe { get; set; }
+        public int EquipeId { get; set; }
+        public Equipe Equipe { get; set; }
         public TiposEquipeEnum Tipo { get; set; }
         public virtual ICollection<PresencaReuniao> Presencas { get; set; }
     }

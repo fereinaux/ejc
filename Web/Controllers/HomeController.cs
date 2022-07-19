@@ -106,8 +106,8 @@ namespace SysIgreja.Controllers
                 Equipes = equipesBusiness.GetEquipes(EventoId).Select(x => new ListaEquipesViewModel
                 {
                     Id = x.Id,
-                    Equipe = x.Description,
-                    QuantidadeMembros = equipesBusiness.GetMembrosEquipe(EventoId, (EquipesEnum)x.Id).Count()
+                    Equipe = x.Nome,
+                    QuantidadeMembros = equipesBusiness.GetMembrosEquipe(EventoId, x.Id).Count()
                 }).ToList(),
                 Reunioes = reunioesBusiness.GetReunioes(EventoId).ToList().Select(x => new ReuniaoViewModel
                 {
@@ -137,7 +137,7 @@ namespace SysIgreja.Controllers
                 .ToList()
                 .Select(x => new
                 {
-                    Equipe = x.Equipe.GetDescription(),
+                    Equipe = x.Equipe.Nome,
                     Nome = x.Equipante.Nome,
                     Tipo = x.Tipo.GetDescription(),
                     Fone = x.Equipante.Fone
@@ -155,9 +155,9 @@ namespace SysIgreja.Controllers
             int eventoId = (eventosBusiness.GetEventoAtivo() ?? eventosBusiness.GetEventos().OrderByDescending(x => x.DataEvento).First()).Id;
             var user = GetApplicationUser();
             var equipanteEvento = equipesBusiness.GetEquipanteEventoByUser(eventoId, user.Id);
-            var membrosEquipe = equipesBusiness.GetMembrosEquipe(eventoId, equipanteEvento.Equipe);
+            var membrosEquipe = equipesBusiness.GetMembrosEquipe(eventoId, equipanteEvento.EquipeId);
             ViewBag.Equipante = equipanteEvento.Equipante;
-            ViewBag.Equipe = equipanteEvento.Equipe.GetDescription();
+            ViewBag.Equipe = equipanteEvento.Equipe.Nome;
             ViewBag.EquipeEnum = equipanteEvento.Equipe;
             ViewBag.QtdMembros = membrosEquipe.Count();
             ViewBag.Reunioes = reunioesBusiness.GetReunioes(eventoId)
@@ -189,7 +189,7 @@ namespace SysIgreja.Controllers
             var eventoId = (eventosBusiness.GetEventoAtivo() ?? eventosBusiness.GetEventos().OrderByDescending(x => x.DataEvento).First()).Id;
 
             var result = equipesBusiness
-                .GetMembrosEquipe(eventoId, equipesBusiness.GetEquipanteEventoByUser(eventoId, user.Id).Equipe).ToList().Select(x => new PresencaViewModel
+                .GetMembrosEquipe(eventoId, equipesBusiness.GetEquipanteEventoByUser(eventoId, user.Id).EquipeId).ToList().Select(x => new PresencaViewModel
                 {
                     Id = x.Id,
                     Nome = x.Equipante.Nome,

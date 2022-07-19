@@ -15,7 +15,8 @@ namespace Data.Entities
         public int Numeracao { get; set; }
         public int? Capacidade { get; set; }
         public DateTime DataEvento { get; set; }
-        public virtual TiposEventoEnum TipoEvento { get; set; }
+        public int? ConfiguracaoId { get; set; }
+        public Configuracao Configuracao { get; set; }
         public int Valor { get; set; }
         public int ValorTaxa { get; set; }
 

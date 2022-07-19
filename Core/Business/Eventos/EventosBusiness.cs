@@ -47,7 +47,8 @@ namespace Core.Business.Eventos
 
                 evento.DataEvento = model.DataEvento.AddHours(5);
                 evento.Capacidade = model.Capacidade;
-                evento.TipoEvento = (TiposEventoEnum)model.TipoEvento;
+                evento.ConfiguracaoId = model.ConfiguracaoId;
+                evento.Descricao = model.Descricao;
                 evento.Numeracao = model.Numeracao;
                 evento.Valor = model.Valor;
                 evento.ValorTaxa = model.ValorTaxa;
@@ -59,11 +60,11 @@ namespace Core.Business.Eventos
                 evento = new Evento
                 {
                     DataEvento = model.DataEvento.AddHours(5),
-                    Numeracao = model.Numeracao,
+                    Descricao = model.Descricao,
                     Capacidade = model.Capacidade,
                     Valor = model.Valor,
                     ValorTaxa = model.ValorTaxa,
-                    TipoEvento = (TiposEventoEnum)model.TipoEvento,
+                   ConfiguracaoId = model.ConfiguracaoId,
                     Status = GetEventoAtivo() != null ?
                     StatusEnum.Encerrado :
                     StatusEnum.Aberto

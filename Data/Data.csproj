@@ -43,8 +43,10 @@
   <ItemGroup>
     <Compile Include="Entities\Carona.cs" />
     <Compile Include="Entities\CaronaParticipante.cs" />
+    <Compile Include="Entities\ConfiguracaoEquipes.cs" />
     <Compile Include="Entities\ConfiguracaoCampos.cs" />
     <Compile Include="Entities\Configuracao.cs" />
+    <Compile Include="Entities\Equipe.cs" />
     <Compile Include="Entities\Mensagem.cs" />
     <Compile Include="Entities\ParticipantesEtiquetas.cs" />
     <Compile Include="Entities\Etiqueta.cs" />
@@ -57,7 +59,6 @@
     <Compile Include="Entities\QuartoParticipante.cs" />
     <Compile Include="Entities\CirculoParticipantes.cs" />
     <Compile Include="Entities\Lancamento.cs" />
-    <Compile Include="Entities\ContaBancaria.cs" />
     <Compile Include="Entities\CentroCusto.cs" />
     <Compile Include="Entities\Arquivo.cs" />
     <Compile Include="Entities\PresencaReuniao.cs" />

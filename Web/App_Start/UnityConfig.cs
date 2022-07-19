@@ -4,7 +4,6 @@ using Core.Business.Caronas;
 using Core.Business.CentroCusto;
 using Core.Business.Circulos;
 using Core.Business.Configuracao;
-using Core.Business.ContaBancaria;
 using Core.Business.Equipantes;
 using Core.Business.Equipes;
 using Core.Business.Etiquetas;
@@ -46,7 +45,8 @@ namespace Web
             container.RegisterType<IGenericRepository<Equipante>, GenericRepository<Equipante>>();
             container.RegisterType<IGenericRepository<EquipanteEvento>, GenericRepository<EquipanteEvento>>();
             container.RegisterType<IGenericRepository<PresencaReuniao>, GenericRepository<PresencaReuniao>>();
-            container.RegisterType<IGenericRepository<ContaBancaria>, GenericRepository<ContaBancaria>>();
+            container.RegisterType<IGenericRepository<Equipe>, GenericRepository<Equipe>>();
+            container.RegisterType<IGenericRepository<ConfiguracaoEquipes>, GenericRepository<ConfiguracaoEquipes>>();
             container.RegisterType<IGenericRepository<CentroCusto>, GenericRepository<CentroCusto>>();
             container.RegisterType<IGenericRepository<Lancamento>, GenericRepository<Lancamento>>();
             container.RegisterType<IGenericRepository<Arquivo>, GenericRepository<Arquivo>>();
@@ -65,7 +65,6 @@ namespace Web
             container.RegisterType<IEmailSender, EmailSender>();
             container.RegisterType<IDatatableService, DatatableService>();
 
-            container.RegisterType<IContaBancariaBusiness, ContaBancariaBusiness>();
             container.RegisterType<IPadrinhosBusiness, PadrinhosBusiness>();
             container.RegisterType<IArquivosBusiness, ArquivosBusiness>();
             container.RegisterType<ILancamentoBusiness, LancamentoBusiness>();

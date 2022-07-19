@@ -10,7 +10,7 @@ namespace Core.Models.Equipantes
     public class FilterModel
     {
         public int? EventoId { get; set; }
-        public EquipesEnum? Equipe { get; set; }
+        public int? Equipe { get; set; }
         public string Status { get; set; }
         public List<string> Etiquetas { get; set; }
         public List<string> NaoEtiquetas { get; set; }

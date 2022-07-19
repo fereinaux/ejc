@@ -31,37 +31,7 @@ namespace Data.Migrations
 
         protected override void Seed(Data.Context.ApplicationDbContext context)
         {
-            if (!context.Configuracoes.Any())
-            {
-
-                context.Configuracoes.AddOrUpdate(x => x.Id,
-                  new Data.Entities.Configuracao
-                  {
-                      Id = 1,
-                      Titulo = "SysIgreja",
-                      CorBotao = "#5f6567",
-                      CorLoginBox = "#1b1918",
-                      CorHoverBotao = "#424648",
-                      CorScroll = "#2d2f2f",
-                      CorHoverScroll = "#0a0a0a",
-                      TipoCirculo = TipoCirculoEnum.Aleatorio
-                  });
-
-                context.ConfiguracaoCampos.AddOrUpdate(x => x.Campo,
-                    new Data.Entities.ConfiguracaoCampos { Campo = CamposEnum.Nome },
-                    new Data.Entities.ConfiguracaoCampos { Campo = CamposEnum.Apelido },
-                    new Data.Entities.ConfiguracaoCampos { Campo = CamposEnum.DataNascimento },
-                    new Data.Entities.ConfiguracaoCampos { Campo = CamposEnum.Email },
-                    new Data.Entities.ConfiguracaoCampos { Campo = CamposEnum.Fone }
-                );
-            }
-
-            context.MeioPagamentos.AddOrUpdate(x => x.Descricao,
-              new Data.Entities.MeioPagamento { Descricao = MeioPagamentoPadraoEnum.Dinheiro.GetDescription(), Taxa = 0, IsEditavel = false, Status = StatusEnum.Ativo },
-              new Data.Entities.MeioPagamento { Descricao = MeioPagamentoPadraoEnum.Transferencia.GetDescription(), Taxa = 0, IsEditavel = false, Status = StatusEnum.Ativo },
-              new Data.Entities.MeioPagamento { Descricao = MeioPagamentoPadraoEnum.Isencao.GetDescription(), Taxa = 0, IsEditavel = false, Status = StatusEnum.Ativo }
-            );
-
+    
             context.CentroCustos.AddOrUpdate(x => x.Id,
               new Data.Entities.CentroCusto { Id = (int)CentroCustoPadraoEnum.Inscricoes, Descricao = CentroCustoPadraoEnum.Inscricoes.GetDescription(), Tipo = TiposCentroCustoEnum.Receita },
               new Data.Entities.CentroCusto { Id = (int)CentroCustoPadraoEnum.TaxaEquipante, Descricao = CentroCustoPadraoEnum.TaxaEquipante.GetDescription(), Tipo = TiposCentroCustoEnum.Receita }

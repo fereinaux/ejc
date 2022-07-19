@@ -56,13 +56,13 @@ namespace Core.Business.Arquivos
             return arquivoRepository.GetAll(x => x.EquipanteId == equipanteId && x.EventoId == eventoId);
         }
 
-        public IQueryable<Arquivo> GetArquivosByEquipe(EquipesEnum Equipe, bool IsComunEquipe)
+        public IQueryable<Arquivo> GetArquivosByEquipe(int Equipe, bool IsComunEquipe)
         {
             var query = arquivoRepository.GetAll();
             if (IsComunEquipe)
-                query = query.Where(x => x.Equipe == Equipe || x.IsComunEquipe == true);
+                query = query.Where(x => x.EquipeId == Equipe || x.IsComunEquipe == true);
             else
-                query = query.Where(x => x.Equipe == Equipe);
+                query = query.Where(x => x.EquipeId == Equipe);
             return query;
         }
 
@@ -97,7 +97,7 @@ namespace Core.Business.Arquivos
                     Nome = model.Arquivo.FileName,
                     Extensao = Path.GetExtension(model.Arquivo.FileName).Replace(".", "").ToUpper(),
                     EventoId = model.EventoId,
-                    Equipe = model.Equipe,
+                    EquipeId = model.EquipeId,
                     IsComunEquipe = model.IsComunEquipe,
                     ParticipanteId = model.ParticipanteId,
                     EquipanteId = model.EquipanteId,

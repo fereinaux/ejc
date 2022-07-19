@@ -95,7 +95,8 @@ namespace Data.Context
         public DbSet<Mensagem> Mensagens { get; set; }
         public DbSet<PresencaReuniao> PresencaReunioes { get; set; }
         public DbSet<MeioPagamento> MeioPagamentos { get; set; }
-        public DbSet<ContaBancaria> ContasBancarias { get; set; }
+        public DbSet<ConfiguracaoEquipes> ConfiguracaoEquipes { get; set; }
+        public DbSet<Equipe> Equipes { get; set; }
         public DbSet<CentroCusto> CentroCustos { get; set; }
         public DbSet<Lancamento> Lancamentos { get; set; }
         public DbSet<Arquivo> Arquivos { get; set; }

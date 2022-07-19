@@ -94,94 +94,6 @@ namespace Utils.Enums
         [Description("Feminino")]
         Feminino = 2
     }
-
-    public enum EquipesEnum
-    {
-        [Description("Ordem")]
-        Ordem = 1,
-        [Description("Minimercado")]
-        Minimercado = 2,
-        [Description("Assistentes Espirituais")]
-        AssistentesEspirituais = 3,
-        [Description("Apresentadores")]
-        Apresentadores = 4,
-        [Description("Secretaria")]
-        Secretaria = 5,
-        [Description("Boa Vontade")]
-        BoaVontade = 6,
-        [Description("Círculos")]
-        Circulo = 7,
-        [Description("Liturgia")]
-        Liturgia = 8,
-        [Description("Som/Iluminação")]
-        Som = 9,
-        [Description("Bandinha")]
-        Bandinha = 10,
-        [Description("Cozinha")]
-        Cozinha = 11,
-        [Description("Médicos")]
-        Medicos = 12,
-        [Description("Lanche")]
-        Lanche = 13,
-        [Description("Garçons")]
-        Garcons = 14,
-        [Description("Vigília")]
-        Vigilia = 15,
-        [Description("Compras")]
-        Compras = 16,
-        [Description("Infraestrutura")]
-        Infraestrutura = 17,
-        [Description("Finanças")]
-        Financas = 18,
-        [Description("Recepção aos Palestrantes")]
-        Recepcao = 19,
-        [Description("Externa")]
-        Externa = 20,
-        [Description("Coordenador Geral")]
-        Coordenador = 21,
-        [Description("Livraria")]
-        Livraria = 22,
-        [Description("Trânsito")]
-        Transito = 23,
-        [Description("Pastores")]
-        Pastores = 24,
-        [Description("Equipe Dirigente")]
-        ED = 25,
-        [Description("Lider Espiritual")]
-        LiderEspiritual = 26,
-        [Description("Infantil")]
-        Infantil = 27,
-    }
-
-    public enum TiposEventoEnum
-    {
-        [Nickname("EJC")]
-        [Description("Encontro de Jovens com Cristo")]
-        [Equipes(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27 })]
-        EJC = 1,
-
-    }
-
-    public enum BancosEnum
-    {
-        [Description("Bradesco")]
-        Bradesco = 1,
-        [Description("Santander")]
-        Santander = 2,
-        [Description("Itaú")]
-        Itau = 3,
-        [Description("Caixa")]
-        Caixa = 4,
-        [Description("Banco do Brasil")]
-        BancoBrasil = 5,
-        [Description("NuBank")]
-        Nubank = 6,
-        [Description("Banco Inter")]
-        Inter = 7,
-        [Description("HSBC")]
-        HSBC = 8
-    }
-
     public enum TiposEquipeEnum
     {
         [Description("Coordenador")]
@@ -189,7 +101,6 @@ namespace Utils.Enums
         [Description("Membro")]
         Membro = 2
     }
-
     public enum PerfisUsuarioEnum
     {
         [Description("Master")]

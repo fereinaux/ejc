@@ -8,7 +8,7 @@ namespace Core.Business.Arquivos
     {
 
         IQueryable<Data.Entities.Arquivo> GetArquivos();
-        IQueryable<Data.Entities.Arquivo> GetArquivosByEquipe(Utils.Enums.EquipesEnum Equipe, bool IsComunEquipe);
+        IQueryable<Data.Entities.Arquivo> GetArquivosByEquipe(int Equipe, bool IsComunEquipe);
         IQueryable<Data.Entities.Arquivo> GetArquivosComunEquipe();
         IQueryable<Data.Entities.Arquivo> GetArquivosByEvento(int eventoId);
         IQueryable<Data.Entities.Arquivo> GetArquivosByParticipante(int participanteId);

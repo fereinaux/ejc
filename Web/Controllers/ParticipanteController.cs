@@ -4,7 +4,6 @@ using Core.Business.Account;
 using Core.Business.Arquivos;
 using Core.Business.Circulos;
 using Core.Business.Configuracao;
-using Core.Business.ContaBancaria;
 using Core.Business.Equipes;
 using Core.Business.Etiquetas;
 using Core.Business.Eventos;
@@ -40,12 +39,11 @@ namespace SysIgreja.Controllers
         private readonly IQuartosBusiness quartosBusiness;
         private readonly ILancamentoBusiness lancamentoBusiness;
         private readonly IMeioPagamentoBusiness meioPagamentoBusiness;
-        private readonly IContaBancariaBusiness contaBancariaBusiness;
         private readonly IEventosBusiness eventosBusiness;
         private readonly IDatatableService datatableService;
         private readonly IMapper mapper;
 
-        public ParticipanteController(ILancamentoBusiness lancamentoBusiness, IEtiquetasBusiness etiquetasBusiness, IQuartosBusiness quartosBusiness, IEquipesBusiness equipesBusiness, IArquivosBusiness arquivoBusiness, ICirculosBusiness circulosBusiness, IParticipantesBusiness participantesBusiness, IContaBancariaBusiness contaBancariaBusiness, IConfiguracaoBusiness configuracaoBusiness, IEventosBusiness eventosBusiness, IAccountBusiness accountBusiness, IDatatableService datatableService, IMeioPagamentoBusiness meioPagamentoBusiness) : base(eventosBusiness, accountBusiness, configuracaoBusiness)
+        public ParticipanteController(ILancamentoBusiness lancamentoBusiness, IEtiquetasBusiness etiquetasBusiness, IQuartosBusiness quartosBusiness, IEquipesBusiness equipesBusiness, IArquivosBusiness arquivoBusiness, ICirculosBusiness circulosBusiness, IParticipantesBusiness participantesBusiness, IConfiguracaoBusiness configuracaoBusiness, IEventosBusiness eventosBusiness, IAccountBusiness accountBusiness, IDatatableService datatableService, IMeioPagamentoBusiness meioPagamentoBusiness) : base(eventosBusiness, accountBusiness, configuracaoBusiness)
         {
             this.participantesBusiness = participantesBusiness;
             this.arquivoBusiness = arquivoBusiness;
@@ -56,7 +54,6 @@ namespace SysIgreja.Controllers
             this.etiquetasBusiness = etiquetasBusiness;
             this.lancamentoBusiness = lancamentoBusiness;
             this.meioPagamentoBusiness = meioPagamentoBusiness;
-            this.contaBancariaBusiness = contaBancariaBusiness;
             this.datatableService = datatableService;
             mapper = new MapperRealidade().mapper;
         }
@@ -72,13 +69,6 @@ namespace SysIgreja.Controllers
             var evento = eventosBusiness.GetEventoAtivo();
             ViewBag.ValorRealista = evento?.Valor ?? 0;
             ViewBag.ValorEquipante =  evento?.ValorTaxa ?? 0;
-            ViewBag.ContasBancarias = contaBancariaBusiness.GetContasBancarias().ToList()
-                .Select(x => new ContaBancariaViewModel
-                {
-                    Banco = x.Banco.GetDescription(),
-                    Id = x.Id
-                });
-
 
             return View();
         }
@@ -99,12 +89,6 @@ namespace SysIgreja.Controllers
             GetCampos();
             ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
             ViewBag.Valor =  eventosBusiness.GetEventoAtivo()?.Valor ?? 0;
-            ViewBag.ContasBancarias = contaBancariaBusiness.GetContasBancarias().ToList()
-                .Select(x => new ContaBancariaViewModel
-                {
-                    Banco = x.Banco.GetDescription(),
-                    Id = x.Id
-                });
 
             return View();
         }
@@ -517,7 +501,7 @@ namespace SysIgreja.Controllers
                     Id = x.Id,
                     Nome = UtilServices.CapitalizarNome(x.Nome),
                     Status = x.Status.GetDescription(),
-                    Evento = $"{x.Evento.Numeracao.ToString()}º {x.Evento.TipoEvento.GetDescription()}",
+                    Evento = $"{x.Evento.Numeracao.ToString()}º {x.Evento.Configuracao.Titulo} {x.Evento.Descricao}",
                     Sexo = x.Sexo.GetDescription(),
                     Fone = x.Fone,
                     x.NomeMae,

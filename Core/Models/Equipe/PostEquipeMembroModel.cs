@@ -6,6 +6,6 @@ namespace Core.Models.Equipe
     {
         public int EquipanteId { get; set; }
         public int EventoId { get; set; }
-        public EquipesEnum Equipe { get; set; }
+        public int EquipeId { get; set; }
     }
 }

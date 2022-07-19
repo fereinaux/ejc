@@ -1,6 +1,5 @@
 ﻿
 using Core.Business.Configuracao;
-using Core.Business.ContaBancaria;
 using Core.Business.Eventos;
 using Core.Business.Lancamento;
 using Core.Business.MeioPagamento;
@@ -24,17 +23,15 @@ namespace SysIgreja.Controllers
         private readonly IConfiguracaoBusiness configuracaoBusiness;
         private readonly ILancamentoBusiness lancamentoBusiness;
         private readonly IMeioPagamentoBusiness meioPagamentoBusiness;
-        private readonly IContaBancariaBusiness contaBancariaBusiness;
         private readonly IEventosBusiness eventosBusiness;
         private readonly INewsletterBusiness newsletterBusiness;
 
-        public InscricoesController(IParticipantesBusiness participantesBusiness, IConfiguracaoBusiness configuracaoBusiness, IContaBancariaBusiness contaBancariaBusiness, IEventosBusiness eventosBusiness, INewsletterBusiness newsletterBusiness, ILancamentoBusiness lancamentoBusiness, IMeioPagamentoBusiness meioPagamentoBusiness)
+        public InscricoesController(IParticipantesBusiness participantesBusiness, IConfiguracaoBusiness configuracaoBusiness, IEventosBusiness eventosBusiness, INewsletterBusiness newsletterBusiness, ILancamentoBusiness lancamentoBusiness, IMeioPagamentoBusiness meioPagamentoBusiness)
         {
             this.participantesBusiness = participantesBusiness;
             this.configuracaoBusiness = configuracaoBusiness;
             this.meioPagamentoBusiness = meioPagamentoBusiness;
             this.lancamentoBusiness = lancamentoBusiness;
-            this.contaBancariaBusiness = contaBancariaBusiness;
             this.eventosBusiness = eventosBusiness;
             this.newsletterBusiness = newsletterBusiness;
         }
@@ -76,7 +73,7 @@ namespace SysIgreja.Controllers
             ViewBag.Configuracao = config;
             ViewBag.MsgConclusao = config.MsgConclusao
          .Replace("${Apelido}", participante.Apelido)
-         .Replace("${Evento}", $"{participante.Evento.Numeracao.ToString()}º {participante.Evento.TipoEvento.GetDescription()}")
+         .Replace("${Evento}", $"{participante.Evento.Numeracao.ToString()}º {participante.Evento.Configuracao.Titulo} {participante.Evento.Descricao}")
          .Replace("${ValorEvento}", participante.Evento.Valor.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR")))
          .Replace("${DataEvento}", participante.Evento.DataEvento.ToString("dd/MM/yyyy"))
          .Replace("${FonePadrinho}", participante.Padrinho?.EquipanteEvento?.Equipante?.Fone ?? "")
@@ -99,8 +96,8 @@ namespace SysIgreja.Controllers
             {
                 Id = participante.Id,
                 Apelido = participante.Apelido,
-                Logo = participante.Evento.TipoEvento.GetNickname() + ".png",
-                Evento = $"{participante.Evento.Numeracao.ToString()}º {participante.Evento.TipoEvento.GetDescription()}",
+                Logo = participante.Evento.Configuracao.Titulo + ".png",
+                Evento = $"{participante.Evento.Numeracao.ToString()}º {participante.Evento.Configuracao.Titulo} {participante.Evento.Descricao}",
                 Valor = participante.Evento.Valor.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR")),
                 DataEvento = participante.Evento.DataEvento.ToString("dd/MM/yyyy")
             };

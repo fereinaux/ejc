@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Data",
-    "\\Data\\Entities",
-    "\\Data\\Migrations",
     "\\Web",
-    "\\Web\\Controllers",
-    "\\Web\\Scripts",
-    "\\Web\\Scripts\\app",
-    "\\Web\\Scripts\\app\\Inscricoes",
-    "\\Web\\Scripts\\app\\Util"
+    "\\Web\\obj",
+    "\\Web\\obj\\Release",
+    "\\Web\\obj\\Release\\Package",
+    "\\Web\\obj\\Release\\Package\\PackageTmp",
+    "\\Web\\obj\\Release\\Package\\PackageTmp\\Scripts",
+    "\\Web\\obj\\Release\\Package\\PackageTmp\\Scripts\\app",
+    "\\Web\\obj\\Release\\Package\\PackageTmp\\Scripts\\app\\Quarto",
+    "\\Web\\obj\\Release\\Package\\PackageTmp\\Scripts\\app\\Util"
   ],
-  "SelectedNode": "\\Web\\Scripts\\app\\Inscricoes\\inscricoes.js",
+  "SelectedNode": "\\Web\\obj\\Release\\Package\\PackageTmp\\Scripts\\app\\Util\\pdf.js",
   "PreviewInSolutionExplorer": false
 }

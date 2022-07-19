@@ -62,8 +62,8 @@ namespace SysIgreja.Controllers
                 {
                     Equipes = equipesBusiness.GetEquipes()
                     .Where(x =>
-                    x.Description == equipesBusiness.GetEquipanteEventoByUser(EventoId, user.Id)
-                        .Equipe.GetDescription())
+                    x.Id == equipesBusiness.GetEquipanteEventoByUser(EventoId, user.Id)
+                        .EquipeId)
                         .ToList()
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -99,16 +99,16 @@ namespace SysIgreja.Controllers
             var result = equipesBusiness.GetEquipes(EventoId).Select(x => new ListaEquipesViewModel
             {
                 Id = x.Id,
-                Equipe = x.Description,
-                QuantidadeMembros = equipesBusiness.GetMembrosEquipe(EventoId.Value, (EquipesEnum)x.Id).Count(),
-                QtdAnexos = arquivosBusiness.GetArquivosByEquipe((EquipesEnum)x.Id, false).Count()
+                Equipe = x.Nome,
+                QuantidadeMembros = equipesBusiness.GetMembrosEquipe(EventoId.Value, x.Id).Count(),
+                QtdAnexos = arquivosBusiness.GetArquivosByEquipe(x.Id, false).Count()
             });
 
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult GetPresenca(int EventoId, EquipesEnum EquipeId, int ReuniaoId)
+        public ActionResult GetPresenca(int EventoId, int EquipeId, int ReuniaoId)
         {
             var presenca = equipesBusiness.GetPresenca(ReuniaoId).Select(x => x.EquipanteEventoId).ToList();
 
@@ -158,7 +158,7 @@ namespace SysIgreja.Controllers
                     Sexo = x.Sexo.GetDescription(),
                     Fone = x.Fone,
                     Idade = UtilServices.GetAge(x.DataNascimento),
-                    Equipe = equipesBusiness.GetEquipeAtual(EventoId, x.Id)?.Equipe.GetDescription() ?? "",
+                    Equipe = equipesBusiness.GetEquipeAtual(EventoId, x.Id)?.Equipe.Nome ?? "",
                     Nome = UtilServices.CapitalizarNome(x.Nome),
                     Apelido = UtilServices.CapitalizarNome(x.Apelido),
                     Foto = x.Arquivos.Any(y => y.IsFoto) ? Convert.ToBase64String(x.Arquivos.FirstOrDefault(y => y.IsFoto).Conteudo) : ""
@@ -171,7 +171,7 @@ namespace SysIgreja.Controllers
 
 
         [HttpPost]
-        public ActionResult GetMembrosEquipeDatatable(int EventoId, EquipesEnum EquipeId)
+        public ActionResult GetMembrosEquipeDatatable(int EventoId, int EquipeId)
         {
             var query = equipesBusiness
                 .GetMembrosEquipeDatatable(EventoId, EquipeId)
@@ -184,7 +184,7 @@ namespace SysIgreja.Controllers
                 Nome = UtilServices.CapitalizarNome(x.Equipante.Nome),
                 Apelido = UtilServices.CapitalizarNome(x.Equipante.Apelido),
                 Fone = x.Equipante.Fone,
-                Equipe = x.Equipe.GetDescription(),
+                Equipe = x.Equipe.Nome,
                 Idade = UtilServices.GetAge(x.Equipante.DataNascimento),
                 Tipo = x.Tipo.GetDescription(),
             });
@@ -195,7 +195,7 @@ namespace SysIgreja.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetMembrosEquipe(int EventoId, EquipesEnum EquipeId)
+        public ActionResult GetMembrosEquipe(int EventoId, int EquipeId)
         {
             var query = equipesBusiness
                 .GetMembrosEquipe(EventoId, EquipeId)
@@ -207,7 +207,7 @@ namespace SysIgreja.Controllers
                 Id = x.Id,
                 Nome = x.Equipante.Nome,
                 Apelido = x.Equipante.Apelido,
-                Equipe = x.Equipe.GetDescription(),
+                Equipe = x.Equipe.Nome,
                 Idade = UtilServices.GetAge(x.Equipante.DataNascimento),
                 Tipo = x.Tipo.GetDescription(),
                 x.Equipante.Fone,

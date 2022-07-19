@@ -39,7 +39,7 @@ namespace Core.Business.Equipes
                 EquipanteId = model.EquipanteId,
                 EventoId = model.EventoId,
                 Tipo = TiposEquipeEnum.Membro,
-                Equipe = model.Equipe
+                EquipeId = model.EquipeId
             };
 
             equipanteEventoRepository.Insert(equipanteEvento);
@@ -88,45 +88,19 @@ namespace Core.Business.Equipes
             return equipanteEventoRepository.GetAll(x => x.EquipanteId == equipanteId && x.EventoId == eventoId).FirstOrDefault();
         }
 
-        public IEnumerable<EnumModel> GetEquipes(int? eventoId = null)
-        {
-            try
-            {
-                ApplicationUser user = usuarioRepository.GetById(Thread.CurrentPrincipal.Identity.GetUserId());
-
-                var equipanteEvento = equipanteEventoRepository.GetAll(x => x.EquipanteId == user.EquipanteId && x.EventoId == eventoId).FirstOrDefault();
-
-                if (eventoId != null && user.Equipante != null && user.Perfil == PerfisUsuarioEnum.Coordenador && equipanteEvento != null && equipanteEvento.Tipo == TiposEquipeEnum.Coordenador)
-                    return GetDescriptions<EquipesEnum>().Where(x => x.Description == equipanteEvento.Equipe.GetDescription());
-
-                return GetEquipesEvento(eventoId);
-            }
-            catch (Exception)
-            {
-                return GetEquipesEvento(eventoId);
-            }
-        }
-
-        private IEnumerable<EnumModel> GetEquipesEvento(int? eventoId)
-        {
-            var evento = eventoRepository.GetById(eventoId);
-
-            return GetDescriptions<EquipesEnum>().Where(x => evento.TipoEvento.GetEquipes().Contains(x.Id));
-        }
-
-        public IQueryable<EquipanteEvento> GetMembrosEquipe(int eventoId, EquipesEnum equipeId)
+        public IQueryable<EquipanteEvento> GetMembrosEquipe(int eventoId, int equipeId)
         {
             return equipanteEventoRepository
-                .GetAll(x => x.Equipe == equipeId && x.EventoId == eventoId)
+                .GetAll(x => x.EquipeId == equipeId && x.EventoId == eventoId)
                 .Include(x => x.Equipante.Arquivos)
                 .OrderBy(x => new { x.Tipo, x.Equipante.Nome });
         }
 
 
-        public IQueryable<EquipanteEvento> GetMembrosEquipeDatatable(int eventoId, EquipesEnum equipeId)
+        public IQueryable<EquipanteEvento> GetMembrosEquipeDatatable(int eventoId, int equipeId)
         {
             return equipanteEventoRepository
-                .GetAll(x => x.Equipe == equipeId && x.EventoId == eventoId)
+                .GetAll(x => x.EquipeId == equipeId && x.EventoId == eventoId)
                 .Include(x => x.Equipante)
                 .OrderBy(x => new { x.Tipo, x.Equipante.Nome });
         }
@@ -185,6 +159,11 @@ namespace Core.Business.Equipes
                 .GetAll()
                 .Include(x => x.Equipante)
                 .Where(x => x.EventoId == eventoId).ToList();
+        }
+
+        public IQueryable<Equipe> GetEquipes(int? eventoId = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }

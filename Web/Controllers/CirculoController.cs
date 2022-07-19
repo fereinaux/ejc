@@ -102,7 +102,7 @@ namespace SysIgreja.Controllers
         [HttpGet]
         public ActionResult GetEquipantes(int EventoId)
         {     
-            var pgList = equipesBusiness.GetMembrosEquipe(EventoId, EquipesEnum.Circulo).Select(x => new { x.Id, Nome = x.Equipante.Nome }).ToList();
+            var pgList = equipesBusiness.GetMembrosEquipe(EventoId, EventoId).Select(x => new { x.Id, Nome = x.Equipante.Nome }).ToList();
 
             return Json(new { Equipantes = pgList }, JsonRequestBehavior.AllowGet);
         }

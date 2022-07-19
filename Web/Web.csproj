@@ -774,7 +774,6 @@
     <Compile Include="Controllers\QuartoController.cs" />
     <Compile Include="Controllers\EquipeController.cs" />
     <Compile Include="Controllers\EquipanteController.cs" />
-    <Compile Include="Controllers\ContaBancariaController.cs" />
     <Compile Include="Controllers\ArquivoController.cs" />
     <Compile Include="Controllers\LancamentoController.cs" />
     <Compile Include="Controllers\ParticipanteController.cs" />

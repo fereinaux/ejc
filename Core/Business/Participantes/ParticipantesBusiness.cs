@@ -3,6 +3,7 @@ using Core.Business.Circulos;
 using Core.Business.Equipantes;
 using Core.Business.Etiquetas;
 using Core.Business.Eventos;
+using Core.Business.Padrinhos;
 using Core.Business.Quartos;
 using Core.Models.Participantes;
 using Data.Entities;
@@ -26,8 +27,9 @@ namespace Core.Business.Participantes
         private readonly ICirculosBusiness circulosBusiness;
         private readonly IEtiquetasBusiness etiquetasBusiness;
         private readonly IQuartosBusiness quartosBusiness;
+        private readonly IPadrinhosBusiness padrinhosBusiness;
 
-        public ParticipantesBusiness(IGenericRepository<Participante> participanteRepository, IGenericRepository<ParticipantesEtiquetas> ParticipantesEtiquetasRepo, IEtiquetasBusiness etiquetasBusiness, IArquivosBusiness arquivosBusiness, IEquipantesBusiness equipantesBusiness, IGenericRepositoryConsulta<ParticipanteConsulta> participanteConsultaRepository, IQuartosBusiness quartosBusiness, IEventosBusiness eventosBusiness, ICirculosBusiness circulosBusiness, IGenericRepository<EquipanteEvento> equipanteEventoRepository)
+        public ParticipantesBusiness(IGenericRepository<Participante> participanteRepository, IPadrinhosBusiness padrinhosBusiness, IGenericRepository<ParticipantesEtiquetas> ParticipantesEtiquetasRepo, IEtiquetasBusiness etiquetasBusiness, IArquivosBusiness arquivosBusiness, IEquipantesBusiness equipantesBusiness, IGenericRepositoryConsulta<ParticipanteConsulta> participanteConsultaRepository, IQuartosBusiness quartosBusiness, IEventosBusiness eventosBusiness, ICirculosBusiness circulosBusiness, IGenericRepository<EquipanteEvento> equipanteEventoRepository)
         {
             this.participanteRepository = participanteRepository;
             this.participanteConsultaRepository = participanteConsultaRepository;
@@ -39,6 +41,7 @@ namespace Core.Business.Participantes
             this.arquivosBusiness = arquivosBusiness;
             this.circulosBusiness = circulosBusiness;
             this.equipantesBusiness = equipantesBusiness;
+            this.padrinhosBusiness = padrinhosBusiness;
         }
 
         public void CancelarInscricao(int id)
@@ -207,23 +210,6 @@ namespace Core.Business.Participantes
             return participante;
         }
 
-        private Equipante getNextPadrinho(int eventoid)
-        {
-            var query = equipanteEventoRepository
-                 .GetAll(x => x.EventoId == eventoid && x.Equipe == EquipesEnum.Secretaria)
-                 .Include(x => x.Equipante)
-                 .ToList()
-                 .Select(x => new
-                 {
-                     Equipante = x,
-                     Qtd = participanteRepository.GetAll(y => y.PadrinhoId == x.EquipanteId && y.EventoId == eventoid && (y.Status == StatusEnum.Confirmado || y.Status == StatusEnum.Inscrito)).Count()
-                 })
-                 .ToList();
-
-            return query.Any() ? query.OrderBy(x => x.Qtd).FirstOrDefault().Equipante.Equipante : null;
-
-        }
-
         private Participante MapCreateParticipante(PostInscricaoModel model)
         {
             return new Participante
@@ -265,7 +251,7 @@ namespace Core.Business.Participantes
                 Boleto = false,
                 PendenciaBoleto = false,
                 Checkin = model.Checkin,
-                PadrinhoId = getNextPadrinho(model.EventoId)?.Id
+                PadrinhoId = padrinhosBusiness.GetNextPadrinho(model.EventoId)?.Id
             };
         }
 

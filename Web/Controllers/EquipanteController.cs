@@ -2,7 +2,6 @@
 using AutoMapper;
 using Core.Business.Arquivos;
 using Core.Business.Configuracao;
-using Core.Business.ContaBancaria;
 using Core.Business.Equipantes;
 using Core.Business.Equipes;
 using Core.Business.Etiquetas;
@@ -40,14 +39,13 @@ namespace SysIgreja.Controllers
         private readonly IReunioesBusiness reunioesBusiness;
         private readonly ILancamentoBusiness lancamentoBusiness;
         private readonly IMeioPagamentoBusiness meioPagamentoBusiness;
-        private readonly IContaBancariaBusiness contaBancariaBusiness;
         private readonly IConfiguracaoBusiness configuracaoBusiness;
         private readonly IDatatableService datatableService;
         private readonly IMapper mapper;
         private readonly int qtdReunioes;
 
 
-        public EquipanteController(IEquipantesBusiness equipantesBusiness, IEtiquetasBusiness etiquetasBusiness, IConfiguracaoBusiness configuracaoBusiness, IQuartosBusiness quartosBusiness, IDatatableService datatableService, IEventosBusiness eventosBusiness, IEquipesBusiness equipesBusiness, ILancamentoBusiness lancamentoBusiness, IReunioesBusiness reunioesBusiness, IMeioPagamentoBusiness meioPagamentoBusiness, IContaBancariaBusiness contaBancariaBusiness, IArquivosBusiness arquivoBusiness)
+        public EquipanteController(IEquipantesBusiness equipantesBusiness, IEtiquetasBusiness etiquetasBusiness, IConfiguracaoBusiness configuracaoBusiness, IQuartosBusiness quartosBusiness, IDatatableService datatableService, IEventosBusiness eventosBusiness, IEquipesBusiness equipesBusiness, ILancamentoBusiness lancamentoBusiness, IReunioesBusiness reunioesBusiness, IMeioPagamentoBusiness meioPagamentoBusiness, IArquivosBusiness arquivoBusiness)
         {
             this.quartosBusiness = quartosBusiness;
             this.etiquetasBusiness = etiquetasBusiness;
@@ -57,7 +55,6 @@ namespace SysIgreja.Controllers
             this.equipesBusiness = equipesBusiness;
             this.arquivoBusiness = arquivoBusiness;
             this.lancamentoBusiness = lancamentoBusiness;
-            this.contaBancariaBusiness = contaBancariaBusiness;
             this.meioPagamentoBusiness = meioPagamentoBusiness;
             this.reunioesBusiness = reunioesBusiness;
             this.datatableService = datatableService;
@@ -80,17 +77,12 @@ namespace SysIgreja.Controllers
                    Id = x.Id,
                    DataEvento = x.DataEvento,
                    Numeracao = x.Numeracao,
-                   TipoEvento = x.TipoEvento.GetNickname(),
+                   TipoEvento = x.Configuracao.Titulo,
                    Status = x.Status.GetDescription()
                });
             ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
             ViewBag.Valor = eventosBusiness.GetEventoAtivo()?.ValorTaxa ?? 0;
-            ViewBag.ContasBancarias = contaBancariaBusiness.GetContasBancarias().ToList()
-                .Select(x => new ContaBancariaViewModel
-                {
-                    Banco = x.Banco.GetDescription(),
-                    Id = x.Id
-                });
+
 
             return View();
         }
@@ -167,7 +159,7 @@ namespace SysIgreja.Controllers
 
                 if (model.Equipe != null)
                 {
-                    result = result.Where(x => x.Equipes.Any() && x.Equipes.OrderByDescending(z => z.EventoId).FirstOrDefault(y => y.EventoId == eventoId).Equipe == model.Equipe);
+                    result = result.Where(x => x.Equipes.Any() && x.Equipes.OrderByDescending(z => z.EventoId).FirstOrDefault(y => y.EventoId == eventoId).EquipeId == model.Equipe);
                     filteredResultsCount = result.Count();
                 }
 
@@ -310,19 +302,9 @@ namespace SysIgreja.Controllers
             ViewBag.Configuracao = config;
             ViewBag.MsgConclusao = config.MsgConclusaoEquipe
          .Replace("${Apelido}", equipante.Apelido)
-         .Replace("${Evento}", $"{eventoAtual.TipoEvento.GetDescription()}")
+         .Replace("${Evento}", $"{eventoAtual.Configuracao.Titulo}")
          .Replace("${ValorEvento}", eventoAtual.Valor.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR")))
          .Replace("${DataEvento}", eventoAtual.DataEvento.ToString("dd/MM/yyyy"));
-
-            ViewBag.Participante = new InscricaoConcluidaViewModel
-            {
-                Id = equipante.Id,
-                Apelido = equipante.Nome,
-                Logo = eventoAtual.TipoEvento.GetNickname() + ".png",
-                Evento = $"{eventoAtual.TipoEvento.GetDescription()}",
-                Valor = eventoAtual.Valor.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR")),
-                DataEvento = eventoAtual.DataEvento.ToString("dd/MM/yyyy"),
-            };
 
             return View("InscricaoConcluida");
 
@@ -336,7 +318,7 @@ namespace SysIgreja.Controllers
             result.Nome = UtilServices.CapitalizarNome(result.Nome);
             result.Apelido = UtilServices.CapitalizarNome(result.Apelido);
             var equipeAtual = equipesBusiness.GetEquipeAtual(eventoId, result.Id);
-            result.Equipe = equipeAtual.Equipe.GetDescription() ?? "";
+            result.Equipe = equipeAtual.Equipe?.Nome;
             result.Checkin = equipeAtual.Checkin;
             result.Quarto = quartosBusiness.GetQuartosComParticipantes(eventoId, TipoPessoaEnum.Equipante).Where(x => x.EquipanteId == Id).FirstOrDefault()?.Quarto?.Titulo ?? "";
 

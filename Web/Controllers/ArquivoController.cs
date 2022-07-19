@@ -70,7 +70,7 @@ namespace SysIgreja.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetArquivosEquipe(EquipesEnum Equipe, bool IsComunEquipe)
+        public ActionResult GetArquivosEquipe(int Equipe, bool IsComunEquipe)
         {
             var query = arquivosBusiness.GetArquivosByEquipe(Equipe, IsComunEquipe);
 

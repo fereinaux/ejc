@@ -1,7 +1,6 @@
 ﻿using Arquitetura.ViewModels;
 using AutoMapper;
 using Core.Business.Arquivos;
-using Core.Business.ContaBancaria;
 using Core.Business.Equipantes;
 using Core.Business.Equipes;
 using Core.Business.Eventos;
@@ -80,7 +79,7 @@ namespace SysIgreja.Controllers
                                 .ForMember(dest => dest.HasOferta, opt => opt.MapFrom(x => x.Lancamentos.Any(y => y.EventoId == (eventoId ?? x.Equipes.LastOrDefault().EventoId))))
                                 .ForMember(dest => dest.Faltas, opt => opt.MapFrom(x => qtdReunioes - x.Equipes.LastOrDefault().Presencas.Count()))
                                 .ForMember(dest => dest.Status, opt => opt.MapFrom(x => x.Status.GetDescription()))
-                                .ForMember(dest => dest.Equipe, opt => opt.MapFrom(x => (x.Equipes.Any() && x.Equipes.LastOrDefault().EventoId == eventoId) ? x.Equipes.LastOrDefault().Equipe.GetDescription() : null))
+                                .ForMember(dest => dest.Equipe, opt => opt.MapFrom(x => (x.Equipes.Any() && x.Equipes.LastOrDefault().EventoId == eventoId) ? x.Equipes.LastOrDefault().Equipe.Nome : null))
                                 .ForMember(dest => dest.Checkin, opt => opt.MapFrom(x => x.Equipes.LastOrDefault().EventoId == eventoId ? x.Equipes.LastOrDefault().Checkin : false));
                 cfg.CreateMap<Equipante, EquipanteExcelModel>()
                   .ForMember(dest => dest.Nome, opt => opt.MapFrom(x => UtilServices.CapitalizarNome(x.Nome)))
@@ -90,7 +89,7 @@ namespace SysIgreja.Controllers
                    .ForMember(dest => dest.Status, opt => opt.MapFrom(x => x.Status.GetDescription()))
                    .ForMember(dest => dest.HasVacina, opt => opt.MapFrom(x => x.HasVacina ? "Sim" : "Não"))
                    .ForMember(dest => dest.HasOferta, opt => opt.MapFrom(x => x.Lancamentos.Any(y => y.EventoId == (eventoId ?? x.Equipes.LastOrDefault().EventoId)) ? "Sim" : "Não"))
-                   .ForMember(dest => dest.Equipe, opt => opt.MapFrom(x => x.Equipes.LastOrDefault().EventoId == eventoId ? x.Equipes.LastOrDefault().Equipe.GetDescription() : null));
+                   .ForMember(dest => dest.Equipe, opt => opt.MapFrom(x => x.Equipes.LastOrDefault().EventoId == eventoId ? x.Equipes.LastOrDefault().Equipe.Nome : null));
 
 
             });
