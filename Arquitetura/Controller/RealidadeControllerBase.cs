@@ -48,6 +48,7 @@ namespace Arquitetura.Controller
                     Id = x.Id,
                     DataEvento = x.DataEvento,
                     Descricao = x.Descricao,
+                    Numeracao = x.Numeracao,
                     TipoEvento = x.Configuracao.Titulo,
                     Status = x.Status.GetDescription()
                 });
@@ -56,12 +57,7 @@ namespace Arquitetura.Controller
         public void GetConfiguracao()
         {
             ViewBag.Configuracao = configuracaoBusiness
-                .GetConfiguracao();
-        }
-
-        public void GetCampos()
-        {
-            ViewBag.Campos = configuracaoBusiness.GetCampos().Select(x => x.Campo).ToList();
+                .GetConfiguracao(null);
         }
 
         public ApplicationUser GetApplicationUser()

@@ -11,5 +11,7 @@ namespace Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public CamposEnum Campo { get; set; }
+        public int? ConfiguracaoId { get; set; }
+        public Configuracao Configuracao { get; set; }
     }
 }

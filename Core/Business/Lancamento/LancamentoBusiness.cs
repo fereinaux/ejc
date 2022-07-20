@@ -63,15 +63,13 @@ namespace Core.Business.Lancamento
                 centCusto = (int)CentroCustoPadraoEnum.TaxaEquipante;
             }
 
-            var evento = eventosBusiness.GetEventoAtivo() ?? eventosBusiness.GetEventos().OrderByDescending(x => x.DataEvento).First();
-
             Data.Entities.Lancamento lancamento = new Data.Entities.Lancamento
             {
                 Descricao = descricao,
                 Origem = model.Origem,
                 Valor = model.Valor,
                 MeioPagamentoId = model.MeioPagamentoId,
-                EventoId = model.EventoId > 0 ? model.EventoId : evento.Id,
+                EventoId =model.EventoId,
                 CentroCustoId = centCusto,
                 ParticipanteId = model.ParticipanteId,
                 EquipanteId = model.EquipanteId,
@@ -107,11 +105,9 @@ namespace Core.Business.Lancamento
             }
         }
 
-        public IQueryable<Data.Entities.Lancamento> GetPagamentosEquipante(int equipanteId)
+        public IQueryable<Data.Entities.Lancamento> GetPagamentosEquipante(int equipanteId, int eventoId)
         {
-            var evento = eventosBusiness.GetEventoAtivo() ?? eventosBusiness.GetEventos().OrderByDescending(x => x.DataEvento).First();
-
-            return lancamentoRepository.GetAll(x => x.EquipanteId == equipanteId && x.EventoId == evento.Id)
+            return lancamentoRepository.GetAll(x => x.EquipanteId == equipanteId && x.EventoId == eventoId)
                 .Include(x => x.CentroCusto)
                 .Include(x => x.Evento)
                 .Include(x => x.Equipante)

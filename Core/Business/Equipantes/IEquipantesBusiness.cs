@@ -8,7 +8,7 @@ namespace Core.Business.Equipantes
         IQueryable<Data.Entities.Equipante> GetEquipantes();
         Data.Entities.Equipante GetEquipanteById(int id);
         Data.Entities.Equipante PostEquipante(PostEquipanteModel model);
-        void PostEtiquetas(string[] etiquetas, int id, string obs);
+        void PostEtiquetas(string[] etiquetas, int id, string obs,int? eventoId);
         void DeleteEquipante(int id);
         void ToggleSexo(int id);
         void ToggleVacina(int id);

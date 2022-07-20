@@ -390,7 +390,7 @@ function GetQuartosComParticipantes(column, dir, search) {
 
                     </tbody>
                 </table>
-                <button type="button" class="btn btn-rounded btn-default print-button" onclick='PrintQuarto(${JSON.stringify(quarto)})'><i class="fa fa-2x fa-print"></button>
+                <button type="button" class="btn btn-rounded btn-default print-button" onclick='PrintQuarto(${JSON.stringify(quarto)})'><i class="fa fa-2x fa-print"/></button>
             </div>`));
             });
 

@@ -1,5 +1,6 @@
 ﻿using Data.Entities.Base;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Utils.Enums;
@@ -19,6 +20,9 @@ namespace Data.Entities
         public Configuracao Configuracao { get; set; }
         public int Valor { get; set; }
         public int ValorTaxa { get; set; }
+        public virtual ICollection<ReuniaoEvento> Reunioes { get; set; }
+        public virtual ICollection<EquipanteEvento> Equipantes { get; set; }
+        public virtual ICollection<Quarto> Quartos { get; set; }
 
     }
 }

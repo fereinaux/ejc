@@ -4,5 +4,6 @@
     {
         public int? ParticipanteId { get; set; }
         public int? EquipanteId { get; set; }
+        public int? EventoId { get; set; }
     }
 }

@@ -40,6 +40,7 @@ namespace SysIgreja.ViewModels
         public string Motorista { get; set; }
         [DisplayName("Vacina")]
         public string HasVacina { get; set; }
+        public string Parente { get; set; }
 
     }
 }

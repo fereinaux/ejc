@@ -324,7 +324,7 @@ function AddMembroEquipe() {
                 {
                     EquipanteId: $("#equipe-equipantes").val(),
                     EventoId: $("#equipe-eventoid").val(),
-                    Equipe: $("#equipe-id").val()
+                    EquipeId: $("#equipe-id").val()
                 }),
             success: function () {
                 SuccessMesageOperation();

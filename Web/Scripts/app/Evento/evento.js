@@ -64,18 +64,20 @@ function GetEvento(id) {
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 $("#evento-id").val(data.Evento.Id);
+                $("#evento-descricao").val(data.Evento.Descricao);
                 $("#evento-numeracao").val(data.Evento.Numeracao);
                 $("#evento-capacidade").val(data.Evento.Capacidade);
                 $("#evento-valor").val(data.Evento.Valor);
                 $("#evento-taxa").val(data.Evento.ValorTaxa);
                 $("#evento-data").val(moment(data.Evento.DataEvento).format('DD/MM/YYYY'));
-                $("#evento-tipo").val(data.Evento.TipoEvento).trigger("chosen:updated");
+                $("#evento-tipo").val(data.Evento.ConfiguracaoId).trigger("chosen:updated");
             }
         });
     }
     else {
         $("#evento-id").val(0);
         $("#evento-numeracao").val("");
+        $("#evento-descricao").val("");
         $("#evento-capacidade").val("");
         $("#evento-data").val("");
         $("#evento-valor").val("");
@@ -139,8 +141,9 @@ function PostEvento() {
             data: JSON.stringify(
                 {
                     Id: $("#evento-id").val(),
-                    TipoEvento: $("#evento-tipo").val(),
+                    ConfiguracaoId: $("#evento-tipo").val(),
                     Numeracao: $("#evento-numeracao").val(),
+                    Descricao: $("#evento-descricao").val(),
                     Capacidade: $("#evento-capacidade").val(),
                     Valor: $("#evento-valor").val(),
                     ValorTaxa: $("#evento-taxa").val(),
@@ -265,7 +268,7 @@ function GetTipos(id) {
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             data.Tipos.forEach(function (tipo, index, array) {
-                $('#evento-tipo').append($(`<option value="${tipo.Id}">${tipo.Description}</option>`));
+                $('#evento-tipo').append($(`<option value="${tipo.Id}">${tipo.Titulo}</option>`));
             });
             $("#evento-tipo").val($("#evento-tipo option:first").val()).trigger("chosen:updated");
         }

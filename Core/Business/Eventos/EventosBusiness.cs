@@ -22,19 +22,14 @@ namespace Core.Business.Eventos
             eventoRepository.Save();
         }
 
-        public Evento GetEventoAtivo()
-        {
-            return eventoRepository.GetAll().FirstOrDefault(e => e.Status == StatusEnum.Aberto);
-        }
-
         public Evento GetEventoById(int id)
         {
-            return eventoRepository.GetById(id);
+            return eventoRepository.GetAll(x => x.Id == id).Include(x => x.Configuracao).FirstOrDefault();
         }
 
         public IQueryable<Evento> GetEventos()
         {
-            return eventoRepository.GetAll();
+            return eventoRepository.GetAll().Include(x => x.Configuracao);
         }
 
         public void PostEvento(PostEventoModel model)
@@ -63,11 +58,11 @@ namespace Core.Business.Eventos
                     Descricao = model.Descricao,
                     Capacidade = model.Capacidade,
                     Valor = model.Valor,
+                    Numeracao = model.Numeracao,
                     ValorTaxa = model.ValorTaxa,
                    ConfiguracaoId = model.ConfiguracaoId,
-                    Status = GetEventoAtivo() != null ?
-                    StatusEnum.Encerrado :
-                    StatusEnum.Aberto
+                    Status = StatusEnum.Encerrado 
+           
                 };
 
                 eventoRepository.Insert(evento);
@@ -83,10 +78,6 @@ namespace Core.Business.Eventos
             StatusEnum status = evento.Status == StatusEnum.Aberto ?
                 StatusEnum.Encerrado :
                 StatusEnum.Aberto;
-
-            if (GetEventoAtivo() != null &&
-                status == StatusEnum.Aberto)
-                return false;
 
             evento.Status = status;
 

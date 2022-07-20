@@ -15,15 +15,29 @@ namespace Core.Business.Circulos
     {
         private readonly IGenericRepository<Circulo> circuloRepository;
         private readonly IGenericRepository<CirculoParticipante> circuloParticipanteRepository;
+        private readonly IGenericRepository<CirculoDirigentes> circuloDirigenteRepository;
         private readonly IGenericRepository<Participante> participanteRepository;
         private readonly IGenericRepository<Evento> eventoeRepository;
 
-        public CirculosBusiness(IGenericRepository<Evento> eventoeRepository, IGenericRepository<Participante> participanteRepository, IGenericRepository<Circulo> circuloRepository, IGenericRepository<CirculoParticipante> circuloParticipanteRepository)
+        public CirculosBusiness(IGenericRepository<Evento> eventoeRepository, IGenericRepository<CirculoDirigentes> circuloDirigenteRepository, IGenericRepository<Participante> participanteRepository, IGenericRepository<Circulo> circuloRepository, IGenericRepository<CirculoParticipante> circuloParticipanteRepository)
         {
             this.circuloRepository = circuloRepository;
+            this.circuloDirigenteRepository = circuloDirigenteRepository;
             this.participanteRepository = participanteRepository;
             this.circuloParticipanteRepository = circuloParticipanteRepository;
             this.eventoeRepository = eventoeRepository;
+        }
+
+        public void AddDirigente(int equipanteEventoId, int circuloId)
+        {
+            CirculoDirigentes dirigente = new CirculoDirigentes
+            {
+                CirculoId = circuloId,
+                EquipanteId = equipanteEventoId
+            };
+
+            circuloDirigenteRepository.Insert(dirigente);
+            circuloDirigenteRepository.Save();
         }
 
         public void ChangeCirculo(int participanteId, int? destinoId)
@@ -58,6 +72,12 @@ namespace Core.Business.Circulos
             circuloRepository.Save();
         }
 
+        public void DeleteDirigente(int id)
+        {
+            circuloDirigenteRepository.Delete(id);
+            circuloDirigenteRepository.Save();
+        }
+
         public void DistribuirCirculos(int eventoId)
         {
             List<Participante> listParticipantes = GetParticipantesSemCirculo(eventoId);
@@ -76,33 +96,40 @@ namespace Core.Business.Circulos
 
         public Circulo GetCirculoById(int id)
         {
-            return circuloRepository.GetAll(x => x.Id == id).Include(x => x.Dirigente1).Include(x => x.Dirigente1.Equipante)
-                .Include(x => x.Dirigente2).Include(x => x.Dirigente2.Equipante).FirstOrDefault();
+            return circuloRepository
+                .GetAll(x => x.Id == id)
+                .Include(x => x.Dirigentes)
+                .Include(x => x.Dirigentes.Select(y=> y.Equipante))
+                .Include(x => x.Dirigentes.Select(y => y.Equipante.Equipante))
+                .FirstOrDefault();
         }
 
         public IQueryable<Circulo> GetCirculos()
         {
             return circuloRepository.GetAll()
-                .Include(x => x.Dirigente1)
-                .Include(x => x.Dirigente1.Equipante)
-                .Include(x => x.Dirigente2)
-                .Include(x => x.Dirigente2.Equipante);
+                .Include(x => x.Dirigentes)
+                .Include(x => x.Dirigentes.Select(y => y.Equipante))
+                .Include(x => x.Dirigentes.Select(y => y.Equipante.Equipante));
         }
 
         public IQueryable<CirculoParticipante> GetCirculosComParticipantes(int eventoId)
         {
             return circuloParticipanteRepository.GetAll(x => x.Circulo.EventoId == eventoId)
                 .Include(x => x.Participante)
-                .Include(x => x.Circulo)
-                .Include(x => x.Circulo.Dirigente1)
-                .Include(x => x.Circulo.Dirigente1.Equipante)
-                .Include(x => x.Circulo.Dirigente2)
-                .Include(x => x.Circulo.Dirigente2.Equipante).OrderBy(x => x.CirculoId);
+                .Include(x => x.Circulo)   
+                   .Include(x => x.Circulo.Dirigentes.Select(y => y.Equipante))
+                .Include(x => x.Circulo.Dirigentes.Select(y => y.Equipante.Equipante)).OrderBy(x => x.CirculoId);
+         
         }
 
         public IEnumerable<EnumExtensions.EnumModel> GetCores(int eventoId)
         {
             return EnumExtensions.GetDescriptions<CoresEnum>();
+        }
+
+        public IQueryable<CirculoDirigentes> GetDirigentes()
+        {
+            return circuloDirigenteRepository.GetAll().Include(x => x.Equipante).Include(x => x.Equipante.Equipante);
         }
 
         public Circulo GetNextCirculo(int eventoId)
@@ -126,8 +153,8 @@ namespace Core.Business.Circulos
         {
             return circuloParticipanteRepository.GetAll(x => x.CirculoId == id)
                 .Include(x => x.Participante)
-                .Include(x => x.Circulo).Include(x => x.Circulo.Dirigente1).Include(x => x.Circulo.Dirigente1.Equipante)
-                .Include(x => x.Circulo.Dirigente2).Include(x => x.Circulo.Dirigente2.Equipante);
+                .Include(x => x.Circulo).Include(x => x.Circulo.Dirigentes.Select(y => y.Equipante))
+                .Include(x => x.Circulo.Dirigentes.Select(y => y.Equipante.Equipante));
         }
 
         public List<Participante> GetParticipantesSemCirculo(int eventoId)
@@ -157,17 +184,11 @@ namespace Core.Business.Circulos
             {
                 circulo = circuloRepository.GetById(model.Id);
                 circulo.Cor = model.Cor;
-
-                circulo.Dirigente1Id = model.Dirigente1Id;
-                circulo.Dirigente2Id = model.Dirigente2Id;
-
             }
             else
             {
                 circulo = new Circulo
                 {
-                    Dirigente1Id = model.Dirigente1Id,
-                    Dirigente2Id = model.Dirigente2Id,
                     EventoId = model.EventoId,
                     Cor = model.Cor
                 };

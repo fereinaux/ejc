@@ -12,6 +12,8 @@ namespace Data.Entities
         public Arquivo Logo { get; set; }
         public int? LogoRelatorioId { get; set; }
         public Arquivo LogoRelatorio { get; set; }
+        public int? EquipeCirculoId { get; set; }
+        public Equipe EquipeCirculo { get; set; }
         public int? BackgroundId { get; set; }
         public Arquivo Background { get; set; }
         public int? BackgroundCelularId { get; set; }

@@ -54,6 +54,7 @@ namespace Web
             container.RegisterType<IGenericRepository<Quarto>, GenericRepository<Quarto>>();
             container.RegisterType<IGenericRepository<Etiqueta>, GenericRepository<Etiqueta>>();
             container.RegisterType<IGenericRepository<CirculoParticipante>, GenericRepository<CirculoParticipante>>();
+            container.RegisterType<IGenericRepository<CirculoDirigentes>, GenericRepository<CirculoDirigentes>>();
             container.RegisterType<IGenericRepository<ParticipantesEtiquetas>, GenericRepository<ParticipantesEtiquetas>>();
             container.RegisterType<IGenericRepository<QuartoParticipante>, GenericRepository<QuartoParticipante>>();
             container.RegisterType<IGenericRepository<Mensagem>, GenericRepository<Mensagem>>();

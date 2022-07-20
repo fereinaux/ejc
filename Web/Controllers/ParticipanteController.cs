@@ -64,11 +64,7 @@ namespace SysIgreja.Controllers
             ViewBag.Title = "Check-in";
             GetEventos();
             GetConfiguracao();
-            GetCampos();
             ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
-            var evento = eventosBusiness.GetEventoAtivo();
-            ViewBag.ValorRealista = evento?.Valor ?? 0;
-            ViewBag.ValorEquipante =  evento?.ValorTaxa ?? 0;
 
             return View();
         }
@@ -86,9 +82,7 @@ namespace SysIgreja.Controllers
             ViewBag.Title = "Participantes";
             GetEventos();
             GetConfiguracao();
-            GetCampos();
             ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
-            ViewBag.Valor =  eventosBusiness.GetEventoAtivo()?.Valor ?? 0;
 
             return View();
         }
@@ -115,7 +109,6 @@ namespace SysIgreja.Controllers
                 HasAlergia = x.HasAlergia,
                 HasMedicacao = x.HasMedicacao,
                 HasTeste = x.HasTeste,
-                HasParente = false,
                 HasRestricaoAlimentar = x.HasRestricaoAlimentar,
                 Id = x.Id,
                 CEP = x.CEP,
@@ -133,6 +126,7 @@ namespace SysIgreja.Controllers
                 NomeConvite = x.NomeConvite,
                 NomeMae = x.NomeMae,
                 NomePai = x.NomePai,
+                HasParente = x.HasParente ?? false,
                 Parente = x.Parente,
                 HasVacina = x.HasVacina,
                 RestricaoAlimentar = x.RestricaoAlimentar,
@@ -197,14 +191,13 @@ namespace SysIgreja.Controllers
         [HttpGet]
         public ActionResult GetParticipantesByCirculo(int CirculoId)
         {
-            var result = circulosBusiness.GetParticipantesByCirculos(CirculoId).ToList().Select(x => new
+            var result = circulosBusiness.GetParticipantesByCirculos(CirculoId).OrderBy(x => x.Participante.Nome).ToList().Select(x => new
             {
                 Circulo = x.Circulo.Cor.GetDescription(),
                 Nome = UtilServices.CapitalizarNome(x.Participante.Nome),
                 Apelido = UtilServices.CapitalizarNome(x.Participante.Apelido),
                 Cor = x.Circulo.Cor.GetDescription(),
-                Dirigente1 = UtilServices.CapitalizarNome(x.Circulo.Dirigente1.Equipante.Nome),
-                Dirigente2 = UtilServices.CapitalizarNome(x.Circulo.Dirigente2.Equipante.Nome),
+                Dirigentes = x.Circulo.Dirigentes.Select(y => new DirigenteViewModel { Id = y.Id, Nome = UtilServices.CapitalizarNome(y.Equipante.Equipante.Nome) }),
                 Fone = x.Participante.Fone
             });
 

@@ -56,7 +56,7 @@ namespace SysIgreja.Controllers
         [HttpPost]
         public ActionResult GetPagamentos(GetPagamentosModel model)
         {
-            var result = (model.ParticipanteId.HasValue ? lancamentoBusiness.GetPagamentosParticipante(model.ParticipanteId.Value) : lancamentoBusiness.GetPagamentosEquipante(model.EquipanteId.Value))
+            var result = (model.ParticipanteId.HasValue ? lancamentoBusiness.GetPagamentosParticipante(model.ParticipanteId.Value) : lancamentoBusiness.GetPagamentosEquipante(model.EquipanteId.Value, model.EventoId.Value))
                 .ToList()
                 .Select(x => MapLancamentoViewModel(x));
 

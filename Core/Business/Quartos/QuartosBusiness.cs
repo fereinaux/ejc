@@ -215,7 +215,7 @@ namespace Core.Business.Quartos
                       .Include(x => x.Equipante.Equipes)
                       .Include(x => x.Equipante.Equipes.Select(y => y.Evento))
                    .ToList()
-                   .Where(x => x.Equipante.Equipes.Any() && x.Equipante.Equipes?.OrderByDescending(z => z.EventoId).LastOrDefault()?.EventoId == eventoId)
+                   .Where(x => x.Equipante.Equipes.Any(y => y.EventoId == eventoId))
                    .Select(x => x.EquipanteId)
                    .ToList();
 

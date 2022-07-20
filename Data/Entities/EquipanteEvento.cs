@@ -12,11 +12,12 @@ namespace Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int EventoId { get; set; }
+        [ForeignKey("EventoId")]
         public Evento Evento { get; set; }
-        public int EquipanteId { get; set; }
+        public int? EquipanteId { get; set; }
         public Equipante Equipante { get; set; }
         public bool Checkin { get; set; }
-        public int EquipeId { get; set; }
+        public int? EquipeId { get; set; }
         public Equipe Equipe { get; set; }
         public TiposEquipeEnum Tipo { get; set; }
         public virtual ICollection<PresencaReuniao> Presencas { get; set; }

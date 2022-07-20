@@ -68,7 +68,6 @@ namespace Core.Business.Caronas
 
         public void DistribuirCarona(int eventoId)
         {
-            var config = configuracaoBusiness.GetConfiguracao();
             var caronas = caronaRepo.GetAll(x => x.EventoId == eventoId).Include(x => x.Motorista).ToList();
             List<Participante> listParticipantes = GetParticipantesSemCarona(eventoId);
             var countParticipantes = listParticipantes.Count;

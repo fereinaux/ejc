@@ -46,9 +46,13 @@
 }
 
 
-$(document).ready(function () {
+function loadScreen() {
     getReunioes();
     getPresencas();
+}
+
+$(document).ready(function () {
+    loadScreen()
 });
 
 function TogglePresenca(id) {
@@ -95,7 +99,7 @@ function getPresencas() {
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             data.Equipes.forEach(function (equipe, index, array) {
-                $('#presenca-equipeid').append($(`<option value="${equipe.Id}">${equipe.Description}</option>`));
+                $('#presenca-equipeid').append($(`<option value="${equipe.Id}">${equipe.Nome}</option>`));
             });
             $("#presenca-equipeid").val($("#presenca-equipeid option:first").val()).trigger("chosen:updated");
             CarregarTabelaPresenca();

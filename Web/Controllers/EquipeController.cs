@@ -60,7 +60,7 @@ namespace SysIgreja.Controllers
             {
                 return Json(new
                 {
-                    Equipes = equipesBusiness.GetEquipes()
+                    Equipes = equipesBusiness.GetEquipes(EventoId).ToList()
                     .Where(x =>
                     x.Id == equipesBusiness.GetEquipanteEventoByUser(EventoId, user.Id)
                         .EquipeId)
@@ -93,15 +93,26 @@ namespace SysIgreja.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetEquipes(int? EventoId)
+        public ActionResult GetEquipes(int EventoId)
         {
-            EventoId = EventoId ?? eventosBusiness.GetEventoAtivo().Id;
-            var result = equipesBusiness.GetEquipes(EventoId).Select(x => new ListaEquipesViewModel
+            var result = equipesBusiness.GetEquipes(EventoId).ToList().Select(x => new ListaEquipesViewModel
             {
                 Id = x.Id,
                 Equipe = x.Nome,
-                QuantidadeMembros = equipesBusiness.GetMembrosEquipe(EventoId.Value, x.Id).Count(),
+                QuantidadeMembros = equipesBusiness.GetMembrosEquipe(EventoId, x.Id).Count(),
                 QtdAnexos = arquivosBusiness.GetArquivosByEquipe(x.Id, false).Count()
+            });
+
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult GetEquipesConfig()
+        {
+            var result = equipesBusiness.GetEquipesConfig().Select(x => new
+            {
+                x.Id,
+                x.Nome,
             });
 
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
@@ -126,7 +137,7 @@ namespace SysIgreja.Controllers
         [HttpGet]
         public ActionResult GetEquipantes(int EventoId)
         {
-            var result = equipesBusiness.GetEquipantesEventoSemEquipe(EventoId).Select(x => new { x.Id, x.Nome });
+            var result = equipesBusiness.GetEquipantesEventoSemEquipe(EventoId).Select(x => new { x.Id, x.Nome }).OrderBy(x => x.Nome);
 
             return Json(new { Equipantes = result }, JsonRequestBehavior.AllowGet);
         }
@@ -237,6 +248,23 @@ namespace SysIgreja.Controllers
         public ActionResult DeleteMembroEquipe(int Id)
         {
             equipesBusiness.DeleteMembroEquipe(Id);
+            return new HttpStatusCodeResult(200);
+        }
+
+
+        [HttpPost]
+        public ActionResult PostEquipe(PostEquipeModel model)
+        {
+            equipesBusiness.PostEquipe(model);
+
+            return new HttpStatusCodeResult(200);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteEquipe(int Id)
+        {
+            equipesBusiness.DeleteEquipe(Id);
+
             return new HttpStatusCodeResult(200);
         }
     }

@@ -106,29 +106,55 @@
     <script>
         const { jsPDF } = window.jspdf;
         var config = {}
+        var campos = []
         let isAdm = @User.IsInRole(Usuario.Admin).ToString().ToLower();
         let logoRelatorio;
         $.fn.modal.Constructor.prototype.enforceFocus = function () { };
         $.fn.modal.Constructor.prototype._enforceFocus = function () { };
-        $.ajax({
-            url: "/Configuracao/GetConfiguracao/",
-            datatype: "json",
-            type: "GET",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                config = data.Configuracao
-                $('title').text(`${config.Titulo} | ${$('#title').text()}`)
-                if (config.LogoId) {
-                    $('link[rel="icon"]').attr('href', `data:image/png;base64,${config.Logo}`)
-                    $('#home-button-logo img').attr('src', `data:image/png;base64,${config.Logo}`)
-                }
-                $('#home-button-logo').css('display', 'block')
-                if (config.LogoRelatorioId) {
-                    logoRelatorio = config.LogoRelatorio
-                }
 
+
+        $("[id$='eventoid']").change(function () {
+            getConfig(this.value)
+
+        })
+
+        $(document).ready(function () {
+            if ($("[id$='eventoid']").val()) {
+
+                getConfig($("[id$='eventoid']").val())
+            } else {
+                $('title').text("SysIgreja")
+                $('link[rel="icon"]').attr('href', `./Images/logo-iecb.png`)
+                $('#home-button-logo img').attr('src', `./Images/logo-iecb.png`)
+                $('#home-button-logo').css('display', 'block')
             }
-        });
+        })
+
+
+        function getConfig(id) {
+            $.ajax({
+                url: "/Configuracao/GetConfiguracaoByEventoId/",
+                data: { Id: id },
+                datatype: "json",
+                type: "GET",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    config = data.Configuracao
+                    $('title').text(`${config.Titulo} | ${$('#title').text()}`)
+                    if (config.LogoId) {
+                        $('link[rel="icon"]').attr('href', `data:image/png;base64,${config.Logo}`)
+                        $('#home-button-logo img').attr('src', `data:image/png;base64,${config.Logo}`)
+                    }
+                    $('#home-button-logo').css('display', 'block')
+                    if (config.LogoRelatorioId) {
+                        logoRelatorio = config.LogoRelatorio
+                    }
+
+                }
+            });           
+        }
+
+
     </script>
     <!-- Handler for local scripts -->
     @RenderSection("scripts", required: false)

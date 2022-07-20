@@ -1,6 +1,7 @@
 ﻿using Arquitetura.ViewModels;
 using AutoMapper;
 using Core.Business.Arquivos;
+using Core.Business.Configuracao;
 using Core.Business.Eventos;
 using Core.Models.Eventos;
 using SysIgreja.ViewModels;
@@ -18,13 +19,15 @@ namespace SysIgreja.Controllers
     public class EventoController : Controller
     {
         private readonly IEventosBusiness eventosBusiness;
+        private readonly IConfiguracaoBusiness configuracaoBusiness;
         private readonly IArquivosBusiness arquivosBusiness;
         private readonly IMapper mapper;
 
-        public EventoController(IEventosBusiness eventosBusiness, IArquivosBusiness arquivosBusiness)
+        public EventoController(IEventosBusiness eventosBusiness, IArquivosBusiness arquivosBusiness, IConfiguracaoBusiness configuracaoBusiness)
         {
             this.eventosBusiness = eventosBusiness;
             this.arquivosBusiness = arquivosBusiness;
+            this.configuracaoBusiness = configuracaoBusiness;
             mapper = new MapperRealidade().mapper;
         }
 
@@ -38,7 +41,14 @@ namespace SysIgreja.Controllers
         [HttpGet]
         public ActionResult GetTipos()
         {
-            return View();
+            var result = configuracaoBusiness.GetConfiguracoes().Select(x => new
+            {
+                x.Id,
+                x.Titulo
+            }).ToList();
+
+
+            return Json(new { Tipos = result }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

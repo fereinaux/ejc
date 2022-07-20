@@ -18,14 +18,18 @@ namespace Core.Business.Equipes
     {
         private readonly IGenericRepository<EquipanteEvento> equipanteEventoRepository;
         private readonly IGenericRepository<Equipante> equipanteRepository;
+        private readonly IGenericRepository<Equipe> equipeRepository;
+        private readonly IGenericRepository<ConfiguracaoEquipes> conifgEquipeRepo;
         private readonly IGenericRepository<PresencaReuniao> presencaRepository;
         private readonly IGenericRepository<ApplicationUser> usuarioRepository;
         private readonly IGenericRepository<Evento> eventoRepository;
         private readonly IEventosBusiness eventosBusiness;
-        public EquipesBusiness(IEventosBusiness eventosBusiness, IGenericRepository<EquipanteEvento> equipanteEventoRepository, IGenericRepository<Evento> eventoRepository, IGenericRepository<Equipante> equipanteRepository, IGenericRepository<ApplicationUser> usuarioRepository, IGenericRepository<PresencaReuniao> presencaRepository)
+        public EquipesBusiness(IEventosBusiness eventosBusiness, IGenericRepository<ConfiguracaoEquipes> conifgEquipeRepo, IGenericRepository<EquipanteEvento> equipanteEventoRepository, IGenericRepository<Equipe> equipeRepository, IGenericRepository<Evento> eventoRepository, IGenericRepository<Equipante> equipanteRepository, IGenericRepository<ApplicationUser> usuarioRepository, IGenericRepository<PresencaReuniao> presencaRepository)
         {
             this.eventosBusiness = eventosBusiness;
             this.equipanteEventoRepository = equipanteEventoRepository;
+            this.equipeRepository = equipeRepository;
+            this.conifgEquipeRepo = conifgEquipeRepo;
             this.equipanteRepository = equipanteRepository;
             this.eventoRepository = eventoRepository;
             this.usuarioRepository = usuarioRepository;
@@ -101,6 +105,7 @@ namespace Core.Business.Equipes
         {
             return equipanteEventoRepository
                 .GetAll(x => x.EquipeId == equipeId && x.EventoId == eventoId)
+                .Include(x => x.Equipe)
                 .Include(x => x.Equipante)
                 .OrderBy(x => new { x.Tipo, x.Equipante.Nome });
         }
@@ -158,12 +163,51 @@ namespace Core.Business.Equipes
             return equipanteEventoRepository
                 .GetAll()
                 .Include(x => x.Equipante)
+                .Include(x => x.Equipe)
                 .Where(x => x.EventoId == eventoId).ToList();
         }
 
-        public IQueryable<Equipe> GetEquipes(int? eventoId = null)
+        public IQueryable<Equipe> GetEquipes(int eventoId)
         {
-            throw new NotImplementedException();
+            var evento = eventosBusiness.GetEventoById(eventoId);
+            return conifgEquipeRepo.GetAll(x => x.ConfiguracaoId == evento.ConfiguracaoId).Select(x => x.Equipe);
+        }
+
+        public IQueryable<Equipe> GetEquipesConfig()
+        {
+            return equipeRepository.GetAll();
+        }
+
+        public void PostEquipe(PostEquipeModel model)
+        {
+            Data.Entities.Equipe equipe = null;
+
+            if (model.Id > 0)
+            {
+                equipe = equipeRepository.GetById(model.Id);
+
+                equipe.Nome = model.Nome;
+
+                equipeRepository.Update(equipe);
+            }
+            else
+            {
+                equipe = new Data.Entities.Equipe
+                {
+                    Nome = model.Nome,
+                   
+                };
+
+                equipeRepository.Insert(equipe);
+            }
+
+            equipeRepository.Save();
+        }
+
+        public void DeleteEquipe(int id)
+        {
+            equipeRepository.Delete(id);
+            equipeRepository.Save();
         }
     }
 }

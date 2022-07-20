@@ -10,6 +10,7 @@ namespace Core.Business.Circulos
         IEnumerable<Utils.Extensions.EnumExtensions.EnumModel> GetCores(int eventoId);
         List<Data.Entities.Participante> GetParticipantesSemCirculo(int eventoId);
         IQueryable<Data.Entities.Circulo> GetCirculos();
+        IQueryable<Data.Entities.CirculoDirigentes> GetDirigentes();
         IQueryable<Data.Entities.CirculoParticipante> GetParticipantesByCirculos(int id);
         IQueryable<Data.Entities.CirculoParticipante> GetCirculosComParticipantes(int eventoId);
         Data.Entities.Circulo GetCirculoById(int id);
@@ -18,5 +19,7 @@ namespace Core.Business.Circulos
         Data.Entities.Circulo GetNextCirculo(int eventoId);
         void DistribuirCirculos(int eventoId);
         void ChangeCirculo(int participanteId, int? destinoId);
+        void AddDirigente(int equipanteEventoId, int circuloId);
+        void DeleteDirigente(int id);
     }
 }

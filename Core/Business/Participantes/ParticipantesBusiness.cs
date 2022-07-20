@@ -67,6 +67,7 @@ namespace Core.Business.Participantes
         {
             return participanteRepository.GetAll(x => x.Id == id)
                 .Include(x => x.Evento)
+                .Include(x => x.Evento.Configuracao)
                 .Include(x => x.Padrinho)
                 .Include(x => x.Padrinho.EquipanteEvento)
                 .Include(x => x.Padrinho.EquipanteEvento.Equipante)
@@ -201,6 +202,9 @@ namespace Core.Business.Participantes
             participante.FoneContato = model.FoneContato;
             participante.Sexo = model.Sexo;
             participante.HasAlergia = model.HasAlergia;
+            participante.Congregacao = model.Congregacao;
+            participante.HasParente = model.HasParente;
+            participante.Parente = model.HasParente ? model.Parente : null;
             participante.Alergia = model.HasAlergia ? model.Alergia : null;
             participante.HasMedicacao = model.HasMedicacao;
             participante.Medicacao = model.HasMedicacao ? model.Medicacao : null;
@@ -242,6 +246,9 @@ namespace Core.Business.Participantes
                 Status = model.Status == "Espera" ? StatusEnum.Espera : StatusEnum.Inscrito,
                 HasAlergia = model.HasAlergia,
                 Alergia = model.HasAlergia ? model.Alergia : null,
+                Congregacao = model.Congregacao,
+                HasParente = model.HasParente,
+                Parente = model.HasParente ? model.Parente : null,
                 HasMedicacao = model.HasMedicacao,
                 Medicacao = model.HasMedicacao ? model.Medicacao : null,
                 HasRestricaoAlimentar = model.HasRestricaoAlimentar,

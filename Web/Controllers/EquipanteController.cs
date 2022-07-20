@@ -58,9 +58,7 @@ namespace SysIgreja.Controllers
             this.meioPagamentoBusiness = meioPagamentoBusiness;
             this.reunioesBusiness = reunioesBusiness;
             this.datatableService = datatableService;
-            var eventoAtivo = eventosBusiness.GetEventoAtivo() ?? eventosBusiness.GetEventos().ToList().LastOrDefault();
-            qtdReunioes = reunioesBusiness.GetReunioes(eventosBusiness.GetEventoAtivo().Id).Where(x => x.DataReuniao < System.DateTime.Today).Count();
-            mapper = new MapperRealidade(qtdReunioes, eventoAtivo.Id).mapper;
+            mapper = new MapperRealidade().mapper;
         }
 
 
@@ -81,7 +79,6 @@ namespace SysIgreja.Controllers
                    Status = x.Status.GetDescription()
                });
             ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
-            ViewBag.Valor = eventosBusiness.GetEventoAtivo()?.ValorTaxa ?? 0;
 
 
             return View();
@@ -113,7 +110,6 @@ namespace SysIgreja.Controllers
             }
             else
             {
-                var eventoId = model.EventoId ?? eventosBusiness.GetEventoAtivo().Id;
                 var result = equipantesBusiness.GetEquipantes();
 
                 var totalResultsCount = result.Count();
@@ -159,7 +155,7 @@ namespace SysIgreja.Controllers
 
                 if (model.Equipe != null)
                 {
-                    result = result.Where(x => x.Equipes.Any() && x.Equipes.OrderByDescending(z => z.EventoId).FirstOrDefault(y => y.EventoId == eventoId).EquipeId == model.Equipe);
+                    result = result.Where(x => x.Equipes.Any() && x.Equipes.OrderByDescending(z => z.EventoId).FirstOrDefault(y => y.EventoId == model.EventoId).EquipeId == model.Equipe);
                     filteredResultsCount = result.Count();
                 }
 
@@ -177,7 +173,7 @@ namespace SysIgreja.Controllers
                         {
                             result = result.OrderBy(x => new
                             {
-                                Order = x.Lancamentos.Where(y => y.EventoId == eventoId).Any()
+                                Order = x.Lancamentos.Where(y => y.EventoId == model.EventoId).Any()
                             });
 
                         }
@@ -185,7 +181,7 @@ namespace SysIgreja.Controllers
                         {
                             result = result.OrderByDescending(x => new
                             {
-                                Order = x.Lancamentos.Where(y => y.EventoId == eventoId).Any()
+                                Order = x.Lancamentos.Where(y => y.EventoId == model.EventoId).Any()
                             });
                         }
 
@@ -240,6 +236,9 @@ namespace SysIgreja.Controllers
                 result = result.Skip(model.Start)
                 .Take(model.Length);
 
+
+                var teste = result.ToList();
+
                 return Json(new
                 {
                     data = mapper.Map<IEnumerable<EquipanteListModel>>(result),
@@ -262,7 +261,7 @@ namespace SysIgreja.Controllers
         public ActionResult GetEquipante(int Id)
         {
             var result = mapper.Map<EquipanteListModel>(equipantesBusiness.GetEquipantes().ToList().FirstOrDefault(x => x.Id == Id));
-            int eventoId = (eventosBusiness.GetEventoAtivo() ?? eventosBusiness.GetEventos().OrderByDescending(x => x.DataEvento).First()).Id;
+            int eventoId = (eventosBusiness.GetEventos().OrderByDescending(x => x.DataEvento).First()).Id;
 
             var etiquetas = etiquetasBusiness.GetEtiquetas().ToList()
               .Select(x => new
@@ -294,11 +293,11 @@ namespace SysIgreja.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult InscricaoConcluida(int Id)
+        public ActionResult InscricaoConcluida(int Id, int EventoId)
         {
             Equipante equipante = equipantesBusiness.GetEquipanteById(Id);
-            var eventoAtual = eventosBusiness.GetEventoAtivo();
-            var config = configuracaoBusiness.GetConfiguracao();
+            var eventoAtual = eventosBusiness.GetEventoById(EventoId);
+            var config = configuracaoBusiness.GetConfiguracao(eventoAtual.ConfiguracaoId);
             ViewBag.Configuracao = config;
             ViewBag.MsgConclusao = config.MsgConclusaoEquipe
          .Replace("${Apelido}", equipante.Apelido)
@@ -353,9 +352,9 @@ namespace SysIgreja.Controllers
         }
 
         [HttpPost]
-        public ActionResult PostEtiquetas(string[] etiquetas, int id, string obs)
+        public ActionResult PostEtiquetas(string[] etiquetas, int id, string obs, int eventoId)
         {
-            equipantesBusiness.PostEtiquetas(etiquetas, id, obs);
+            equipantesBusiness.PostEtiquetas(etiquetas, id, obs, eventoId);
 
             return new HttpStatusCodeResult(200);
         }

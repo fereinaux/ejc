@@ -8,6 +8,7 @@ namespace Core.Models.Equipantes
     public class PostEquipanteModel
     {
         public int Id { get; set; }
+        public int? EventoId { get; set; }
         public string Nome { get; set; }
         public string Equipe { get; set; }
         public string Observacao { get; set; }

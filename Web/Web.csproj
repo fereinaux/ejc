@@ -860,6 +860,7 @@
     <Content Include="fonts\font-awesome\webfonts\fa-brands-400.svg" />
     <Content Include="fonts\font-awesome\webfonts\fa-regular-400.svg" />
     <Content Include="fonts\font-awesome\webfonts\fa-solid-900.svg" />
+    <Content Include="Images\background-inscricoes.jpg" />
     <Content Include="Images\background-login.png" />
     <Content Include="Images\calibri-bold.js" />
     <Content Include="Images\calibri-normal.js" />
@@ -1162,7 +1163,7 @@
     <Content Include="Views\Home\Coordenador.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Evento\Index.cshtml" />
-    <Content Include="Views\Inscricoes\Index.cshtml" />
+    <Content Include="Views\Inscricoes\Inscricoes.cshtml" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Views\Inscricoes\InscricaoConcluida.cshtml" />
@@ -1184,7 +1185,7 @@
     <Content Include="Views\Participante\Etiquetas.cshtml" />
     <Content Include="Views\Circulo\Index.cshtml" />
     <Content Include="Views\Relatorio\Index.cshtml" />
-    <Content Include="Views\Quarto\Index.cshtml" />
+    <Content Include="Views\Quarto\Participantes.cshtml" />
     <Content Include="Views\Participante\Checkin.cshtml" />
     <Content Include="Views\Inscricoes\InscricaoCompleta.cshtml" />
     <Content Include="Scripts\plugins\jsCrop-master\LICENSE" />
@@ -1194,12 +1195,14 @@
     <Content Include="Views\Configuracao\Index.cshtml" />
     <Content Include="Views\Mensagem\Index.cshtml" />
     <Content Include="Views\Carona\Index.cshtml" />
-    <Content Include="Views\Quarto\QuartoEquipe.cshtml" />
+    <Content Include="Views\Quarto\Equipe.cshtml" />
     <Content Include="Views\Inscricoes\Equipe.cshtml" />
     <Content Include="Views\Equipante\InscricaoConcluida.cshtml" />
     <None Include="Properties\PublishProfiles\SysIgreja Deploy.pubxml" />
     <Content Include="Views\Shared\_Inscricoes.cshtml" />
     <Content Include="Views\Padrinho\Index.cshtml" />
+    <Content Include="Views\Configuracao\Equipe.cshtml" />
+    <Content Include="Views\Inscricoes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

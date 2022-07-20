@@ -16,6 +16,12 @@ ${result.data.map(p => `<option value=${p.Id}>${p.Nome}</option>`)}
     }
 });
 
+
+function loadEquipes() {
+    getEquipes()
+    CarregarTabelaEquipante()
+}
+
 function CarregarTabelaEquipante(callbackFunction) {
 
 
@@ -34,6 +40,11 @@ function CarregarTabelaEquipante(callbackFunction) {
         stateSave: true,
         destroy: true,
         dom: domConfig,
+        stateLoadParams: function (settings, data) {
+            for (var i = 0; i < data.columns.length; i++) {
+                data.columns[i].visible = settings.aoColumns[i].visible != undefined ? settings.aoColumns[i].visible : true
+            }
+        },
         buttons: getButtonsConfig('Equipantes'),
         columns: [
             { data: "Sexo", name: "Sexo", visible: false },
@@ -52,18 +63,18 @@ function CarregarTabelaEquipante(callbackFunction) {
                 }
             },
             {
-                data: "Nome", name: "Nome", width: "25%", render: function (data, type, row) {
+                data: "Nome", name: "Nome", autoWidth: true, render: function (data, type, row) {
                     return `<div>
                         <span>${row.Nome}</br></span>
                         ${row.Etiquetas.map(etiqueta => `<span  class="badge m-r-xs" style="background-color:${etiqueta.Cor};color:#fff">${etiqueta.Nome}</span>`).join().replace(/,/g, '')}
                     </div>`
                 }
             },
-            { data: "Idade", name: "Idade", autoWidth: true },
-            { data: "Equipe", name: "Equipe", autoWidth: true },
-            { data: "Faltas", name: "Faltas", autoWidth: true },
+            { data: "Idade", name: "Idade", },
+            { data: "Equipe", name: "Equipe", autoWidth: true, visible: $("#equipante-eventoid-filtro").val() != 999 },
+            { data: "Faltas", name: "Faltas",  visible: $("#equipante-eventoid-filtro").val() != 999 },
             {
-                data: "HasOferta", name: "HasOferta", autoWidth: true, render: function (data, type, row) {
+                data: "HasOferta", name: "HasOferta", autoWidth: true, visible: $("#equipante-eventoid-filtro").val() != 999, render: function (data, type, row) {
                     if (row.Status == "Em Espera") {
                         return `<span style="font-size:13px" class="text-center label label-default}">Em Espera</span>`;
                     }
@@ -119,17 +130,24 @@ ${GetButton('Opcoes', JSON.stringify(row), 'cinza', 'fas fa-info-circle', 'OpÃ§Ã
 }
 
 function getEquipes() {
-    $.ajax({
-        url: '/Equipe/GetEquipes',
-        datatype: "json",
-        type: "POST",
-        success: (result) => {
-            $("#equipe-select").html(`
+    if ($("#equipante-eventoid-filtro").val() != 999) {
+
+        $.ajax({
+            url: '/Equipe/GetEquipes',
+            datatype: "json",
+            data: { EventoId: $("#equipante-eventoid-filtro").val() },
+            type: "POST",
+            success: (result) => {
+                $("#equipe-select").html(`
 <option value=999>Selecione</option>
 ${result.data.map(p => `<option value=${p.Id}>${p.Equipe}</option>`)}
 `)
-        }
-    });
+            }
+        });
+    } else {
+        $("#equipe-select").html(`
+<option value=999>Selecione</option>`)
+    }
 }
 
 function Anexos(id) {
@@ -425,7 +443,7 @@ function PostArquivo() {
 
     var dataToPost = new FormData($('#frm-upload-arquivo-modal')[0]);
     var filename = dataToPost.get('arquivo-modal').name
- 
+
     var arquivo = dataToPost.get('LancamentoIdModal') > 0 ? new File([dataToPost.get('arquivo-modal')], 'Pagamento ' + realista.Nome + filename.substr(filename.indexOf('.'))) : dataToPost.get('arquivo-modal');
 
     dataToPost.set('Arquivo', arquivo)
@@ -838,7 +856,6 @@ function PostPagamento() {
 
 $(document).ready(function () {
     CarregarTabelaEquipante();
-    getEquipes()
 });
 
 

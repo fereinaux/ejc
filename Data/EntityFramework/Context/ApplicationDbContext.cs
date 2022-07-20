@@ -81,6 +81,7 @@ namespace Data.Context
         }
         public DbSet<Evento> Eventos { get; set; }
         public DbSet<Circulo> Circulos { get; set; }
+        public DbSet<CirculoDirigentes> CirculoDirigentes { get; set; }
         public DbSet<Quarto> Quartos { get; set; }
         public DbSet<QuartoParticipante> QuartoParticipantes { get; set; }
         public DbSet<CirculoParticipante> CirculoParticipantes { get; set; }
@@ -124,24 +125,14 @@ namespace Data.Context
                 .WithMany()
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Circulo>()
-                .HasOptional<EquipanteEvento>(c => c.Dirigente1)
-                .WithMany()
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Circulo>()
-                .HasOptional<EquipanteEvento>(c => c.Dirigente2)
-                .WithMany()
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<EquipanteEvento>()
-                .HasOptional<Evento>(e => e.Evento)
-                .WithOptionalDependent()
+                .HasRequired<Evento>(e => e.Evento)
+                       .WithMany(x => x.Equipantes)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Quarto>()
-               .HasOptional<Evento>(q => q.Evento)
-               .WithOptionalDependent()
+               .HasRequired<Evento>(q => q.Evento)
+               .WithMany(x => x.Quartos)
                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Participante>()

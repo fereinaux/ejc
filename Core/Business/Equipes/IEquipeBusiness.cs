@@ -8,7 +8,8 @@ namespace Core.Business.Equipes
 {
     public interface IEquipesBusiness
     {
-        IQueryable<Equipe> GetEquipes(int? eventoId = null);
+        IQueryable<Equipe> GetEquipes(int eventoId);
+        IQueryable<Equipe> GetEquipesConfig();
         IQueryable<EquipanteEvento> GetMembrosEquipe(int eventoId, int equipeId);
         IQueryable<EquipanteEvento> GetMembrosEquipeDatatable(int eventoId, int equipeId);
 
@@ -20,10 +21,13 @@ namespace Core.Business.Equipes
         List<Data.Entities.Equipante> GetEquipantesRestricoesByEvento(int eventoId);
 
         void AddMembroEquipe(PostEquipeMembroModel model);
-        void ToggleMembroEquipeTipo(int id);
         void DeleteMembroEquipe(int id);
+        void ToggleMembroEquipeTipo(int id);
         EquipanteEvento GetEquipeAtual(int eventoId, int equipeId);
         IQueryable<PresencaReuniao> GetPresenca(int reuniaoId);
         void TogglePresenca(int equipanteEventoId, int reuniaoId);
+
+        void PostEquipe(PostEquipeModel model);
+        void DeleteEquipe(int id);
     }
 }

@@ -38,7 +38,13 @@ namespace Core.Business.Equipantes
 
         public IQueryable<Equipante> GetEquipantes()
         {
-            return equipanteRepository.GetAll().Include(x => x.ParticipantesEtiquetas).Include(x => x.ParticipantesEtiquetas.Select(y => y.Etiqueta));
+            return equipanteRepository
+                .GetAll()
+                .Include("Equipes")
+                .Include("Equipes.Equipe")
+                .Include("Equipes.Evento")
+                .Include("ParticipantesEtiquetas")
+                .Include("ParticipantesEtiquetas.Etiqueta");                
         }
 
         public Equipante PostEquipante(PostEquipanteModel model)
@@ -72,13 +78,13 @@ namespace Core.Business.Equipantes
                 equipante.Latitude = model.Latitude;
                 equipante.Longitude = model.Longitude;
                 equipante.HasVacina = model.HasVacina;
-                var eventoAtivo = eventosBusiness.GetEventoAtivo();
+          
                 ParticipantesEtiquetasRepo.GetAll(x => x.EquipanteId == model.Id).ToList().ForEach(etiqueta => ParticipantesEtiquetasRepo.Delete(etiqueta.Id));
                 if (model.Etiquetas != null)
                 {
                     foreach (var etiqueta in model.Etiquetas)
                     {
-                        ParticipantesEtiquetasRepo.Insert(new ParticipantesEtiquetas { EquipanteId = model.Id, EventoId = eventoAtivo?.Id ?? null, EtiquetaId = Int32.Parse(etiqueta) });
+                        ParticipantesEtiquetasRepo.Insert(new ParticipantesEtiquetas { EquipanteId = model.Id, EventoId = model.EventoId, EtiquetaId = Int32.Parse(etiqueta) });
                     }
 
                 }
@@ -154,17 +160,16 @@ namespace Core.Business.Equipantes
             equipanteEventoRepository.Save();
         }
 
-        public void PostEtiquetas(string[] etiquetas, int id, string obs)
+        public void PostEtiquetas(string[] etiquetas, int id, string obs, int? eventoId)
         {
             Equipante equipante = equipanteRepository.GetById(id);
 
-            var eventoAtivo = eventosBusiness.GetEventoAtivo();
             ParticipantesEtiquetasRepo.GetAll(x => x.EquipanteId == id).ToList().ForEach(etiqueta => ParticipantesEtiquetasRepo.Delete(etiqueta.Id));
             if (etiquetas != null)
             {
                 foreach (var etiqueta in etiquetas)
                 {
-                    ParticipantesEtiquetasRepo.Insert(new ParticipantesEtiquetas { EquipanteId = id, EventoId = eventoAtivo?.Id ?? null, EtiquetaId = Int32.Parse(etiqueta) });
+                    ParticipantesEtiquetasRepo.Insert(new ParticipantesEtiquetas { EquipanteId = id, EventoId = eventoId, EtiquetaId = Int32.Parse(etiqueta) });
                 }
 
             }

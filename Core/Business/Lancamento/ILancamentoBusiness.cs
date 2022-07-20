@@ -13,6 +13,6 @@ namespace Core.Business.Lancamento
         IQueryable<Data.Entities.Lancamento> GetPagamentosEvento(int eventoId);
         IQueryable<Data.Entities.Lancamento> GetLancamentos();
         IQueryable<Data.Entities.Lancamento> GetPagamentosParticipante(int participanteId);
-        IQueryable<Data.Entities.Lancamento> GetPagamentosEquipante(int equipanteId);
+        IQueryable<Data.Entities.Lancamento> GetPagamentosEquipante(int equipanteId, int eventoId);
     }
 }

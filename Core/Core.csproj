@@ -84,6 +84,7 @@
     <Compile Include="Models\Configuracao\PostConfiguracaoModel.cs" />
     <Compile Include="Models\DataTable\DataTableModel.cs" />
     <Compile Include="Models\Equipantes\EquipanteListModel.cs" />
+    <Compile Include="Models\Equipe\PostEquipeModel.cs" />
     <Compile Include="Models\Etiquetas\PostEtiquetaModel.cs" />
     <Compile Include="Models\Mensagem\PostMessageModel.cs" />
     <Compile Include="Models\Participantes\PostInfoModel.cs" />

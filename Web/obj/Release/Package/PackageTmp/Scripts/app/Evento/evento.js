@@ -265,7 +265,7 @@ function GetTipos(id) {
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             data.Tipos.forEach(function (tipo, index, array) {
-                $('#evento-tipo').append($(`<option value="${tipo.Id}">${tipo.Description}</option>`));
+                $('#evento-tipo').append($(`<option value="${tipo.Id}">${tipo.Titulo}</option>`));
             });
             $("#evento-tipo").val($("#evento-tipo option:first").val()).trigger("chosen:updated");
         }
