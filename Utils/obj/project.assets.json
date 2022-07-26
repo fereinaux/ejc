@@ -2,6 +2,20 @@
   "version": 3,
   "targets": {
     ".NETFramework,Version=v4.7.2": {
+      "EntityFramework/6.1.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations"
+        ],
+        "compile": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        }
+      },
       "EPPlus/4.5.3.2": {
         "type": "package",
         "frameworkAssemblies": [
@@ -37,10 +51,59 @@
         },
         "runtime": {
           "lib/net40/System.Linq.Dynamic.dll": {}
+        }
+      },
+      "Z.EntityFramework.Extensions/6.14.3": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.0.0"
+        },
+        "compile": {
+          "lib/net45/Z.EntityFramework.Extensions.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.EntityFramework.Extensions.dll": {}
+        }
+      },
+      "Z.EntityFramework.Plus.EF6/6.14.3": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.1.0",
+          "Z.EntityFramework.Extensions": "[6.14.3]",
+          "Z.Expressions.Eval": "[4.0.86]"
+        },
+        "compile": {
+          "lib/net45/Z.EntityFramework.Plus.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.EntityFramework.Plus.EF6.dll": {}
+        }
+      },
+      "Z.Expressions.Eval/4.0.86": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Z.Expressions.Eval.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.Expressions.Eval.dll": {}
         }
       }
     },
     ".NETFramework,Version=v4.7.2/win": {
+      "EntityFramework/6.1.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations"
+        ],
+        "compile": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        }
+      },
       "EPPlus/4.5.3.2": {
         "type": "package",
         "frameworkAssemblies": [
@@ -76,10 +139,59 @@
         },
         "runtime": {
           "lib/net40/System.Linq.Dynamic.dll": {}
+        }
+      },
+      "Z.EntityFramework.Extensions/6.14.3": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.0.0"
+        },
+        "compile": {
+          "lib/net45/Z.EntityFramework.Extensions.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.EntityFramework.Extensions.dll": {}
+        }
+      },
+      "Z.EntityFramework.Plus.EF6/6.14.3": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.1.0",
+          "Z.EntityFramework.Extensions": "[6.14.3]",
+          "Z.Expressions.Eval": "[4.0.86]"
+        },
+        "compile": {
+          "lib/net45/Z.EntityFramework.Plus.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.EntityFramework.Plus.EF6.dll": {}
+        }
+      },
+      "Z.Expressions.Eval/4.0.86": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Z.Expressions.Eval.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.Expressions.Eval.dll": {}
         }
       }
     },
     ".NETFramework,Version=v4.7.2/win-x64": {
+      "EntityFramework/6.1.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations"
+        ],
+        "compile": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        }
+      },
       "EPPlus/4.5.3.2": {
         "type": "package",
         "frameworkAssemblies": [
@@ -115,10 +227,59 @@
         },
         "runtime": {
           "lib/net40/System.Linq.Dynamic.dll": {}
+        }
+      },
+      "Z.EntityFramework.Extensions/6.14.3": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.0.0"
+        },
+        "compile": {
+          "lib/net45/Z.EntityFramework.Extensions.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.EntityFramework.Extensions.dll": {}
+        }
+      },
+      "Z.EntityFramework.Plus.EF6/6.14.3": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.1.0",
+          "Z.EntityFramework.Extensions": "[6.14.3]",
+          "Z.Expressions.Eval": "[4.0.86]"
+        },
+        "compile": {
+          "lib/net45/Z.EntityFramework.Plus.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.EntityFramework.Plus.EF6.dll": {}
+        }
+      },
+      "Z.Expressions.Eval/4.0.86": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Z.Expressions.Eval.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.Expressions.Eval.dll": {}
         }
       }
     },
     ".NETFramework,Version=v4.7.2/win-x86": {
+      "EntityFramework/6.1.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations"
+        ],
+        "compile": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        }
+      },
       "EPPlus/4.5.3.2": {
         "type": "package",
         "frameworkAssemblies": [
@@ -154,11 +315,76 @@
         },
         "runtime": {
           "lib/net40/System.Linq.Dynamic.dll": {}
+        }
+      },
+      "Z.EntityFramework.Extensions/6.14.3": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.0.0"
+        },
+        "compile": {
+          "lib/net45/Z.EntityFramework.Extensions.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.EntityFramework.Extensions.dll": {}
+        }
+      },
+      "Z.EntityFramework.Plus.EF6/6.14.3": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.1.0",
+          "Z.EntityFramework.Extensions": "[6.14.3]",
+          "Z.Expressions.Eval": "[4.0.86]"
+        },
+        "compile": {
+          "lib/net45/Z.EntityFramework.Plus.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.EntityFramework.Plus.EF6.dll": {}
+        }
+      },
+      "Z.Expressions.Eval/4.0.86": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Z.Expressions.Eval.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Z.Expressions.Eval.dll": {}
         }
       }
     }
   },
   "libraries": {
+    "EntityFramework/6.1.0": {
+      "sha512": "u/M0OEfqxTUsL5BwzD66eBGm278/ozqdLK3JvMO6QwUxxc+z7ZUkTYm4suDhWRqzkc6mOhvXDQY5dZUwbldxyQ==",
+      "type": "package",
+      "path": "entityframework/6.1.0",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "content/App.config.transform",
+        "content/Web.config.transform",
+        "entityframework.6.1.0.nupkg.sha512",
+        "entityframework.nuspec",
+        "lib/net40/EntityFramework.SqlServer.dll",
+        "lib/net40/EntityFramework.SqlServer.xml",
+        "lib/net40/EntityFramework.dll",
+        "lib/net40/EntityFramework.xml",
+        "lib/net45/EntityFramework.SqlServer.dll",
+        "lib/net45/EntityFramework.SqlServer.xml",
+        "lib/net45/EntityFramework.dll",
+        "lib/net45/EntityFramework.xml",
+        "tools/EntityFramework.PowerShell.Utility.dll",
+        "tools/EntityFramework.PowerShell.dll",
+        "tools/EntityFramework.psd1",
+        "tools/EntityFramework.psm1",
+        "tools/about_EntityFramework.help.txt",
+        "tools/init.ps1",
+        "tools/install.ps1",
+        "tools/migrate.exe"
+      ]
+    },
     "EPPlus/4.5.3.2": {
       "sha512": "JoEDkHEcYio3uV8T9+anjfB6x6hirEW9zdO4Ibyd8BDrct0tCp6vMqvKFpAcPNE6TVRG03y1bskFlJXbXiCJxg==",
       "type": "package",
@@ -213,13 +439,69 @@
         "system.linq.dynamic.1.0.8.nupkg.sha512",
         "system.linq.dynamic.nuspec"
       ]
+    },
+    "Z.EntityFramework.Extensions/6.14.3": {
+      "sha512": "99wp2E7N5Zb7N6aKOYwKTU5pLUgrvMS8aDaKAcTRmI785e/tSGSjBHuA/UO1MpdNhpA+dLyn5L0vSKMj8wMYQw==",
+      "type": "package",
+      "path": "z.entityframework.extensions/6.14.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/Z.EntityFramework.Extensions.dll",
+        "lib/net40/Z.EntityFramework.Extensions.xml",
+        "lib/net45/Z.EntityFramework.Extensions.dll",
+        "lib/net45/Z.EntityFramework.Extensions.xml",
+        "lib/netstandard2.1/Z.EntityFramework.Extensions.dll",
+        "lib/netstandard2.1/Z.EntityFramework.Extensions.xml",
+        "z.entityframework.extensions.6.14.3.nupkg.sha512",
+        "z.entityframework.extensions.nuspec"
+      ]
+    },
+    "Z.EntityFramework.Plus.EF6/6.14.3": {
+      "sha512": "RwxmGHWEQFVu9nu2jV92PhCQtUmmjOmJgFtAGNdxWf7E5iMufsc9M0ZzwrQvN4ZUVtE/KTKYKhCypZGFlqytZA==",
+      "type": "package",
+      "path": "z.entityframework.plus.ef6/6.14.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/Z.EntityFramework.Plus.EF6.dll",
+        "lib/net40/Z.EntityFramework.Plus.EF6.xml",
+        "lib/net45/Z.EntityFramework.Plus.EF6.dll",
+        "lib/net45/Z.EntityFramework.Plus.EF6.xml",
+        "lib/netstandard2.1/Z.EntityFramework.Plus.EF6.dll",
+        "lib/netstandard2.1/Z.EntityFramework.Plus.EF6.xml",
+        "z.entityframework.plus.ef6.6.14.3.nupkg.sha512",
+        "z.entityframework.plus.ef6.nuspec"
+      ]
+    },
+    "Z.Expressions.Eval/4.0.86": {
+      "sha512": "pecgfl4uzB9QWMpdrcWQd1SrFe9rBwtDUMNAheDHFXSa8jMc2oa2oqWx2dONH3CbHIBz5451HdsBSlS2mUvkug==",
+      "type": "package",
+      "path": "z.expressions.eval/4.0.86",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/Z.Expressions.Eval.dll",
+        "lib/net40/Z.Expressions.Eval.xml",
+        "lib/net45/Z.Expressions.Eval.dll",
+        "lib/net45/Z.Expressions.Eval.xml",
+        "lib/net6.0/Z.Expressions.Eval.dll",
+        "lib/net6.0/Z.Expressions.Eval.xml",
+        "lib/netstandard2.0/Z.Expressions.Eval.dll",
+        "lib/netstandard2.0/Z.Expressions.Eval.xml",
+        "lib/netstandard2.1/Z.Expressions.Eval.dll",
+        "lib/netstandard2.1/Z.Expressions.Eval.xml",
+        "z.expressions.eval.4.0.86.nupkg.sha512",
+        "z.expressions.eval.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.7.2": [
       "EPPlus >= 4.5.3.2",
       "Microsoft.SqlServer.Types >= 14.0.1016.290",
-      "System.Linq.Dynamic >= 1.0.8"
+      "System.Linq.Dynamic >= 1.0.8",
+      "Z.EntityFramework.Plus.EF6 >= 6.14.3"
     ]
   },
   "packageFolders": {
@@ -228,11 +510,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\felip\\Source\\Repos\\fereinaux\\ejc\\Utils\\Utils.csproj",
+      "projectUniqueName": "C:\\Users\\felip\\source\\repos\\fereinaux\\ejc\\Utils\\Utils.csproj",
       "projectName": "Utils",
-      "projectPath": "C:\\Users\\felip\\Source\\Repos\\fereinaux\\ejc\\Utils\\Utils.csproj",
+      "projectPath": "C:\\Users\\felip\\source\\repos\\fereinaux\\ejc\\Utils\\Utils.csproj",
       "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\felip\\Source\\Repos\\fereinaux\\ejc\\Utils\\obj\\",
+      "outputPath": "C:\\Users\\felip\\source\\repos\\fereinaux\\ejc\\Utils\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
@@ -266,6 +548,10 @@
           "System.Linq.Dynamic": {
             "target": "Package",
             "version": "[1.0.8, )"
+          },
+          "Z.EntityFramework.Plus.EF6": {
+            "target": "Package",
+            "version": "[6.14.3, )"
           }
         }
       }

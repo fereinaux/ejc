@@ -47,7 +47,11 @@ namespace Core.Business.Reunioes
 
         public IQueryable<ReuniaoEvento> GetReunioes(int eventoId)
         {
-            return reuniaoRepository.GetAll(x => x.EventoId == eventoId).Include(x => x.Presenca).Include(x => x.Presenca.Select(y => y.EquipanteEvento));
+            return reuniaoRepository
+                .GetAll(x => x.EventoId == eventoId)
+                .Include(x => x.Presenca)
+                .Include(x => x.Presenca.Select(y => y.EquipanteEvento))
+                .Include(x => x.Presenca.Select(y => y.EquipanteEvento.Equipe));
         }
 
         public void PostReuniao(PostReuniaoModel model)

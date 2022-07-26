@@ -75,3 +75,8 @@ C:\Users\felip\Source\Repos\fereinaux\ejc\Utils\obj\Debug\Utils.csproj.CoreCompi
 C:\Users\felip\Source\Repos\fereinaux\ejc\Utils\obj\Debug\Utils.csproj.CopyComplete
 C:\Users\felip\Source\Repos\fereinaux\ejc\Utils\obj\Debug\Utils.dll
 C:\Users\felip\Source\Repos\fereinaux\ejc\Utils\obj\Debug\Utils.pdb
+C:\Users\felip\source\repos\fereinaux\ejc\Utils\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\felip\source\repos\fereinaux\ejc\Utils\bin\Debug\EntityFramework.dll
+C:\Users\felip\source\repos\fereinaux\ejc\Utils\bin\Debug\Z.EntityFramework.Extensions.dll
+C:\Users\felip\source\repos\fereinaux\ejc\Utils\bin\Debug\Z.EntityFramework.Plus.EF6.dll
+C:\Users\felip\source\repos\fereinaux\ejc\Utils\bin\Debug\Z.Expressions.Eval.dll

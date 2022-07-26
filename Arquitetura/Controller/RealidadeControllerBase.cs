@@ -2,6 +2,7 @@
 using Core.Business.Account;
 using Core.Business.Configuracao;
 using Core.Business.Eventos;
+using Core.Models.Configuracao;
 using Data.Context;
 using Microsoft.AspNet.Identity;
 using System.IO;
@@ -49,7 +50,7 @@ namespace Arquitetura.Controller
                     DataEvento = x.DataEvento,
                     Descricao = x.Descricao,
                     Numeracao = x.Numeracao,
-                    TipoEvento = x.Configuracao.Titulo,
+                    TipoEvento = x.Configuracao?.Titulo,
                     Status = x.Status.GetDescription()
                 });
         }
@@ -58,6 +59,29 @@ namespace Arquitetura.Controller
         {
             ViewBag.Configuracao = configuracaoBusiness
                 .GetConfiguracao(null);
+        }
+
+        public void GetConfiguracoes()
+        {
+         
+            ViewBag.Configuracoes = configuracaoBusiness
+                .GetConfiguracoes().ToList()
+                .Select(x => new PostConfiguracaoModel
+                {
+                    Id = x.Id,
+                    Titulo = x.Titulo,
+                    Etiquetas = x.Etiquetas.Select(y => new EtiquetaModel
+                    {
+                        Cor = y.Cor,
+                        Id = y.Id,
+                        Nome = y.Nome
+                    }).ToList(),
+                    MeioPagamentos = x.MeioPagamentos.Select(y => new MeioPagamentoModel
+                    {
+                        Descricao = y.Descricao,
+                        Id = y.Id
+                    }).ToList()
+                });
         }
 
         public ApplicationUser GetApplicationUser()

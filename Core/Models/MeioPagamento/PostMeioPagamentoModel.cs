@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Descricao { get; set; }
+        public int ConfiguracaoId { get; set; }
         public double Taxa { get; set; }
     }
 }

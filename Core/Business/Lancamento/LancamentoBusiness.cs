@@ -41,13 +41,14 @@ namespace Core.Business.Lancamento
         {
             string descricao = "";
             int centCusto = 0;
+            var evento = eventosBusiness.GetEventoById(model.EventoId);
 
             if (model.ParticipanteId.HasValue)
             {
                 Participante participante = participanteRepository.GetById(model.ParticipanteId.Value);
 
                 descricao = $"Inscrição {participante.Nome}";
-                centCusto = (int)CentroCustoPadraoEnum.Inscricoes;
+                centCusto = evento.Configuracao.CentroCustoInscricaoId.Value;
 
                 participante.Status = StatusEnum.Confirmado;
                 participanteRepository.Update(participante);
@@ -60,7 +61,7 @@ namespace Core.Business.Lancamento
                 Equipante equipante = equipanteRepository.GetById(model.EquipanteId.Value);
 
                 descricao = $"Taxa de Equipante {equipante.Nome}";
-                centCusto = (int)CentroCustoPadraoEnum.TaxaEquipante;
+                centCusto = evento.Configuracao.CentroCustoTaxaId.Value;
             }
 
             Data.Entities.Lancamento lancamento = new Data.Entities.Lancamento

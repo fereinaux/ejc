@@ -28,9 +28,9 @@ namespace Core.Business.Etiquetas
             return etiquetaRepo.GetById(id);
         }
 
-        public IQueryable<Etiqueta> GetEtiquetas()
+        public IQueryable<Etiqueta> GetEtiquetas(int configuracaoId)
         {
-            return etiquetaRepo.GetAll();
+            return etiquetaRepo.GetAll(x => x.ConfiguracaoId == configuracaoId);
         }
 
         public IQueryable<Etiqueta> GetEtiquetasByParticipante(int participanteId)
@@ -52,6 +52,7 @@ namespace Core.Business.Etiquetas
                 etiqueta = etiquetaRepo.GetById(model.Id);
 
                 etiqueta.Nome = model.Nome;
+                etiqueta.ConfiguracaoId = model.ConfiguracaoId;
                 etiqueta.Cor = model.Cor;
 
                 etiquetaRepo.Update(etiqueta);
@@ -61,6 +62,7 @@ namespace Core.Business.Etiquetas
                 etiqueta = new Data.Entities.Etiqueta
                 {
                     Nome = model.Nome,
+                    ConfiguracaoId = model.ConfiguracaoId,
                     Cor = model.Cor
                 };
 

@@ -17,7 +17,7 @@ namespace Core.Business.Configuracao
         private readonly IGenericRepository<ConfiguracaoEquipes> equipesRepo;
         private readonly IEventosBusiness eventosBusiness;
 
-        public ConfiguracaoBusiness(IEventosBusiness eventosBusiness,IGenericRepository<Data.Entities.Configuracao> repo, IGenericRepository<ConfiguracaoCampos> camposRepo, IGenericRepository<ConfiguracaoEquipes> equipesRepo)
+        public ConfiguracaoBusiness(IEventosBusiness eventosBusiness, IGenericRepository<Data.Entities.Configuracao> repo, IGenericRepository<ConfiguracaoCampos> camposRepo, IGenericRepository<ConfiguracaoEquipes> equipesRepo)
         {
             this.repo = repo;
             this.camposRepo = camposRepo;
@@ -27,34 +27,73 @@ namespace Core.Business.Configuracao
 
         public IQueryable<Data.Entities.Configuracao> GetConfiguracoes()
         {
-            return repo.GetAll().Include(x => x.LogoRelatorio).Include(x => x.BackgroundCelular).Include(x => x.Logo).Include(x => x.Background);
+            return repo.GetAll()
+                    .Include(x => x.Mensagens)
+                    .Include(x => x.Etiquetas)
+                    .Include(x => x.Campos)
+                    .Include(x => x.Equipes)
+                    .Include(x => x.CentroCustos)
+                    .Include(x => x.MeioPagamentos)
+                    .Include(x => x.LogoRelatorio)
+                    .Include(x => x.BackgroundCelular)
+                    .Include(x => x.Logo)
+                    .Include(x => x.Background);
         }
 
         public PostConfiguracaoModel GetConfiguracao(int? configId)
         {
-            return repo.GetAll(x => x.Id == (configId.HasValue ? configId.Value : 1)).Include(x => x.LogoRelatorio).Include(x => x.BackgroundCelular).Include(x => x.Logo).Include(x => x.Background).ToList().Select(x => new PostConfiguracaoModel
-            {
-                Id = x.Id,
-                Titulo = x.Titulo,
-                BackgroundId = x.BackgroundId,
-                BackgroundCelularId = x.BackgroundCelularId,
-                CorBotao = x.CorBotao,
-                CorHoverBotao = x.CorHoverBotao,
-                CorHoverScroll = x.CorHoverScroll,
-                TipoCirculoId = x.TipoCirculo,
-                TipoCirculo = x.TipoCirculo.GetDescription(),
-                CorLoginBox = x.CorLoginBox,
-                CorScroll = x.CorScroll,
-                LogoId = x.LogoId,
-                LogoRelatorioId = x.LogoRelatorioId,
-                MsgConclusao = x.MsgConclusao,
-                MsgConclusaoEquipe = x.MsgConclusaoEquipe,
-                Logo = x.Logo != null ? Convert.ToBase64String(x.Logo.Conteudo) : "",
-                Background = x.Background != null ? Convert.ToBase64String(x.Background.Conteudo) : "",
-                LogoRelatorio = x.LogoRelatorio != null ? Convert.ToBase64String(x.LogoRelatorio.Conteudo) : "",
-                BackgroundCelular = x.BackgroundCelular != null ? Convert.ToBase64String(x.BackgroundCelular.Conteudo) : ""
+            var query = repo.GetAll(x => x.Id == (configId.HasValue ? configId.Value : 1))
+                .Include(x => x.LogoRelatorio)
+                 .Include(x => x.Mensagens)
+                    .Include(x => x.Etiquetas)
+                    .Include(x => x.Campos)
+                    .Include(x => x.Equipes)
+                    .Include(x => x.CentroCustos)
+                    .Include(x => x.MeioPagamentos)
+                .Include(x => x.BackgroundCelular)
+                .Include(x => x.Logo)
+                .Include(x => x.Background).ToList().Select(x => new PostConfiguracaoModel
+                {
+                    Id = x.Id,
+                    Titulo = x.Titulo,
+                    BackgroundId = x.BackgroundId,
+                    BackgroundCelularId = x.BackgroundCelularId,
+                    CorBotao = x.CorBotao,
+                    CorHoverBotao = x.CorHoverBotao,
+                    CorHoverScroll = x.CorHoverScroll,
+                    TipoCirculoId = x.TipoCirculo,
+                    TipoCirculo = x.TipoCirculo.GetDescription(),
+                    CorLoginBox = x.CorLoginBox,
+                    CorScroll = x.CorScroll,
+                    LogoId = x.LogoId,
+                    LogoRelatorioId = x.LogoRelatorioId,
+                    MsgConclusao = x.MsgConclusao,
+                    MsgConclusaoEquipe = x.MsgConclusaoEquipe,
+                    Logo = x.Logo != null ? Convert.ToBase64String(x.Logo.Conteudo) : "",
+                    Background = x.Background != null ? Convert.ToBase64String(x.Background.Conteudo) : "",
+                    LogoRelatorio = x.LogoRelatorio != null ? Convert.ToBase64String(x.LogoRelatorio.Conteudo) : "",
+                    BackgroundCelular = x.BackgroundCelular != null ? Convert.ToBase64String(x.BackgroundCelular.Conteudo) : "",
+                    MeioPagamentos = x.MeioPagamentos.Select(y => new MeioPagamentoModel
+                    {
+                        Descricao = y.Descricao,
+                        Id = y.Id
+                    }).ToList(),
+                    CentroCustos = x.CentroCustos.Select(y => new CentroCustoModel
+                    {
+                        Descricao = y.Descricao,
+                        Tipo = y.Tipo.GetDescription(),
+                        Id = y.Id
+                    }).ToList(),
+                    Etiquetas = x.Etiquetas.Select(y => new EtiquetaModel
+                    {
+                        Cor = y.Cor,
+                        Id = y.Id,
+                        Nome = y.Nome
+                    }).ToList(),
 
-            }).FirstOrDefault();
+                });
+                
+                return query.FirstOrDefault();
         }
 
 
@@ -151,6 +190,8 @@ namespace Core.Business.Configuracao
                 configuracao.CorHoverScroll = model.CorHoverScroll;
                 configuracao.CorScroll = model.CorScroll;
                 configuracao.EquipeCirculoId = model.EquipeCirculoId;
+                configuracao.CentroCustoInscricaoId = model.CentroCustoInscricaoId;
+                configuracao.CentroCustoTaxaId = model.CentroCustoTaxaId;
                 configuracao.Titulo = model.Titulo;
                 configuracao.CorLoginBox = model.CorLoginBox;
                 configuracao.MsgConclusao = model.MsgConclusao;
@@ -160,8 +201,8 @@ namespace Core.Business.Configuracao
             else
             {
                 Data.Entities.Configuracao configuracao = new Data.Entities.Configuracao
-                {                
-                    Titulo = "SysIgreja"     
+                {
+                    Titulo = "SysIgreja"
                 };
 
                 repo.Insert(configuracao);

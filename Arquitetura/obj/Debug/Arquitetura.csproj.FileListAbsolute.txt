@@ -291,3 +291,6 @@ C:\Users\felip\Source\Repos\fereinaux\ejc\Arquitetura\obj\Debug\Arquitetura.cspr
 C:\Users\felip\Source\Repos\fereinaux\ejc\Arquitetura\obj\Debug\Arquitetura.csproj.CopyComplete
 C:\Users\felip\Source\Repos\fereinaux\ejc\Arquitetura\obj\Debug\Arquitetura.dll
 C:\Users\felip\Source\Repos\fereinaux\ejc\Arquitetura\obj\Debug\Arquitetura.pdb
+C:\Users\felip\source\repos\fereinaux\ejc\Arquitetura\bin\Debug\Z.EntityFramework.Extensions.dll
+C:\Users\felip\source\repos\fereinaux\ejc\Arquitetura\bin\Debug\Z.EntityFramework.Plus.EF6.dll
+C:\Users\felip\source\repos\fereinaux\ejc\Arquitetura\bin\Debug\Z.Expressions.Eval.dll

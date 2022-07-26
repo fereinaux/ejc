@@ -64,6 +64,9 @@
     <PackageReference Include="System.Linq.Dynamic">
       <Version>1.0.8</Version>
     </PackageReference>
+    <PackageReference Include="Z.EntityFramework.Plus.EF6">
+      <Version>6.14.3</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -60,10 +60,10 @@ namespace SysIgreja.Controllers
             {
                 return Json(new
                 {
-                    Equipes = equipesBusiness.GetEquipes()
+                    Equipes = equipesBusiness.GetEquipes(EventoId).ToList()
                     .Where(x =>
-                    x.Description == equipesBusiness.GetEquipanteEventoByUser(EventoId, user.Id)
-                        .Equipe.GetDescription())
+                    x.Id == equipesBusiness.GetEquipanteEventoByUser(EventoId, user.Id)
+                        .EquipeId)
                         .ToList()
                 }, JsonRequestBehavior.AllowGet);
             }
@@ -93,22 +93,35 @@ namespace SysIgreja.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetEquipes(int? EventoId)
+        public ActionResult GetEquipes(int EventoId)
         {
-            EventoId = EventoId ?? eventosBusiness.GetEventoAtivo().Id;
-            var result = equipesBusiness.GetEquipes(EventoId).Select(x => new ListaEquipesViewModel
+            var evento = eventosBusiness.GetEventoById(EventoId);
+
+            var result = equipesBusiness.GetEquipes(EventoId).ToList().Select(x => new ListaEquipesViewModel
             {
                 Id = x.Id,
-                Equipe = x.Description,
-                QuantidadeMembros = equipesBusiness.GetMembrosEquipe(EventoId.Value, (EquipesEnum)x.Id).Count(),
-                QtdAnexos = arquivosBusiness.GetArquivosByEquipe((EquipesEnum)x.Id, false).Count()
+                Equipe = x.Nome,
+                QuantidadeMembros = equipesBusiness.GetMembrosEquipe(EventoId, x.Id).Count(),
+                QtdAnexos = arquivosBusiness.GetArquivosByEquipe(x.Id, false, evento.ConfiguracaoId.Value).Count()
             });
 
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult GetPresenca(int EventoId, EquipesEnum EquipeId, int ReuniaoId)
+        public ActionResult GetEquipesConfig()
+        {
+            var result = equipesBusiness.GetEquipesConfig().Select(x => new
+            {
+                x.Id,
+                x.Nome,
+            });
+
+            return Json(new { data = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult GetPresenca(int EventoId, int EquipeId, int ReuniaoId)
         {
             var presenca = equipesBusiness.GetPresenca(ReuniaoId).Select(x => x.EquipanteEventoId).ToList();
 
@@ -126,7 +139,7 @@ namespace SysIgreja.Controllers
         [HttpGet]
         public ActionResult GetEquipantes(int EventoId)
         {
-            var result = equipesBusiness.GetEquipantesEventoSemEquipe(EventoId).Select(x => new { x.Id, x.Nome });
+            var result = equipesBusiness.GetEquipantesEventoSemEquipe(EventoId).Select(x => new { x.Id, x.Nome }).OrderBy(x => x.Nome);
 
             return Json(new { Equipantes = result }, JsonRequestBehavior.AllowGet);
         }
@@ -151,17 +164,17 @@ namespace SysIgreja.Controllers
         [HttpGet]
         public ActionResult GetEquipantesByEvento(int EventoId)
         {
-            var result = equipesBusiness.GetEquipantesByEvento(EventoId)
+            var result = equipesBusiness.GetEquipantesEvento(EventoId)
                 .Select(x => new
                 {
                     Id = x.Id,
-                    Sexo = x.Sexo.GetDescription(),
-                    Fone = x.Fone,
-                    Idade = UtilServices.GetAge(x.DataNascimento),
-                    Equipe = equipesBusiness.GetEquipeAtual(EventoId, x.Id)?.Equipe.GetDescription() ?? "",
-                    Nome = UtilServices.CapitalizarNome(x.Nome),
-                    Apelido = UtilServices.CapitalizarNome(x.Apelido),
-                    Foto = x.Arquivos.Any(y => y.IsFoto) ? Convert.ToBase64String(x.Arquivos.FirstOrDefault(y => y.IsFoto).Conteudo) : ""
+                    Sexo = x.Equipante.Sexo.GetDescription(),
+                    Fone = x.Equipante.Fone,
+                    Idade = UtilServices.GetAge(x.Equipante.DataNascimento),
+                    Equipe = x.Equipe.Nome,
+                    Nome = UtilServices.CapitalizarNome(x.Equipante.Nome),
+                    Apelido = UtilServices.CapitalizarNome(x.Equipante.Apelido),
+                    Foto = x.Equipante.Arquivos.Any(y => y.IsFoto) ? Convert.ToBase64String(x.Equipante.Arquivos.FirstOrDefault(y => y.IsFoto).Conteudo) : ""
                 }).ToList().OrderBy(x => x.Equipe).ThenBy(x => x.Nome);
 
             var json = Json(new { data = result }, JsonRequestBehavior.AllowGet);
@@ -171,7 +184,7 @@ namespace SysIgreja.Controllers
 
 
         [HttpPost]
-        public ActionResult GetMembrosEquipeDatatable(int EventoId, EquipesEnum EquipeId)
+        public ActionResult GetMembrosEquipeDatatable(int EventoId, int EquipeId)
         {
             var query = equipesBusiness
                 .GetMembrosEquipeDatatable(EventoId, EquipeId)
@@ -184,7 +197,7 @@ namespace SysIgreja.Controllers
                 Nome = UtilServices.CapitalizarNome(x.Equipante.Nome),
                 Apelido = UtilServices.CapitalizarNome(x.Equipante.Apelido),
                 Fone = x.Equipante.Fone,
-                Equipe = x.Equipe.GetDescription(),
+                Equipe = x.Equipe.Nome,
                 Idade = UtilServices.GetAge(x.Equipante.DataNascimento),
                 Tipo = x.Tipo.GetDescription(),
             });
@@ -195,7 +208,7 @@ namespace SysIgreja.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetMembrosEquipe(int EventoId, EquipesEnum EquipeId)
+        public ActionResult GetMembrosEquipe(int EventoId, int EquipeId)
         {
             var query = equipesBusiness
                 .GetMembrosEquipe(EventoId, EquipeId)
@@ -207,7 +220,7 @@ namespace SysIgreja.Controllers
                 Id = x.Id,
                 Nome = x.Equipante.Nome,
                 Apelido = x.Equipante.Apelido,
-                Equipe = x.Equipe.GetDescription(),
+                Equipe = x.Equipe.Nome,
                 Idade = UtilServices.GetAge(x.Equipante.DataNascimento),
                 Tipo = x.Tipo.GetDescription(),
                 x.Equipante.Fone,
@@ -236,7 +249,29 @@ namespace SysIgreja.Controllers
         [HttpPost]
         public ActionResult DeleteMembroEquipe(int Id)
         {
-            equipesBusiness.DeleteMembroEquipe(Id);
+            var result = equipesBusiness.DeleteMembroEquipe(Id);
+            if (result == "ok")
+                return new HttpStatusCodeResult(200);
+            else
+            {
+                return new HttpStatusCodeResult(400, result);
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult PostEquipe(PostEquipeModel model)
+        {
+            equipesBusiness.PostEquipe(model);
+
+            return new HttpStatusCodeResult(200);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteEquipe(int Id)
+        {
+            equipesBusiness.DeleteEquipe(Id);
+
             return new HttpStatusCodeResult(200);
         }
     }

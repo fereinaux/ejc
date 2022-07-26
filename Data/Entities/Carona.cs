@@ -10,11 +10,11 @@ namespace Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int Capacidade { get; set; }
+        [ForeignKey("Evento")]
         public int EventoId { get; set; }
-        [ForeignKey("EventoId")]
         public Evento Evento { get; set; }
+        [ForeignKey("Motorista")]
         public int? MotoristaId { get; set; }
-        [ForeignKey("MotoristaId")]
         public Equipante Motorista { get; set; }
     }
 }

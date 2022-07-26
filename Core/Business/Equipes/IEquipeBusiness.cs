@@ -17,11 +17,12 @@ namespace Core.Business.Equipes
         List<Data.Entities.Equipante> GetEquipantesEventoSemEquipe(int eventoId);
         List<Data.Entities.Equipante> GetEquipantesByEvento(int eventoId);
         List<Data.Entities.EquipanteEvento> GetEquipantesEvento(int eventoId);
+        IQueryable<Data.Entities.EquipanteEvento> GetQueryEquipantesEvento(int eventoId);
         List<Data.Entities.Equipante> GetEquipantesAniversariantesByEvento(int eventoId);
         List<Data.Entities.Equipante> GetEquipantesRestricoesByEvento(int eventoId);
 
         void AddMembroEquipe(PostEquipeMembroModel model);
-        void DeleteMembroEquipe(int id);
+        string DeleteMembroEquipe(int id);
         void ToggleMembroEquipeTipo(int id);
         EquipanteEvento GetEquipeAtual(int eventoId, int equipeId);
         IQueryable<PresencaReuniao> GetPresenca(int reuniaoId);

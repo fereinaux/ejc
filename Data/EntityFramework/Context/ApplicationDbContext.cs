@@ -110,6 +110,11 @@ namespace Data.Context
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+            modelBuilder.Entity<CentroCusto>()
+          .HasOptional<Configuracao>(s => s.Configuracao)
+          .WithMany(g => g.CentroCustos);
+
             modelBuilder.Entity<Carona>()
                 .HasOptional<Equipante>(c => c.Motorista)
                 .WithMany()
@@ -126,12 +131,13 @@ namespace Data.Context
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<EquipanteEvento>()
-                .HasRequired<Evento>(e => e.Evento)
+                .HasOptional<Evento>(e => e.Evento)
                        .WithMany(x => x.Equipantes)
                 .WillCascadeOnDelete(false);
 
+
             modelBuilder.Entity<Quarto>()
-               .HasRequired<Evento>(q => q.Evento)
+               .HasOptional<Evento>(q => q.Evento)
                .WithMany(x => x.Quartos)
                .WillCascadeOnDelete(false);
 
@@ -148,7 +154,8 @@ namespace Data.Context
                 .HasMany(x => x.Equipes);
 
             modelBuilder.Entity<EquipanteEvento>()
-                .HasMany(x => x.Presencas);
+                .HasMany(x => x.Presencas).WithRequired(x => x.EquipanteEvento).WillCascadeOnDelete(true);
+
         }
 
         public override int SaveChanges()

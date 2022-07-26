@@ -113,19 +113,19 @@
         $.fn.modal.Constructor.prototype._enforceFocus = function () { };
 
 
-        $("[id$='eventoid']").change(function () {
+        $("*[id*='eventoid']").change(function () {
             getConfig(this.value)
 
         })
 
         $(document).ready(function () {
-            if ($("[id$='eventoid']").val()) {
+            if ($("*[id*='eventoid']").val()) {
 
                 getConfig($("[id$='eventoid']").val())
             } else {
                 $('title').text("SysIgreja")
-                $('link[rel="icon"]').attr('href', `./Images/logo-iecb.png`)
-                $('#home-button-logo img').attr('src', `./Images/logo-iecb.png`)
+                $('link[rel="icon"]').attr('href', `.${window.location.href.includes('Configuracao/Equipe') ? "." : ""}/Images/logo-iecb.png`)
+                $('#home-button-logo img').attr('src', `.${window.location.href.includes('Configuracao/Equipe') ? "." : ""}/Images/logo-iecb.png`)
                 $('#home-button-logo').css('display', 'block')
             }
         })
@@ -150,8 +150,26 @@
                         logoRelatorio = config.LogoRelatorio
                     }
 
+                    if (config.MeioPagamentos.length > 0) {
+                        $("[id$='meiopagamento']").html(`${config.MeioPagamentos.map(mp => `<option value=${mp.Id}>${mp.Descricao}</option>`)}`)
+                            $("#busca-meiopagamento").html(`<option value="0">Selecione</option>${config.MeioPagamentos.map(mp => `<option value=${mp.Id}>${mp.Descricao}</option>`)}`)
+
+                    }
+                    if (config.Etiquetas.length > 0) {
+                        $("[id$='-etiquetas']").html(`${config.Etiquetas.map(etiqueta => `<option data-cor="${etiqueta.Cor}" value=${etiqueta.Id}>${etiqueta.Nome}</option>`)}`)
+                    }
+                    if (config.CentroCustos.length > 0) {
+                        $("[id$='-centrocusto']").html(`${config.CentroCustos.map(centCusto => `<option class="opt-centrocusto" data-tipo=${centCusto.Tipo} value="${centCusto.Id}">${centCusto.Descricao}</option>`)}`)
+                        
+                            $("#busca-centrocusto").html(`<option value="0">Selecione</option>${config.CentroCustos.map(centCusto => `<option class="opt-centrocusto" data-tipo=${centCusto.Tipo} value="${centCusto.Id}">${centCusto.Descricao}</option>`)}`)                        
+                        
+                    }
+
+                    if ($("#busca-centrocusto").length > 0 && $("#busca-meiopagamento").length > 0) {
+                        Filtrar()
+                    }
                 }
-            });           
+            });
         }
 
 

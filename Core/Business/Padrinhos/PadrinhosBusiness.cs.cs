@@ -27,13 +27,12 @@ namespace Core.Business.Padrinhos
         {
             var participante = participanteRepository.GetById(participanteId);
 
-            if (destinoId.HasValue)
-            {
-                participante.PadrinhoId = destinoId.Value;
 
-                participanteRepository.Update(participante);
-                participanteRepository.Save();
-            }
+            participante.PadrinhoId = destinoId;
+
+            participanteRepository.Update(participante);
+            participanteRepository.Save();
+
         }
 
         public void DeletePadrinho(int id)

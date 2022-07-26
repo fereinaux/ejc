@@ -11,6 +11,9 @@ namespace Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Descricao { get; set; }
+        [ForeignKey("Configuracao")]
+        public int? ConfiguracaoId { get; set; }
+        public Configuracao Configuracao { get; set; }
         public TiposCentroCustoEnum Tipo { get; set; }
     }
 }

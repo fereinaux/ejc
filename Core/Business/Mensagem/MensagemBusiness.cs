@@ -26,9 +26,9 @@ namespace Core.Business.Mensagem
             return repo.GetById(id);
         }
 
-        public IQueryable<Data.Entities.Mensagem> GetMensagems()
+        public IQueryable<Data.Entities.Mensagem> GetMensagems(int configuracaoId)
         {
-            return repo.GetAll();
+            return repo.GetAll(x => x.ConfiguracaoId == configuracaoId);
         }
 
         public void PostMensagem(PostMessageModel model)
@@ -40,6 +40,8 @@ namespace Core.Business.Mensagem
                 mensagem = repo.GetById(model.Id);
 
                 mensagem.Conteudo = model.Conteudo;
+                mensagem.ConfiguracaoId = model.ConfiguracaoId;
+                mensagem.Tipos = string.Join(",", model.Tipos);
                 mensagem.Titulo = model.Titulo;
 
                 repo.Update(mensagem);
@@ -49,7 +51,9 @@ namespace Core.Business.Mensagem
                 mensagem = new Data.Entities.Mensagem
                 {
                     Conteudo = model.Conteudo,
-                    Titulo = model.Titulo
+                    Titulo = model.Titulo,
+                    ConfiguracaoId = model.ConfiguracaoId,
+                    Tipos = string.Join(",", model.Tipos)
                 };
 
                 repo.Insert(mensagem);

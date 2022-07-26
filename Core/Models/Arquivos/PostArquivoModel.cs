@@ -11,6 +11,7 @@ namespace Core.Models.Arquivos
     public class PostArquivoModel
     {
         public int? EquipeId { get; set; }
+        public int? ConfiguracaoId { get; set; }
         public int? EventoId { get; set; }
         public int? ParticipanteId { get; set; }
         public int? EquipanteId { get; set; }

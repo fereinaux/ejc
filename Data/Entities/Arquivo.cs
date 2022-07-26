@@ -20,6 +20,8 @@ namespace Data.Entities
         public byte[] Conteudo { get; set; }
         public bool IsFoto { get; set; }
         public bool IsComunEquipe { get; set; }
+        public int? ConfiguracaoId { get; set; }
+        public Configuracao Configuracao { get; set; }
         public int? EquipeId { get; set; }
         public Equipe Equipe { get; set; }
         public int? EventoId { get; set; }

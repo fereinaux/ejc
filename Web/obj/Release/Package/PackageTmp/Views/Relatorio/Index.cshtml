@@ -22,7 +22,7 @@
         <div class="ibox-title" style="display: flex;justify-content: space-between;">
             <h4>@ViewBag.Title</h4>
             <div class="ibox-tools pull-right">
-                <select class="form-control" id="relatorio-eventoid">
+                <select class="form-control" id="relatorio-eventoid" onchange="getCentroCustoRel()">
                     @foreach (var evento in ViewBag.Eventos)
                     {
                         <option value="@evento.Id">@evento.TipoEvento @evento.Numeracao.ToString()</option>

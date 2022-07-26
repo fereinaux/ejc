@@ -219,9 +219,7 @@ function GetParticipante() {
                 $('.paitext').text(realista.NomePai)
                 $('.convitetext').text(realista.NomeConvite)
                 $('.contatotext').text(realista.NomeContato)
-                $('#marcadores').html(realista.Etiquetas.map(etiqueta => `<span  class="badge m-r-xs" style="background-color:${etiqueta.Cor};color:#fff">${etiqueta.Nome}</span>`).join().replace(/,/g, ''))
-                $('#participante-etiquetas').html(`${data.Etiquetas.map(etiqueta => `<option data-cor="${etiqueta.Cor}" value=${etiqueta.Id}>${etiqueta.Nome}</option>`)
-                    }`)
+                $('#marcadores').html(realista.Etiquetas.map(etiqueta => `<span  class="badge m-r-xs" style="background-color:${etiqueta.Cor};color:#fff">${etiqueta.Nome}</span>`).join().replace(/,/g, ''))        
                 $('#participante-etiquetas').val(data.Participante.Etiquetas.map(etiqueta => etiqueta.Id))
                 $('.participante-etiquetas').select2()
                 $('.pagamento').show()
@@ -323,8 +321,7 @@ function GetEquipante() {
                 $('.dados-participante-contato input').removeClass('required');
                 $('.dados-participante-contato input[id*="fone"]').removeClass('fone');
                 $('#marcadores').html(data.Equipante.EtiquetasList.map(etiqueta => `<span  class="badge m-r-xs" style="background-color:${etiqueta.Cor};color:#fff">${etiqueta.Nome}</span>`).join().replace(/,/g, ''))
-                $('#participante-etiquetas').html(`${data.Etiquetas.map(etiqueta => `<option data-cor="${etiqueta.Cor}" value=${etiqueta.Id}>${etiqueta.Nome}</option>`)
-                    }`)
+
                 $('#participante-etiquetas').val(data.Equipante.EtiquetasList.map(etiqueta => etiqueta.Id))
                 $('.participante-etiquetas').select2()
                 if (data.Equipante.Foto) {
@@ -669,7 +666,7 @@ function CarregarTabelaPagamentos(id) {
         ],
         ajax: {
             url: '/Lancamento/GetPagamentos',
-            data: $("#participante-id").val() > 0 ? { ParticipanteId: id } : { EquipanteId: id },
+            data: $("#participante-id").val() > 0 ? { ParticipanteId: id } : { EquipanteId: id, EventoId: $("#eventoid").val() },
             datatype: "json",
             type: "POST"
         }
@@ -1107,6 +1104,12 @@ ${campos.find(x => x.Campo == 'Restrição Alimentar') ? ` <div class="col-sm-6 
             if ($('#map').length > 0) {
                 montarMapa()
             }
+
+            $('.full-date').datepicker({
+                format: "dd/mm/yyyy",
+                language: "pt-BR",
+                autoclose: true
+            });
 
             $('#has-medicacao').on('ifChecked', function (event) {
                 $('.medicacao').removeClass('d-none');

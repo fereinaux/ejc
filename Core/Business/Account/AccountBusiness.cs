@@ -67,18 +67,7 @@ namespace Core.Business.Account
             accountRepository.Save();
         }
         public void Seed()
-        {
-            context.MeioPagamentos.AddOrUpdate(x => x.Descricao,
-              new Data.Entities.MeioPagamento { Descricao = MeioPagamentoPadraoEnum.Transferencia.GetDescription(), Taxa = 0, IsEditavel = false, Status = StatusEnum.Ativo },
-              new Data.Entities.MeioPagamento { Descricao = MeioPagamentoPadraoEnum.Dinheiro.GetDescription(), Taxa = 0, IsEditavel = false, Status = StatusEnum.Ativo },
-              new Data.Entities.MeioPagamento { Descricao = MeioPagamentoPadraoEnum.Isencao.GetDescription(), Taxa = 0, IsEditavel = false, Status = StatusEnum.Ativo }
-            );
-
-            context.CentroCustos.AddOrUpdate(x => x.Id,
-              new Data.Entities.CentroCusto { Id = (int)CentroCustoPadraoEnum.Inscricoes, Descricao = CentroCustoPadraoEnum.Inscricoes.GetDescription(), Tipo = TiposCentroCustoEnum.Receita },
-              new Data.Entities.CentroCusto { Id = (int)CentroCustoPadraoEnum.TaxaEquipante, Descricao = CentroCustoPadraoEnum.TaxaEquipante.GetDescription(), Tipo = TiposCentroCustoEnum.Receita }
-            );
-
+        {       
             ApplicationUser master = new ApplicationUser
             {
                 Id = Usuario.MasterId,

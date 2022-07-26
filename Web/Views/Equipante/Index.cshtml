@@ -42,7 +42,7 @@
                         }
                     </select>
                 </div>
-                <div class="col-xs-12 col-lg-2">
+                <div class="col-xs-12 col-lg-2 hide-tipoevento">
                     <h5>Status</h5>
                     <select class="form-control" id="equipante-status" onchange="CarregarTabelaEquipante()">
 
@@ -52,18 +52,18 @@
 
                     </select>
                 </div>
-                <div class="col-xs-12 col-lg-2">
+                <div class="col-xs-12 col-lg-2 hide-tipoevento">
                     <h5>Equipe</h5>
                     <select class="form-control" id="equipe-select" onchange="CarregarTabelaEquipante()">
                         <option value=999>Selecione</option>
                     </select>
                 </div>
-                <div class="col-xs-12 col-lg-2">
+                <div class="col-xs-12 col-lg-2 hide-tipoevento">
                     <h5>Tem Marcador</h5>
                     <select class="form-control" id="equipante-marcadores" multiple onchange="CarregarTabelaEquipante()">
                     </select>
                 </div>
-                <div class="col-xs-12 col-lg-2">
+                <div class="col-xs-12 col-lg-2 hide-tipoevento">
                     <h5>Não tem Marcador</h5>
                     <select class="form-control" id="equipante-nao-marcadores" multiple onchange="CarregarTabelaEquipante()">
                     </select>
@@ -373,10 +373,7 @@
                             <h5>Forma de Pagamento</h5>
 
                             <select class="form-control" id="pagamentos-meiopagamento" onchange="CarregarValorTaxa()">
-                                @foreach (var meioPagamento in ViewBag.MeioPagamentos)
-                                {
-                                    <option data-taxa="@meioPagamento.Taxa" value="@meioPagamento.Id">@meioPagamento.Descricao</option>
-                                }
+                         
                             </select>
 
                         </div>

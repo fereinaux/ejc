@@ -54,10 +54,7 @@
                         <h5>Forma de Pagamento</h5>
 
                         <select class="form-control" id="pagamentos-meiopagamento">
-                            @foreach (var meioPagamento in ViewBag.MeioPagamentos)
-                            {
-                                <option data-taxa="@meioPagamento.Taxa" value="@meioPagamento.Id">@meioPagamento.Descricao</option>
-                            }
+                      
                         </select>
 
                     </div>

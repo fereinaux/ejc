@@ -24,9 +24,9 @@ namespace Core.Business.CentroCusto
             return centroCustoRepository.GetById(id);
         }
 
-        public IQueryable<Data.Entities.CentroCusto> GetCentroCustos()
+        public IQueryable<Data.Entities.CentroCusto> GetCentroCustos(int configuracaoId)
         {
-            return centroCustoRepository.GetAll();
+            return centroCustoRepository.GetAll(x => x.ConfiguracaoId == configuracaoId);
         }
 
         public void PostCentroCusto(PostCentroCustoModel model)
@@ -36,7 +36,7 @@ namespace Core.Business.CentroCusto
             if (model.Id > 0)
             {
                 centroCusto = centroCustoRepository.GetById(model.Id);
-
+                centroCusto.ConfiguracaoId = model.ConfiguracaoId;
                 centroCusto.Descricao = model.Descricao;
                 centroCusto.Tipo = model.Tipo;
 
@@ -47,7 +47,8 @@ namespace Core.Business.CentroCusto
                 centroCusto = new Data.Entities.CentroCusto
                 {
                     Descricao = model.Descricao,
-                    Tipo = model.Tipo
+                    Tipo = model.Tipo,
+                    ConfiguracaoId = model.ConfiguracaoId
                 };
 
                 centroCustoRepository.Insert(centroCusto);

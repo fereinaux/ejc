@@ -56,19 +56,19 @@ namespace Core.Business.Arquivos
             return arquivoRepository.GetAll(x => x.EquipanteId == equipanteId && x.EventoId == eventoId);
         }
 
-        public IQueryable<Arquivo> GetArquivosByEquipe(int Equipe, bool IsComunEquipe)
+        public IQueryable<Arquivo> GetArquivosByEquipe(int Equipe, bool IsComunEquipe, int ConfiguracaoId)
         {
             var query = arquivoRepository.GetAll();
             if (IsComunEquipe)
-                query = query.Where(x => x.EquipeId == Equipe || x.IsComunEquipe == true);
+                query = query.Where(x => (x.EquipeId == Equipe && x.ConfiguracaoId == ConfiguracaoId) || (x.IsComunEquipe == true && x.ConfiguracaoId == ConfiguracaoId));
             else
-                query = query.Where(x => x.EquipeId == Equipe);
+                query = query.Where(x => x.EquipeId == Equipe && x.ConfiguracaoId == ConfiguracaoId);
             return query;
         }
 
-        public IQueryable<Arquivo> GetArquivosComunEquipe()
+        public IQueryable<Arquivo> GetArquivosComunEquipe(int ConfiguracaoId)
         {
-            return arquivoRepository.GetAll(x => x.IsComunEquipe);
+            return arquivoRepository.GetAll(x => x.IsComunEquipe && x.ConfiguracaoId == ConfiguracaoId);
         }
 
         public IQueryable<Arquivo> GetArquivosByEvento(int eventoId)
@@ -99,6 +99,7 @@ namespace Core.Business.Arquivos
                     EventoId = model.EventoId,
                     EquipeId = model.EquipeId,
                     IsComunEquipe = model.IsComunEquipe,
+                    ConfiguracaoId = model.ConfiguracaoId,
                     ParticipanteId = model.ParticipanteId,
                     EquipanteId = model.EquipanteId,
                     LancamentoId = model.LancamentoId,

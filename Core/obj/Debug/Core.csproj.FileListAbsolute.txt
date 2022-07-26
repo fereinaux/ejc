@@ -98,3 +98,6 @@ C:\Users\felip\Source\Repos\fereinaux\ejc\Core\obj\Debug\Core.csproj.CoreCompile
 C:\Users\felip\Source\Repos\fereinaux\ejc\Core\obj\Debug\Core.csproj.CopyComplete
 C:\Users\felip\Source\Repos\fereinaux\ejc\Core\obj\Debug\Core.dll
 C:\Users\felip\Source\Repos\fereinaux\ejc\Core\obj\Debug\Core.pdb
+C:\Users\felip\source\repos\fereinaux\ejc\Core\bin\Debug\Z.EntityFramework.Extensions.dll
+C:\Users\felip\source\repos\fereinaux\ejc\Core\bin\Debug\Z.EntityFramework.Plus.EF6.dll
+C:\Users\felip\source\repos\fereinaux\ejc\Core\bin\Debug\Z.Expressions.Eval.dll

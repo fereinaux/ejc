@@ -106,7 +106,7 @@ function GetAnexos(id) {
         ],
         ajax: {
             url: '/Arquivo/GetArquivosEquipe',
-            data: { Equipe: id ? id : $("#Equipe").val(), IsComunEquipe: false },
+            data: { Equipe: id ? id : $("#Equipe").val(), IsComunEquipe: false, ConfiguracaoId: config.Id },
             datatype: "json",
             type: "POST"
         }
@@ -132,7 +132,9 @@ function PostArquivoEquipe() {
 
     var dataToPost = new FormData($('#frm-upload-arquivo-normal-modal')[0]);
     dataToPost.set('Arquivo', dataToPost.get('arquivo-modal'))
-    dataToPost.set('Equipe', dataToPost.get('Equipe'))
+    dataToPost.set('EquipeId', dataToPost.get('Equipe'))
+    dataToPost.set('ConfiguracaoId', config.Id)
+    console.log(config);
     $.ajax(
         {
             processData: false,
@@ -369,6 +371,9 @@ function DeleteMembroEquipe(id) {
                 success: function () {
                     SuccessMesageDelete();
                     CarregarTabelaMembrosEquipe($("#equipe-id").val(), $('.titulo-equipe').text());
+                },
+                error: function (data) {
+                    ErrorMessage(data.statusText)
                 }
             });
         }
@@ -394,4 +399,9 @@ function GetEquipantes() {
         }
     });
 
+}
+
+function loadEquipe() {
+    CarregarTabelaEquipe()
+    CarregarTabelaArquivo();
 }

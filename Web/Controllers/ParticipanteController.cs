@@ -64,7 +64,6 @@ namespace SysIgreja.Controllers
             ViewBag.Title = "Check-in";
             GetEventos();
             GetConfiguracao();
-            ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
 
             return View();
         }
@@ -82,7 +81,6 @@ namespace SysIgreja.Controllers
             ViewBag.Title = "Participantes";
             GetEventos();
             GetConfiguracao();
-            ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
 
             return View();
         }
@@ -156,14 +154,6 @@ namespace SysIgreja.Controllers
 
             var quartoAtual = quartosBusiness.GetNextQuarto(result.EventoId, result.Sexo, TipoPessoaEnum.Participante);
 
-            var etiquetas = etiquetasBusiness.GetEtiquetas().ToList()
-                .Select(x => new
-                {
-                    Nome = x.Nome,
-                    Id = x.Id,
-                    Cor = x.Cor
-                });
-
             var dadosAdicionais = new
             {
                 Circulo = circulosBusiness.GetCirculosComParticipantes(result.EventoId).Where(x => x.ParticipanteId == Id)?.FirstOrDefault()?.Circulo?.Cor.GetDescription() ?? "",
@@ -176,7 +166,7 @@ namespace SysIgreja.Controllers
                 }
             };
 
-            return Json(new { Participante = result, DadosAdicionais = dadosAdicionais, Etiquetas = etiquetas, }, JsonRequestBehavior.AllowGet);
+            return Json(new { Participante = result, DadosAdicionais = dadosAdicionais }, JsonRequestBehavior.AllowGet);
         }
 
 

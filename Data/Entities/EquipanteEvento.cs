@@ -11,8 +11,8 @@ namespace Data.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int EventoId { get; set; }
-        [ForeignKey("EventoId")]
+        [ForeignKey("Evento")]
+        public int? EventoId { get; set; }
         public Evento Evento { get; set; }
         public int? EquipanteId { get; set; }
         public Equipante Equipante { get; set; }

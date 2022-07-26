@@ -56,11 +56,6 @@ namespace Data.Migrations
                 );
             }           
 
-            context.CentroCustos.AddOrUpdate(x => x.Id,
-              new Data.Entities.CentroCusto { Id = (int)CentroCustoPadraoEnum.Inscricoes, Descricao = CentroCustoPadraoEnum.Inscricoes.GetDescription(), Tipo = TiposCentroCustoEnum.Receita },
-              new Data.Entities.CentroCusto { Id = (int)CentroCustoPadraoEnum.TaxaEquipante, Descricao = CentroCustoPadraoEnum.TaxaEquipante.GetDescription(), Tipo = TiposCentroCustoEnum.Receita }
-            );
-
             ApplicationUser master = new ApplicationUser
             {
                 Id = Usuario.MasterId,

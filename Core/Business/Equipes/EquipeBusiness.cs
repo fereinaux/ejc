@@ -50,10 +50,22 @@ namespace Core.Business.Equipes
             equipanteEventoRepository.Save();
         }
 
-        public void DeleteMembroEquipe(int id)
+        public string DeleteMembroEquipe(int id)
         {
-            equipanteEventoRepository.Delete(id);
-            equipanteEventoRepository.Save();
+            try
+            {
+                equipanteEventoRepository.Delete(id);
+                equipanteEventoRepository.Save();
+
+            }
+            catch (Exception e)
+            {
+                if (e.InnerException.InnerException.Message.Contains("Padrinho"))
+                {
+                    return "O Equipante está vinculado a um registro de Padrinho, não será possível deletá-lo";
+                }
+            }
+            return "ok";
         }
 
         public EquipanteEvento GetEquipanteEventoByUser(int eventoId, string userId)
@@ -163,8 +175,21 @@ namespace Core.Business.Equipes
             return equipanteEventoRepository
                 .GetAll()
                 .Include(x => x.Equipante)
+                .Include(x => x.Equipante.Arquivos)
+                .Include(x => x.Equipante.ParticipantesEtiquetas)
+                .Include(x => x.Equipante.ParticipantesEtiquetas.Select(y => y.Etiqueta))
+                .Include(x => x.Equipante.Lancamentos)
+                .Include(x => x.Equipante.Lancamentos.Select(y => y.Evento))
+                .Include(x => x.Equipante.Lancamentos.Select(y => y.Evento.Configuracao))
                 .Include(x => x.Equipe)
                 .Where(x => x.EventoId == eventoId).ToList();
+        }
+
+        public IQueryable<EquipanteEvento> GetQueryEquipantesEvento(int eventoId)
+        {
+            return equipanteEventoRepository
+                .GetAll()
+                .Where(x => x.EventoId == eventoId);
         }
 
         public IQueryable<Equipe> GetEquipes(int eventoId)
@@ -195,7 +220,7 @@ namespace Core.Business.Equipes
                 equipe = new Data.Entities.Equipe
                 {
                     Nome = model.Nome,
-                   
+
                 };
 
                 equipeRepository.Insert(equipe);

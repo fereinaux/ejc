@@ -1,12 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "UNx86Fy8w8jeCgD47mkxZUxM9zgdPmqi72yLQHr01TLLy1dSGoKDVDx9WoXEh1V0aGQ58wIIkJaaYjWGYv9N9A==",
+  "dgSpecHash": "TUnq4yffYVVKzegd/CFOSQME9B1XRqs8r6ES4QcA3USKdWpek0lg7NfXyvrJOfiBoEAqYwDvNmR2JbkREt/gRw==",
   "success": true,
   "projectFilePath": "C:\\Users\\felip\\source\\repos\\fereinaux\\ejc\\Utils\\Utils.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\felip\\.nuget\\packages\\entityframework\\6.1.0\\entityframework.6.1.0.nupkg.sha512",
     "C:\\Users\\felip\\.nuget\\packages\\epplus\\4.5.3.2\\epplus.4.5.3.2.nupkg.sha512",
     "C:\\Users\\felip\\.nuget\\packages\\microsoft.sqlserver.types\\14.0.1016.290\\microsoft.sqlserver.types.14.0.1016.290.nupkg.sha512",
-    "C:\\Users\\felip\\.nuget\\packages\\system.linq.dynamic\\1.0.8\\system.linq.dynamic.1.0.8.nupkg.sha512"
+    "C:\\Users\\felip\\.nuget\\packages\\system.linq.dynamic\\1.0.8\\system.linq.dynamic.1.0.8.nupkg.sha512",
+    "C:\\Users\\felip\\.nuget\\packages\\z.entityframework.extensions\\6.14.3\\z.entityframework.extensions.6.14.3.nupkg.sha512",
+    "C:\\Users\\felip\\.nuget\\packages\\z.entityframework.plus.ef6\\6.14.3\\z.entityframework.plus.ef6.6.14.3.nupkg.sha512",
+    "C:\\Users\\felip\\.nuget\\packages\\z.expressions.eval\\4.0.86\\z.expressions.eval.4.0.86.nupkg.sha512"
   ],
   "logs": []
 }

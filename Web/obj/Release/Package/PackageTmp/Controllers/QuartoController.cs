@@ -32,15 +32,15 @@ namespace SysIgreja.Controllers
             mapper = new MapperRealidade().mapper;
         }
 
-        public ActionResult Index()
+        public ActionResult Participantes()
         {
-            ViewBag.Title = "Quartos";
+            ViewBag.Title = "Quartos dos Participantes";
             GetEventos();
 
             return View();
         }
 
-        public ActionResult QuartoEquipe()
+        public ActionResult Equipe()
         {
             ViewBag.Title = "Quartos da Equipe";
             GetEventos();

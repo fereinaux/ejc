@@ -25,14 +25,9 @@ namespace Core.Business.MeioPagamento
             return meioPagamentoRepository.GetById(id);
         }
 
-        public IQueryable<Data.Entities.MeioPagamento> GetMeioPagamentos()
+        public IQueryable<Data.Entities.MeioPagamento> GetMeioPagamentos(int configuracaoId)
         {
-            return meioPagamentoRepository.GetAll(mp => mp.IsEditavel == true);
-        }
-
-        public IQueryable<Data.Entities.MeioPagamento> GetAllMeioPagamentos()
-        {
-            return meioPagamentoRepository.GetAll();
+            return meioPagamentoRepository.GetAll(x => x.ConfiguracaoId == configuracaoId);
         }
 
         public void PostMeioPagamento(PostMeioPagamentoModel model)
@@ -44,7 +39,7 @@ namespace Core.Business.MeioPagamento
                 meioPagamento = meioPagamentoRepository.GetById(model.Id);
 
                 meioPagamento.Descricao = model.Descricao;
-                meioPagamento.Taxa = model.Taxa;
+                meioPagamento.ConfiguracaoId = model.ConfiguracaoId;
 
                 meioPagamentoRepository.Update(meioPagamento);
             }
@@ -53,9 +48,8 @@ namespace Core.Business.MeioPagamento
                 meioPagamento = new Data.Entities.MeioPagamento
                 {
                     Descricao = model.Descricao,
-                    Taxa = model.Taxa,
-                    Status = StatusEnum.Ativo,
-                    IsEditavel = true
+                    ConfiguracaoId = model.ConfiguracaoId,
+                    Status = StatusEnum.Ativo
                 };
 
                 meioPagamentoRepository.Insert(meioPagamento);

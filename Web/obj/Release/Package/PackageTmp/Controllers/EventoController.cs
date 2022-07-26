@@ -1,6 +1,7 @@
 ﻿using Arquitetura.ViewModels;
 using AutoMapper;
 using Core.Business.Arquivos;
+using Core.Business.Configuracao;
 using Core.Business.Eventos;
 using Core.Models.Eventos;
 using SysIgreja.ViewModels;
@@ -18,13 +19,15 @@ namespace SysIgreja.Controllers
     public class EventoController : Controller
     {
         private readonly IEventosBusiness eventosBusiness;
+        private readonly IConfiguracaoBusiness configuracaoBusiness;
         private readonly IArquivosBusiness arquivosBusiness;
         private readonly IMapper mapper;
 
-        public EventoController(IEventosBusiness eventosBusiness, IArquivosBusiness arquivosBusiness)
+        public EventoController(IEventosBusiness eventosBusiness, IArquivosBusiness arquivosBusiness, IConfiguracaoBusiness configuracaoBusiness)
         {
             this.eventosBusiness = eventosBusiness;
             this.arquivosBusiness = arquivosBusiness;
+            this.configuracaoBusiness = configuracaoBusiness;
             mapper = new MapperRealidade().mapper;
         }
 
@@ -38,7 +41,14 @@ namespace SysIgreja.Controllers
         [HttpGet]
         public ActionResult GetTipos()
         {
-            return Json(new { Tipos = EnumExtensions.GetDescriptions<TiposEventoEnum>().ToList() }, JsonRequestBehavior.AllowGet);
+            var result = configuracaoBusiness.GetConfiguracoes().Select(x => new
+            {
+                x.Id,
+                x.Titulo
+            }).ToList();
+
+
+            return Json(new { Tipos = result }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -52,7 +62,7 @@ namespace SysIgreja.Controllers
                     DataEvento = x.DataEvento,
                     Numeracao = x.Numeracao,
                     Capacidade = x.Capacidade,
-                    TipoEvento = x.TipoEvento.GetDescription(),
+                    TipoEvento = x.Configuracao.Titulo,
                     Status = x.Status.GetDescription(),
                     Valor = x.Valor.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR")),
                     ValorTaxa = x.ValorTaxa.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR")),

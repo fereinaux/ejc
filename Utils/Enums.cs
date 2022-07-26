@@ -129,24 +129,6 @@ namespace Utils.Enums
         Despesa = 2
     }
 
-    public enum CentroCustoPadraoEnum
-    {
-        [Description("Inscrições")]
-        Inscricoes = 1,
-        [Description("Taxa de Equipante")]
-        TaxaEquipante = 2
-    }
-
-    public enum MeioPagamentoPadraoEnum
-    {
-        [Description("Pix")]
-        Transferencia,
-        [Description("Dinheiro")]
-        Dinheiro,
-        [Description("Isenção")]
-        Isencao
-    }
-
     public enum CoresEnum
     {
         [Description("Vermelho")]

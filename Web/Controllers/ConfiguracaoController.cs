@@ -50,12 +50,20 @@ namespace SysIgreja.Controllers
                     Titulo = x.Titulo,
                     BackgroundId = x.BackgroundId,
                     EquipeCirculoId = x.EquipeCirculoId,
+                    CentroCustoInscricaoId = x.CentroCustoInscricaoId,
+                    CentroCustoTaxaId = x.CentroCustoTaxaId,
                     BackgroundCelularId = x.BackgroundCelularId,
                     CorBotao = x.CorBotao,
                     CorHoverBotao = x.CorHoverBotao,
                     CorHoverScroll = x.CorHoverScroll,
                     TipoCirculoId = x.TipoCirculo,
-                    TipoCirculo = x.TipoCirculo.GetDescription(),                    
+                    TipoCirculo = x.TipoCirculo.GetDescription(),
+                    CentroCustos = x.CentroCustos.Select(y => new CentroCustoModel
+                    {
+                        Descricao = y.Descricao,
+                        Tipo = y.Tipo.GetDescription(),
+                        Id = y.Id
+                    }).ToList(),
                     CorLoginBox = x.CorLoginBox,
                     CorScroll = x.CorScroll,
                     LogoId = x.LogoId,

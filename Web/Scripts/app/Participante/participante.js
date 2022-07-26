@@ -19,7 +19,8 @@ ${result.Padrinhos.map(p => `<option value=${p.Id}>${p.Nome}</option>`)}
         });
 
         $.ajax({
-            url: '/Etiqueta/GetEtiquetas',
+            url: '/Etiqueta/GetEtiquetasByEventoId',
+            data: { eventoId: $("#participante-eventoid").val() },
             datatype: "json",
             type: "POST",
             success: (result) => {
@@ -752,6 +753,7 @@ function select2(destinatario) {
     destinatarioGlobal = destinatario
     $(`.${destinatario}`).addClass('moldura-modal')
     $('.btn-ligar').attr("href", `tel:${getTelefone(destinatario)}`)
+    getMensagensByTipo(destinatario == 'realista' ? ["Participante"] : ['Contato'])
 }
 
 
@@ -1014,6 +1016,21 @@ function PostPagamento() {
     }
 }
 
+function getMensagensByTipo(tipos) {
+    $.ajax({
+        url: "/Mensagem/GetMensagensByTipo/",
+        data: JSON.stringify({ eventoId: $("#participante-eventoid").val(), tipos: tipos }),
+        datatype: "json",
+        type: "POST",
+        contentType: 'application/json; charset=utf-8',
+        success: function (dataMsg) {
+            $("#msg-list").html(`
+${dataMsg.data.map(p => `<option value=${p.Id}>${p.Titulo}</option>`)}
+`)
+
+        }
+    })
+}
 
 function Opcoes(row) {
     realista = row;
@@ -1034,22 +1051,12 @@ function Opcoes(row) {
             $('.contatotext').text(realista.NomeContato)
             $('#participante-obs').val(realista.Observacao)
             if ($('#modal-opcoes').is(":hidden")) {
-                $.ajax({
-                    url: "/Mensagem/GetMensagens/",
-                    datatype: "json",
-                    type: "POST",
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (dataMsg) {
-                        $("#msg-list").html(`
-${dataMsg.data.map(p => `<option value=${p.Id}>${p.Titulo}</option>`)}
-`)
-
-                    }
-                })
+                getMensagensByTipo(["Participante"])
             }
-            $('#participante-etiquetas').html(`${data.Etiquetas.map(etiqueta => `<option data-cor="${etiqueta.Cor}" value=${etiqueta.Id}>${etiqueta.Nome}</option>`)
-                }`)
+
             $('#participante-etiquetas').val(data.Participante.Etiquetas.map(etiqueta => etiqueta.Id))
+            console.log($('#participante-etiquetas').val());
+            $('.participante-etiquetas').select2({ dropdownParent: $("#form-opcoes") });
             if (realista.Status == "Confirmado") {
                 $('.pagamento').hide()
             }
@@ -1375,7 +1382,7 @@ $("[id$='eventoid']").change(function () {
 })
 
 
-function loadCampos(id){
+function loadCampos(id) {
     $.ajax({
         url: "/Configuracao/GetCamposByEventoId/",
         data: { Id: id },
@@ -1392,7 +1399,7 @@ ${campos.find(x => x.Campo == "Nome Completo") ? `<div class="col-sm-12 p-w-md m
                                 <input type="text" class="form-control required" id="participante-nome" data-field="Nome" />
                             </div>` : ""}
 
-${ campos.find(x => x.Campo == "Apelido")  ? ` <div class="col-sm-12 p-w-md m-t-md text-center">
+${campos.find(x => x.Campo == "Apelido") ? ` <div class="col-sm-12 p-w-md m-t-md text-center">
                                 <h5>Apelido</h5>
 
                                 <input type="text" class="form-control required" id="participante-apelido" data-field="Apelido" />
@@ -1538,7 +1545,7 @@ ${campos.find(x => x.Campo == 'Dados do Convite') ? `<div class="col-sm-12 p-w-m
                             </div>` : ''}
 
 ${campos.find(x => x.Campo == 'Parente') ? ` <div class="col-sm-12 p-w-md m-t-md text-center">
-                                <h5>Tem algum Parente fazendo o ${$('#participante-eventoid option:selected').text() }?</h5>
+                                <h5>Tem algum Parente fazendo o ${$('#participante-eventoid option:selected').text()}?</h5>
 
                                 <div class="radio i-checks-green inline"><label> <input type="radio" id="has-parente" value="true" name="participante-hasparente"> <i></i> Sim </label></div>
                                 <div class="radio i-checks-green inline"><label> <input type="radio" id="not-parente" checked="" value="false" name="participante-hasparente"> <i></i> Não </label></div>
@@ -1663,6 +1670,11 @@ ${campos.find(x => x.Campo == 'Restrição Alimentar') ? `<div class="col-sm-12 
                 $("#participante-congregacaodescricao").addClass('required');
             });
 
+            $('.full-date').datepicker({
+                format: "dd/mm/yyyy",
+                language: "pt-BR",
+                autoclose: true
+            });
         }
     });
 }

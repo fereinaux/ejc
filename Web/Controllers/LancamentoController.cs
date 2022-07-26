@@ -45,11 +45,6 @@ namespace SysIgreja.Controllers
         {
             ViewBag.Title = "Financeiro";
             GetEventos();
-
-            ViewBag.MeioPagamentos = meioPagamentoBusiness.GetAllMeioPagamentos().ToList();
-            ViewBag.CentroCustoPagar = centroCustoBusiness.GetCentroCustos().Where(x => x.Tipo == TiposCentroCustoEnum.Despesa).ToList();
-            ViewBag.CentroCustoReceber = centroCustoBusiness.GetCentroCustos().Where(x => x.Tipo == TiposCentroCustoEnum.Receita).ToList();
-            ViewBag.CentroCustos = centroCustoBusiness.GetCentroCustos().ToList();
             return View();
         }
 

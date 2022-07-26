@@ -45,6 +45,10 @@
             "System.Linq.Dynamic": {
               "target": "Package",
               "version": "[1.0.8, )"
+            },
+            "Z.EntityFramework.Plus.EF6": {
+              "target": "Package",
+              "version": "[6.14.3, )"
             }
           }
         }

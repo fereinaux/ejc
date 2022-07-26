@@ -95,12 +95,14 @@ namespace SysIgreja.Controllers
         [HttpPost]
         public ActionResult GetEquipes(int EventoId)
         {
+            var evento = eventosBusiness.GetEventoById(EventoId);
+
             var result = equipesBusiness.GetEquipes(EventoId).ToList().Select(x => new ListaEquipesViewModel
             {
                 Id = x.Id,
                 Equipe = x.Nome,
                 QuantidadeMembros = equipesBusiness.GetMembrosEquipe(EventoId, x.Id).Count(),
-                QtdAnexos = arquivosBusiness.GetArquivosByEquipe(x.Id, false).Count()
+                QtdAnexos = arquivosBusiness.GetArquivosByEquipe(x.Id, false, evento.ConfiguracaoId.Value).Count()
             });
 
             return Json(new { data = result }, JsonRequestBehavior.AllowGet);
@@ -162,17 +164,17 @@ namespace SysIgreja.Controllers
         [HttpGet]
         public ActionResult GetEquipantesByEvento(int EventoId)
         {
-            var result = equipesBusiness.GetEquipantesByEvento(EventoId)
+            var result = equipesBusiness.GetEquipantesEvento(EventoId)
                 .Select(x => new
                 {
                     Id = x.Id,
-                    Sexo = x.Sexo.GetDescription(),
-                    Fone = x.Fone,
-                    Idade = UtilServices.GetAge(x.DataNascimento),
-                    Equipe = equipesBusiness.GetEquipeAtual(EventoId, x.Id)?.Equipe.Nome ?? "",
-                    Nome = UtilServices.CapitalizarNome(x.Nome),
-                    Apelido = UtilServices.CapitalizarNome(x.Apelido),
-                    Foto = x.Arquivos.Any(y => y.IsFoto) ? Convert.ToBase64String(x.Arquivos.FirstOrDefault(y => y.IsFoto).Conteudo) : ""
+                    Sexo = x.Equipante.Sexo.GetDescription(),
+                    Fone = x.Equipante.Fone,
+                    Idade = UtilServices.GetAge(x.Equipante.DataNascimento),
+                    Equipe = x.Equipe.Nome,
+                    Nome = UtilServices.CapitalizarNome(x.Equipante.Nome),
+                    Apelido = UtilServices.CapitalizarNome(x.Equipante.Apelido),
+                    Foto = x.Equipante.Arquivos.Any(y => y.IsFoto) ? Convert.ToBase64String(x.Equipante.Arquivos.FirstOrDefault(y => y.IsFoto).Conteudo) : ""
                 }).ToList().OrderBy(x => x.Equipe).ThenBy(x => x.Nome);
 
             var json = Json(new { data = result }, JsonRequestBehavior.AllowGet);
@@ -247,8 +249,13 @@ namespace SysIgreja.Controllers
         [HttpPost]
         public ActionResult DeleteMembroEquipe(int Id)
         {
-            equipesBusiness.DeleteMembroEquipe(Id);
-            return new HttpStatusCodeResult(200);
+            var result = equipesBusiness.DeleteMembroEquipe(Id);
+            if (result == "ok")
+                return new HttpStatusCodeResult(200);
+            else
+            {
+                return new HttpStatusCodeResult(400, result);
+            }
         }
 
 

@@ -217,6 +217,38 @@ var EventoButton = function (context) {
     return button.render();   // return button as jquery object
 }
 
+var NumeracaoEventoButton = function (context) {
+    var ui = $.summernote.ui;
+
+    // create button
+    var button = ui.button({
+        contents: 'Numeracão do Evento',
+        tooltip: 'NumeracaoEvento',
+        click: function () {
+            // invoke insertText method with 'hello' on editor module.
+            context.invoke('editor.insertText', '${NumeracaoEvento}');
+        }
+    });
+
+    return button.render();   // return button as jquery object
+}
+
+var DescricaoEventoButton = function (context) {
+    var ui = $.summernote.ui;
+
+    // create button
+    var button = ui.button({
+        contents: 'Descricao do Evento',
+        tooltip: 'DescricaoEvento',
+        click: function () {
+            // invoke insertText method with 'hello' on editor module.
+            context.invoke('editor.insertText', '${DescricaoEvento}');
+        }
+    });
+
+    return button.render();   // return button as jquery object
+}
+
 var DataButton = function (context) {
     var ui = $.summernote.ui;
 

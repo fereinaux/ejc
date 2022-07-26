@@ -1,6 +1,5 @@
 ﻿
 using Core.Business.Configuracao;
-using Core.Business.ContaBancaria;
 using Core.Business.Eventos;
 using Core.Business.Lancamento;
 using Core.Business.MeioPagamento;
@@ -12,6 +11,7 @@ using SysIgreja.ViewModels;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web.Mvc;
 using Utils.Enums;
 using Utils.Extensions;
@@ -24,40 +24,59 @@ namespace SysIgreja.Controllers
         private readonly IConfiguracaoBusiness configuracaoBusiness;
         private readonly ILancamentoBusiness lancamentoBusiness;
         private readonly IMeioPagamentoBusiness meioPagamentoBusiness;
-        private readonly IContaBancariaBusiness contaBancariaBusiness;
         private readonly IEventosBusiness eventosBusiness;
         private readonly INewsletterBusiness newsletterBusiness;
 
-        public InscricoesController(IParticipantesBusiness participantesBusiness, IConfiguracaoBusiness configuracaoBusiness, IContaBancariaBusiness contaBancariaBusiness, IEventosBusiness eventosBusiness, INewsletterBusiness newsletterBusiness, ILancamentoBusiness lancamentoBusiness, IMeioPagamentoBusiness meioPagamentoBusiness)
+        public InscricoesController(IParticipantesBusiness participantesBusiness, IConfiguracaoBusiness configuracaoBusiness, IEventosBusiness eventosBusiness, INewsletterBusiness newsletterBusiness, ILancamentoBusiness lancamentoBusiness, IMeioPagamentoBusiness meioPagamentoBusiness)
         {
             this.participantesBusiness = participantesBusiness;
             this.configuracaoBusiness = configuracaoBusiness;
             this.meioPagamentoBusiness = meioPagamentoBusiness;
             this.lancamentoBusiness = lancamentoBusiness;
-            this.contaBancariaBusiness = contaBancariaBusiness;
             this.eventosBusiness = eventosBusiness;
             this.newsletterBusiness = newsletterBusiness;
         }
 
         public ActionResult Index()
         {
-
-            ViewBag.Configuracao = configuracaoBusiness.GetConfiguracao();
-            ViewBag.Campos = configuracaoBusiness.GetCampos().Select(x => x.Campo).ToList();
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", true);
             ViewBag.Title = "Inscrições";
-            var evento = eventosBusiness.GetEventoAtivo();
+
+            var eventos = eventosBusiness.GetEventos().Where(x => x.Status == StatusEnum.Aberto).ToList().Select(x => new InscricoesViewModel
+            {
+                Id = x.Id,
+                Data = $"{x.DataEvento.ToString("dd")} de {x.DataEvento.ToString("MMMM")} de {x.DataEvento.ToString("yyyy")}",
+                Valor = x.Valor,
+                Numeracao = x.Numeracao,
+                Descricao = x.Descricao,
+                Configuracao = configuracaoBusiness.GetConfiguracao(x.ConfiguracaoId)
+            }).ToList();
+            if (eventos.Count == 0)
+                return RedirectToAction("InscricoesEncerradas");
+            else if (eventos.Count == 1)
+                return RedirectToAction("Inscricoes", new { Id = eventos.FirstOrDefault().Id });
+            ViewBag.Eventos = eventos;
+            return View();
+        }
+
+        public ActionResult Inscricoes(int Id)
+        {
+            ViewBag.Title = "Inscrições";
+            var evento = eventosBusiness.GetEventos().FirstOrDefault(x => x.Id == Id && x.Status == StatusEnum.Aberto);
             if (evento == null)
                 return RedirectToAction("InscricoesEncerradas");
+            ViewBag.Configuracao = configuracaoBusiness.GetConfiguracao(evento.ConfiguracaoId);
+            ViewBag.Campos = evento.ConfiguracaoId.HasValue ? configuracaoBusiness.GetCampos(evento.ConfiguracaoId.Value).Select(x => x.Campo).ToList() : null;
             return View();
         }
 
         public ActionResult Equipe()
         {
             ViewBag.Title = "Inscrições";
-            ViewBag.Configuracao = configuracaoBusiness.GetConfiguracao();
-            var evento = eventosBusiness.GetEventoAtivo();
+            var evento = eventosBusiness.GetEventos().FirstOrDefault(x => x.Status == StatusEnum.Aberto);
             if (evento == null)
                 return RedirectToAction("InscricoesEncerradas");
+            ViewBag.Configuracao = configuracaoBusiness.GetConfiguracao(evento.ConfiguracaoId);
             return View();
         }
 
@@ -72,11 +91,13 @@ namespace SysIgreja.Controllers
         public ActionResult InscricaoConcluida(int Id)
         {
             Participante participante = participantesBusiness.GetParticipanteById(Id);
-            var config = configuracaoBusiness.GetConfiguracao();
+            var config = configuracaoBusiness.GetConfiguracao(participante.Evento.ConfiguracaoId);
             ViewBag.Configuracao = config;
             ViewBag.MsgConclusao = config.MsgConclusao
          .Replace("${Apelido}", participante.Apelido)
-         .Replace("${Evento}", $"{participante.Evento.Numeracao.ToString()}º {participante.Evento.TipoEvento.GetDescription()}")
+         .Replace("${Evento}",participante.Evento.Configuracao.Titulo)
+                  .Replace("${NumeracaoEvento}", participante.Evento.Numeracao.ToString())
+                   .Replace("${DescricaoEvento}", participante.Evento.Descricao)
          .Replace("${ValorEvento}", participante.Evento.Valor.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR")))
          .Replace("${DataEvento}", participante.Evento.DataEvento.ToString("dd/MM/yyyy"))
          .Replace("${FonePadrinho}", participante.Padrinho?.EquipanteEvento?.Equipante?.Fone ?? "")
@@ -94,13 +115,13 @@ namespace SysIgreja.Controllers
         public ActionResult InscricaoEspera(int Id)
         {
             Participante participante = participantesBusiness.GetParticipanteById(Id);
-            ViewBag.Configuracao = configuracaoBusiness.GetConfiguracao();
+            ViewBag.Configuracao = configuracaoBusiness.GetConfiguracao(participante.Evento.ConfiguracaoId);
             ViewBag.Participante = new InscricaoConcluidaViewModel
             {
                 Id = participante.Id,
                 Apelido = participante.Apelido,
-                Logo = participante.Evento.TipoEvento.GetNickname() + ".png",
-                Evento = $"{participante.Evento.Numeracao.ToString()}º {participante.Evento.TipoEvento.GetDescription()}",
+                Logo = participante.Evento.Configuracao.Titulo + ".png",
+                Evento = $"{participante.Evento.Numeracao.ToString()}º {participante.Evento.Configuracao.Titulo} {participante.Evento.Descricao}",
                 Valor = participante.Evento.Valor.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR")),
                 DataEvento = participante.Evento.DataEvento.ToString("dd/MM/yyyy")
             };
@@ -111,15 +132,15 @@ namespace SysIgreja.Controllers
 
         public ActionResult InscricoesEncerradas()
         {
-            ViewBag.Configuracao = configuracaoBusiness.GetConfiguracao();
+            ViewBag.Configuracao = configuracaoBusiness.GetConfiguracao(null);
             return View();
         }
 
         [HttpPost]
         public ActionResult PostInscricao(PostInscricaoModel model)
         {
-            var evento = eventosBusiness.GetEventoAtivo();
-            model.EventoId = model.EventoId > 0 ? model.EventoId : evento.Id;
+
+            var evento = eventosBusiness.GetEventoById(model.EventoId);
 
             if (evento != null && participantesBusiness.GetParticipantesByEvento(model.EventoId).Where(x => x.Status != StatusEnum.Cancelado).Count() >= evento.Capacidade)
             {
@@ -138,9 +159,9 @@ namespace SysIgreja.Controllers
         }
 
         [HttpPost]
-        public ActionResult VerificaCadastro(string Email)
+        public ActionResult VerificaCadastro(string Email, int eventoId)
         {
-            var participante = participantesBusiness.GetParticipantesByEvento(eventosBusiness.GetEventoAtivo().Id).FirstOrDefault(x => x.Email == Email && (new StatusEnum[] { StatusEnum.Confirmado, StatusEnum.Inscrito }).Contains(x.Status));
+            var participante = participantesBusiness.GetParticipantesByEvento(eventoId).FirstOrDefault(x => x.Email == Email && (new StatusEnum[] { StatusEnum.Confirmado, StatusEnum.Inscrito }).Contains(x.Status));
 
             if (participante != null)
                 return Json(Url.Action("InscricaoConcluida", new { Id = participante.Id }));

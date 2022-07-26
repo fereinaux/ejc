@@ -11,5 +11,7 @@ namespace Data.Entities
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Cor { get; set; }
+        public int? ConfiguracaoId { get; set; }
+        public Configuracao Configuracao { get; set; }
     }
 }

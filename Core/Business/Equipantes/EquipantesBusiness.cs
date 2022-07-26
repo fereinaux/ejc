@@ -39,12 +39,7 @@ namespace Core.Business.Equipantes
         public IQueryable<Equipante> GetEquipantes()
         {
             return equipanteRepository
-                .GetAll()
-                .Include("Equipes")
-                .Include("Equipes.Equipe")
-                .Include("Equipes.Evento")
-                .Include("ParticipantesEtiquetas")
-                .Include("ParticipantesEtiquetas.Etiqueta");                
+                .GetAll();
         }
 
         public Equipante PostEquipante(PostEquipanteModel model)
@@ -78,7 +73,7 @@ namespace Core.Business.Equipantes
                 equipante.Latitude = model.Latitude;
                 equipante.Longitude = model.Longitude;
                 equipante.HasVacina = model.HasVacina;
-          
+
                 ParticipantesEtiquetasRepo.GetAll(x => x.EquipanteId == model.Id).ToList().ForEach(etiqueta => ParticipantesEtiquetasRepo.Delete(etiqueta.Id));
                 if (model.Etiquetas != null)
                 {
@@ -164,7 +159,7 @@ namespace Core.Business.Equipantes
         {
             Equipante equipante = equipanteRepository.GetById(id);
 
-            ParticipantesEtiquetasRepo.GetAll(x => x.EquipanteId == id).ToList().ForEach(etiqueta => ParticipantesEtiquetasRepo.Delete(etiqueta.Id));
+            ParticipantesEtiquetasRepo.GetAll(x => x.EquipanteId == id && x.EventoId == eventoId).ToList().ForEach(etiqueta => ParticipantesEtiquetasRepo.Delete(etiqueta.Id));
             if (etiquetas != null)
             {
                 foreach (var etiqueta in etiquetas)

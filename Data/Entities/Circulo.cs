@@ -13,8 +13,8 @@ namespace Data.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [ForeignKey("Evento")]
         public int EventoId { get; set; }
-        [ForeignKey("EventoId")]
         public Evento Evento { get; set; }
         public virtual ICollection<CirculoDirigentes> Dirigentes { get; set; }
         public CoresEnum Cor { get; set; }

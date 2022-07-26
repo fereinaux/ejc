@@ -10,7 +10,8 @@ namespace Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Descricao { get; set; }
-        public double Taxa { get; set; }
-        public bool IsEditavel { get; set; }
+        public int? ConfiguracaoId { get; set; }
+        public Configuracao Configuracao { get; set; }
+
     }
 }

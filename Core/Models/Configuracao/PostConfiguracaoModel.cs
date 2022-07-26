@@ -1,4 +1,5 @@
-﻿using Utils.Enums;
+﻿using System.Collections.Generic;
+using Utils.Enums;
 
 namespace Core.Models.Configuracao
 {
@@ -11,6 +12,8 @@ namespace Core.Models.Configuracao
         public string Background { get; set; }
         public int? LogoRelatorioId { get; set; }
         public int? EquipeCirculoId { get; set; }
+        public int? CentroCustoInscricaoId { get; set; }
+        public int? CentroCustoTaxaId { get; set; }
         public string LogoRelatorio { get; set; }
         public int? BackgroundCelularId { get; set; }
         public string BackgroundCelular { get; set; }
@@ -24,6 +27,9 @@ namespace Core.Models.Configuracao
         public string TipoCirculo { get; set; }
         public string MsgConclusao { get; set; }
         public string MsgConclusaoEquipe { get; set; }
+        public List<MeioPagamentoModel> MeioPagamentos { get; set; }
+        public List<EtiquetaModel> Etiquetas { get; set; }
+        public List<CentroCustoModel> CentroCustos { get; set; }
     }
 
     public class CamposModel
@@ -38,5 +44,25 @@ namespace Core.Models.Configuracao
         public int Id { get; set; }
         public int EquipeId { get; set; }
         public string Equipe { get; set; }
+    }
+
+    public class MeioPagamentoModel
+    {
+        public int Id { get; set; }
+        public string Descricao { get; set; }
+    }
+
+    public class CentroCustoModel
+    {
+        public int Id { get; set; }
+        public string Descricao { get; set; }
+        public string Tipo { get; set; }
+    }
+
+    public class EtiquetaModel
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public string Cor { get; set; }
     }
 }

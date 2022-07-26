@@ -11,6 +11,7 @@ using SysIgreja.ViewModels;
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web.Mvc;
 using Utils.Enums;
 using Utils.Extensions;
@@ -38,6 +39,7 @@ namespace SysIgreja.Controllers
 
         public ActionResult Index()
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", true);
             ViewBag.Title = "Inscrições";
 
             var eventos = eventosBusiness.GetEventos().Where(x => x.Status == StatusEnum.Aberto).ToList().Select(x => new InscricoesViewModel
@@ -93,7 +95,9 @@ namespace SysIgreja.Controllers
             ViewBag.Configuracao = config;
             ViewBag.MsgConclusao = config.MsgConclusao
          .Replace("${Apelido}", participante.Apelido)
-         .Replace("${Evento}", $"{participante.Evento.Numeracao.ToString()}º {participante.Evento.Configuracao.Titulo} {participante.Evento.Descricao}")
+         .Replace("${Evento}",participante.Evento.Configuracao.Titulo)
+                  .Replace("${NumeracaoEvento}", participante.Evento.Numeracao.ToString())
+                   .Replace("${DescricaoEvento}", participante.Evento.Descricao)
          .Replace("${ValorEvento}", participante.Evento.Valor.ToString("C", CultureInfo.CreateSpecificCulture("pt-BR")))
          .Replace("${DataEvento}", participante.Evento.DataEvento.ToString("dd/MM/yyyy"))
          .Replace("${FonePadrinho}", participante.Padrinho?.EquipanteEvento?.Equipante?.Fone ?? "")

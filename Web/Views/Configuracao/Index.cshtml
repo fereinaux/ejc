@@ -72,6 +72,8 @@
                             CorLoginBox: $(`#config-corloginbox${tipoEvento}`).val(),
                             CorScroll: $(`#config-corscroll${tipoEvento}`).val(),
                             EquipeCirculoId: $(`#config-equipecirculo${tipoEvento}`).val(),
+                            CentroCustoInscricaoId: $(`#config-centrocustoinscricao${tipoEvento}`).val(),
+                            CentroCustoTaxaId: $(`#config-centrocustoequipe${tipoEvento}`).val(),
                             CorHoverScroll: $(`#config-corhoverscroll${tipoEvento}`).val(),
                             MsgConclusao: $(`#config-msg${tipoEvento}`).summernote('code'),
                             MsgConclusaoEquipe: $(`#config-msgequipe${tipoEvento}`).summernote('code'),
@@ -203,6 +205,16 @@
 
                                                             <select class="form-control config-equipes" id="config-equipecirculo${config.Id}" style="width: 100%" data-field="Equipe Círculo">
                                                             </select>
+         </div>
+      <div class="col-sm-6 p-w-md m-t-md text-center">
+    <h5>Centro de Custo para Inscrições</h5>
+                                                              <select class="form-control centro-custos${config.Id}" id="config-centrocustoinscricao${config.Id}" style="width: 100%" data-field="Centro de Custo para Inscrições">
+                                                            </select>
+         </div>
+      <div class="col-sm-6 p-w-md m-t-md text-center">
+    <h5>Centro de Custo para Taxa de Equipante</h5>
+       <select class="form-control centro-custos${config.Id}" id="config-centrocustoequipe${config.Id}" style="width: 100%" data-field="Centro de Custo para Taxa de Equipante">
+                                                            </select>
                                                         </div>
 
 
@@ -281,14 +293,55 @@ ${campos.map(p => `<option value=${p.Id}>${p.Description}</option>`)}
 ${equipes.map(p => `<option value=${p.Id}>${p.Nome}</option>`)}
 `)
 
-                                    $(".config-equipecirculo").html(`
-${equipes.map(p => `<option value=${p.Id}>${p.Nome}</option>`)}
-`)
 
                                     data.data.forEach(config => {
+
+                                     
+                                        $(`.centro-custos${config.Id}`).html(`${config.CentroCustos.filter(x => x.Tipo == "Receita").map(p => `<option value=${p.Id}>${p.Descricao}</option>`)}`)
+                                        $(`#config-centrocustoinscricao${config.Id}`).val(config.CentroCustoInscricaoId)
+                                        $(`#config-centrocustoequipe${config.Id}`).val(config.CentroCustoTaxaId)
                                         $(`#config-titulo${config.Id}`).val(config.Titulo)
-                                        $(`#config-msg${config.Id}`).summernote('code', config.MsgConclusao)
-                                        $(`#config-msgequipe${config.Id}`).summernote('code', config.MsgConclusaoEquipe)
+                                        $(`#config-msg${config.Id}`).summernote({
+                                            height: 300,
+                                            lang: 'pt-BR',
+                                            toolbar: [
+                                                ['style', ['style']],
+                                                ['font', ['bold', 'italic']],
+                                                ['fontname', ['fontname']],
+                                                ['view', ['codeview']],
+                                                ['mybutton', ['Apelido', 'Evento', "NumeracaoEvento","DescricaoEvento", 'Data', 'Valor', 'NomePadrinho', 'FonePadrinho',]],
+                                            ],
+                                            buttons: {
+                                                Apelido: ApelidoButton,
+                                                Evento: EventoButton,
+                                                NumeracaoEvento: NumeracaoEventoButton,
+                                                DescricaoEvento: DescricaoEventoButton,
+                                                Data: DataButton,
+                                                Valor: ValorButton,
+                                                NomePadrinho: PadrinhoNomeButton,
+                                                FonePadrinho: PadrinhoFoneButton,
+
+                                            }
+                                        }).summernote('code', config.MsgConclusao)
+                                        $(`#config-msgequipe${config.Id}`).summernote({
+                                            height: 300,
+                                            lang: 'pt-BR',
+                                            toolbar: [
+                                                ['style', ['style']],
+                                                ['font', ['bold', 'italic']],
+                                                ['fontname', ['fontname']],
+                                                ['view', ['codeview']],
+                                                ['mybutton', ['Apelido', 'Evento', "NumeracaoEvento", "DescricaoEvento", 'Data', 'Valor']]
+                                            ],
+                                            buttons: {
+                                                Apelido: ApelidoButton,
+                                                Evento: EventoButton,
+                                                NumeracaoEvento: NumeracaoEventoButton,
+                                                DescricaoEvento: DescricaoEventoButton,
+                                                Data: DataButton,
+                                                Valor: ValorButton
+                                            }
+                                        }).summernote('code', config.MsgConclusaoEquipe)
                                         $(`#config-corhoverbotao${config.Id}`).val(config.CorHoverBotao)
                                         $(`#config-corbotao${config.Id}`).val(config.CorBotao)
                                         $(`#config-corloginbox${config.Id}`).val(config.CorLoginBox)
@@ -368,43 +421,7 @@ ${equipes.map(p => `<option value=${p.Id}>${p.Nome}</option>`)}
 
         $(document).ready(function () {
             carregarConfiguracoes()
-            configMsg = $('.config-msg').summernote({
-                height: 300,
-                lang: 'pt-BR',
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'italic']],
-                    ['fontname', ['fontname']],
-                    ['view', ['codeview']],
-                    ['mybutton', ['Apelido', 'Evento', 'Data', 'Valor', 'NomePadrinho', 'FonePadrinho',]],
-                ],
-                buttons: {
-                    Apelido: ApelidoButton,
-                    Evento: EventoButton,
-                    Data: DataButton,
-                    Valor: ValorButton,
-                    NomePadrinho: PadrinhoNomeButton,
-                    FonePadrinho: PadrinhoFoneButton,
-
-                }
-            });
-            configMsgEquipe = $('.config-msgequipe').summernote({
-                height: 300,
-                lang: 'pt-BR',
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'italic']],
-                    ['fontname', ['fontname']],
-                    ['view', ['codeview']],
-                    ['mybutton', ['Apelido', 'Evento', 'Data', 'Valor']]
-                ],
-                buttons: {
-                    Apelido: ApelidoButton,
-                    Evento: EventoButton,
-                    Data: DataButton,
-                    Valor: ValorButton
-                }
-            });
+            
         })
 
         function postArquivo(tipo, id, idConfig) {

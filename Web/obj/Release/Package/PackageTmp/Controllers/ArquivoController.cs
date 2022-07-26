@@ -70,17 +70,18 @@ namespace SysIgreja.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetArquivosEquipe(EquipesEnum Equipe, bool IsComunEquipe)
+        public ActionResult GetArquivosEquipe(int Equipe, bool IsComunEquipe, int ConfiguracaoId)
         {
-            var query = arquivosBusiness.GetArquivosByEquipe(Equipe, IsComunEquipe);
+            var query = arquivosBusiness.GetArquivosByEquipe(Equipe, IsComunEquipe, ConfiguracaoId);
 
             return MapAqruivos(query);
         }
 
         [HttpPost]
-        public ActionResult GetArquivosComunEquipe()
+        public ActionResult GetArquivosComunEquipe(int EventoId)
         {
-            var query = arquivosBusiness.GetArquivosComunEquipe();
+            var evento = eventosBusiness.GetEventoById(EventoId);
+            var query = arquivosBusiness.GetArquivosComunEquipe(evento.ConfiguracaoId.Value); 
 
             return MapAqruivos(query);
         }
@@ -109,8 +110,6 @@ namespace SysIgreja.Controllers
         [HttpPost]
         public int PostArquivo(PostArquivoModel model)
         {
-            model.EventoId = model.EventoId.HasValue ? model.EventoId.Value : eventosBusiness.GetEventoAtivo().Id;
-
             return arquivosBusiness.PostArquivo(model);
         }
 
